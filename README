@@ -1,0 +1,19 @@
+Real Time Digital Video Stabilization
+
+  Project for ECE532S 2012 at the University of Toronto by:
+
+    Ming Liu
+    Chung Peng (Charles) Huang
+    Kevin Murray
+
+
+This project is targeted at a Xilinx Virtex 2 Pro FPGA (XC2VP30), 
+as part of the XUPV2 development board.
+
+The stabilization algorithm is based off of the Gray Coded 
+Bit Plane (GCBP) method presented in:
+
+    S. J. Ko, S.H. Lee, and K.H. Lee, “Digital Image Stabilizing 
+    Algorithms Based on Bit-Plane Matching”, in IEEE Trans. On 
+    Consumer Electronics, Vol. 44, no.3, Aug. 1998, pp.617-622.
+
