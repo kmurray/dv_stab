@@ -1,0 +1,14 @@
+#################################################
+##      
+##      LED Debux Mux for XUPV2P
+##
+##      Peripheral Analyzer Order (.pao)
+##
+##      Created By: Jeffrey Goeders
+##
+##      Date: January 19, 2010
+##
+#################################################
+
+lib led_debug_mux_v1_00_a led_debug_mux.v verilog
+

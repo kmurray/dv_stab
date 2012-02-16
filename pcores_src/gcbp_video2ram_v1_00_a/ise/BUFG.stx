@@ -1,0 +1,49 @@
+Release 10.1.03 - xst K.39 (lin64)
+Copyright (c) 1995-2008 Xilinx, Inc.  All rights reserved.
+--> 
+Parameter TMPDIR set to ./xst/projnav.tmp
+
+
+Total REAL time to Xst completion: 0.00 secs
+Total CPU time to Xst completion: 0.07 secs
+ 
+--> 
+
+=========================================================================
+*                          HDL Compilation                              *
+=========================================================================
+Compiling verilog file "../hdl/verilog/ycrcb2rgb.v" in library work
+Compiling verilog file "../hdl/verilog/vp422_444_dup.v" in library work
+Module <YCrCb2RGB> compiled
+Compiling verilog file "../hdl/verilog/special_svga_timing_generation.v" in library work
+Module <vp422_444_dup> compiled
+Compiling verilog file "../hdl/verilog/neg_edge_detect.v" in library work
+Module <SPECIAL_SVGA_TIMING_GENERATION> compiled
+Compiling verilog file "../hdl/verilog/line_buffer.v" in library work
+Module <NEG_EDGE_DETECT> compiled
+Module <LINE_BUFFER> compiled
+Compiling verilog file "../hdl/verilog/lf_decode.v" in library work
+Module <RAMB16_S9_S9> compiled
+Compiling verilog file "../hdl/verilog/video_to_ram.v" in library work
+Module <lf_decode> compiled
+Module <video_to_ram> compiled
+Module <IBUFG> compiled
+Module <BUFG> compiled
+Module <OFDDRRSE> compiled
+No errors in compilation
+Analysis of file <"BUFG.prj"> succeeded.
+ 
+
+
+Total REAL time to Xst completion: 0.00 secs
+Total CPU time to Xst completion: 0.16 secs
+ 
+--> 
+
+
+Total memory usage is 283540 kilobytes
+
+Number of errors   :    0 (   0 filtered)
+Number of warnings :    0 (   0 filtered)
+Number of infos    :    0 (   0 filtered)
+

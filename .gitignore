@@ -1,0 +1,12 @@
+#Defines files to be ignored by git using glob pattern matching
+
+#Ignore generated log files since they can be large
+**/*.log
+**/xst/work
+**/blkdiagram
+proj/__xps/**
+tmp
+*.bin
+.*.sw[a-z]
+*.un~
+Session.vim

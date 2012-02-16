@@ -1,0 +1,336 @@
+
+# ##############################################################################
+# Created by Base System Builder Wizard for Xilinx EDK 10.1.03 Build EDK_K_SP3.6
+# Mon Jan 04 22:36:06 2010
+# Target Board:  Xilinx XUP Virtex-II Pro Development System Rev C
+# Family:    virtex2p
+# Device:    xc2vp30
+# Package:   ff896
+# Speed Grade:  -7
+# Processor: microblaze_0
+# System clock frequency: 100.00 MHz
+# On Chip Memory :  64 KB
+# Total Off Chip Memory : 256 MB
+# - DDR_SDRAM = 256 MB
+# ##############################################################################
+ PARAMETER VERSION = 2.1.0
+
+
+# ####################### PORTS #################################################
+# System
+ PORT sys_clk_pin = dcm_clk_s, DIR = I, SIGIS = CLK, CLK_FREQ = 100000000
+ PORT sys_rst_pin = sys_rst_s, DIR = I, RST_POLARITY = 0, SIGIS = RST
+# Video In
+ PORT LLC_CLOCK_pin = LLC_CLOCK, DIR = I, IOB_STATE = BUF
+ PORT YCrCb_in_pin = YCrCb_in, DIR = I, VEC = [9:2]
+# IIC
+ PORT IIC_Scl_pin = IIC_Scl, DIR = IO
+ PORT IIC_Sda_pin = IIC_Sda, DIR = IO
+# Video Out
+ PORT VGA_VSYNCH_pin = VGA_VSYNCH, DIR = O
+ PORT VGA_HSYNCH_pin = VGA_HSYNCH, DIR = O
+ PORT VGA_OUT_BLANK_Z_pin = VGA_OUT_BLANK_Z, DIR = O
+ PORT VGA_COMP_SYNCH_pin = VGA_COMP_SYNCH, DIR = O
+ PORT VGA_PIXEL_CLOCK_pin = VGA_PIXEL_CLOCK, DIR = O
+ PORT VGA_OUT_RED_pin = VGA_OUT_RED, DIR = O, VEC = [5:0]
+ PORT VGA_OUT_GREEN_pin = VGA_OUT_GREEN, DIR = O, VEC = [5:0]
+ PORT VGA_OUT_BLUE_pin = VGA_OUT_BLUE, DIR = O, VEC = [5:0]
+# UART
+ PORT fpga_0_RS232_Uart_1_RX_pin = fpga_0_RS232_Uart_1_RX, DIR = I
+ PORT fpga_0_RS232_Uart_1_TX_pin = fpga_0_RS232_Uart_1_TX, DIR = O
+# LEDs
+ PORT LED_pin = LED, DIR = O, VEC = [3:0]
+# Dip Switches
+ PORT DIP_SW_pin = DIP_SW, DIR = I, VEC = [3:0]
+# DDR
+ PORT fpga_0_DDR_SDRAM_DDR_Clk_pin = fpga_0_DDR_SDRAM_DDR_Clk, DIR = O, VEC = [2:0]
+ PORT fpga_0_DDR_SDRAM_DDR_Clk_n_pin = fpga_0_DDR_SDRAM_DDR_Clk_n, DIR = O, VEC = [2:0]
+ PORT fpga_0_DDR_SDRAM_DDR_Addr_pin = fpga_0_DDR_SDRAM_DDR_Addr, DIR = O, VEC = [12:0]
+ PORT fpga_0_DDR_SDRAM_DDR_BankAddr_pin = fpga_0_DDR_SDRAM_DDR_BankAddr, DIR = O, VEC = [1:0]
+ PORT fpga_0_DDR_SDRAM_DDR_CAS_n_pin = fpga_0_DDR_SDRAM_DDR_CAS_n, DIR = O
+ PORT fpga_0_DDR_SDRAM_DDR_CE_pin = fpga_0_DDR_SDRAM_DDR_CE, DIR = O
+ PORT fpga_0_DDR_SDRAM_DDR_CS_n_pin = fpga_0_DDR_SDRAM_DDR_CS_n, DIR = O
+ PORT fpga_0_DDR_SDRAM_DDR_RAS_n_pin = fpga_0_DDR_SDRAM_DDR_RAS_n, DIR = O
+ PORT fpga_0_DDR_SDRAM_DDR_WE_n_pin = fpga_0_DDR_SDRAM_DDR_WE_n, DIR = O
+ PORT fpga_0_DDR_SDRAM_DDR_DM_pin = fpga_0_DDR_SDRAM_DDR_DM, DIR = O, VEC = [7:0]
+ PORT fpga_0_DDR_SDRAM_DDR_DQS = fpga_0_DDR_SDRAM_DDR_DQS, DIR = IO, VEC = [7:0]
+ PORT fpga_0_DDR_SDRAM_DDR_DQ = fpga_0_DDR_SDRAM_DDR_DQ, DIR = IO, VEC = [63:0]
+# Simulation Debugging
+ PORT video_to_ram_0_i_DBG_new_line_pin = video_to_ram_0_i_DBG_new_line, DIR = I
+# Others
+ PORT fpga_0_net_gnd_pin = net_gnd, DIR = O
+ PORT fpga_0_net_gnd_1_pin = net_gnd, DIR = O
+ PORT fpga_0_net_gnd_2_pin = net_gnd, DIR = O
+ PORT fpga_0_net_gnd_3_pin = net_gnd, DIR = O
+ PORT fpga_0_net_gnd_4_pin = net_gnd, DIR = O
+ PORT fpga_0_net_gnd_5_pin = net_gnd, DIR = O
+ PORT fpga_0_net_gnd_6_pin = net_gnd, DIR = O
+ PORT vid_dec_reset_in = vid_dec_reset_in, DIR = I
+
+
+# #####################################################
+# ############### PROCESSOR 0 #########################
+# #####################################################
+BEGIN microblaze
+ PARAMETER INSTANCE = uB
+ PARAMETER C_INTERCONNECT = 1
+ PARAMETER HW_VER = 7.10.d
+ PARAMETER C_DEBUG_ENABLED = 0
+ BUS_INTERFACE DLMB = dlmb
+ BUS_INTERFACE ILMB = ilmb
+ BUS_INTERFACE DPLB = plb_uB
+ BUS_INTERFACE IPLB = plb_uB
+ PORT MB_RESET = mb_reset
+END
+
+# ################# Processor Memory ##################
+BEGIN lmb_v10
+ PARAMETER INSTANCE = ilmb
+ PARAMETER HW_VER = 1.00.a
+ PORT LMB_Clk = sys_clk_s
+ PORT SYS_Rst = sys_bus_reset
+END
+
+BEGIN lmb_v10
+ PARAMETER INSTANCE = dlmb
+ PARAMETER HW_VER = 1.00.a
+ PORT LMB_Clk = sys_clk_s
+ PORT SYS_Rst = sys_bus_reset
+END
+
+BEGIN lmb_bram_if_cntlr
+ PARAMETER INSTANCE = dlmb_cntlr
+ PARAMETER HW_VER = 2.10.a
+ PARAMETER C_BASEADDR = 0x00000000
+ PARAMETER C_HIGHADDR = 0x0000ffff
+ BUS_INTERFACE SLMB = dlmb
+ BUS_INTERFACE BRAM_PORT = dlmb_port
+END
+
+BEGIN lmb_bram_if_cntlr
+ PARAMETER INSTANCE = ilmb_cntlr
+ PARAMETER HW_VER = 2.10.a
+ PARAMETER C_BASEADDR = 0x00000000
+ PARAMETER C_HIGHADDR = 0x0000ffff
+ BUS_INTERFACE SLMB = ilmb
+ BUS_INTERFACE BRAM_PORT = ilmb_port
+END
+
+BEGIN bram_block
+ PARAMETER INSTANCE = lmb_bram
+ PARAMETER HW_VER = 1.00.a
+ BUS_INTERFACE PORTA = ilmb_port
+ BUS_INTERFACE PORTB = dlmb_port
+END
+
+# ################# Bus ###############################
+BEGIN plb_v46
+ PARAMETER INSTANCE = plb_uB
+ PARAMETER HW_VER = 1.03.a
+ PORT SYS_Rst = sys_bus_reset
+ PORT PLB_Clk = sys_clk_s
+END
+
+# ################# Bus Devices #######################
+BEGIN xps_uartlite
+ PARAMETER INSTANCE = uart_uB
+ PARAMETER HW_VER = 1.00.a
+ PARAMETER C_BAUDRATE = 9600
+ PARAMETER C_DATA_BITS = 8
+ PARAMETER C_ODD_PARITY = 0
+ PARAMETER C_USE_PARITY = 0
+ PARAMETER C_SPLB_CLK_FREQ_HZ = 100000000
+ PARAMETER C_BASEADDR = 0x84000000
+ PARAMETER C_HIGHADDR = 0x8400ffff
+ BUS_INTERFACE SPLB = plb_uB
+ PORT RX = fpga_0_RS232_Uart_1_RX
+ PORT TX = fpga_0_RS232_Uart_1_TX
+END
+
+BEGIN xps_iic
+ PARAMETER INSTANCE = IIC
+ PARAMETER HW_VER = 2.00.a
+ PARAMETER C_BASEADDR = 0x86000000
+ PARAMETER C_HIGHADDR = 0x8600FFFF
+ PARAMETER C_CLK_FREQ = 100000000
+ PARAMETER C_GPO_WIDTH = 2
+ BUS_INTERFACE SPLB = plb_uB
+ PORT Scl = IIC_Scl
+ PORT Sda = IIC_Sda
+END
+
+# #####################################################
+# ############### VIDEO TO RAM ########################
+# #####################################################
+BEGIN video_to_ram
+ PARAMETER INSTANCE = video_to_ram_0
+ PARAMETER HW_VER = 1.00.a
+ PARAMETER C_VIDEO_RAM_BASEADDR = 0x40000000
+ PARAMETER C_BYTES_PER_LINE = 4096
+ BUS_INTERFACE MPLB = plb_video_to_ram
+ PORT i_clk_100_bus = sys_clk_s
+ PORT i_sys_rst = sys_bus_reset
+ PORT i_LLC_CLOCK = LLC_CLOCK
+ PORT i_YCrCb = YCrCb_in
+ PORT o_DBG_fsm_cs = video_to_ram_0_o_DBG_fsm_cs
+ PORT o_DBG_general_purpose = video_to_ram_0_o_DBG_general_purpose
+ PORT i_DBG_new_line = video_to_ram_0_i_DBG_new_line
+ PORT i_MPMC_Done_Init = DDR_SDRAM_MPMC_InitDone
+END
+
+# ################# Bus ###############################
+BEGIN plb_v46
+ PARAMETER INSTANCE = plb_video_to_ram
+ PARAMETER HW_VER = 1.03.a
+ PORT PLB_Clk = sys_clk_s
+ PORT SYS_Rst = sys_bus_reset
+END
+
+# #####################################################
+# ############### VIDEO OUTPUT ########################
+# #####################################################
+BEGIN xps_tft
+ PARAMETER INSTANCE = video_out
+ PARAMETER HW_VER = 1.00.a
+ PARAMETER C_DCR_SPLB_SLAVE_IF = 1
+ PARAMETER C_TFT_INTERFACE = 0
+ PARAMETER C_DEFAULT_TFT_BASE_ADDR = 0x40000000
+ PARAMETER C_SPLB_BASEADDR = 0x85000000
+ PARAMETER C_SPLB_HIGHADDR = 0x8500FFFF
+ BUS_INTERFACE MPLB = plb_video_out
+ PORT TFT_VGA_B = VGA_OUT_BLUE
+ PORT TFT_VGA_G = VGA_OUT_GREEN
+ PORT TFT_VGA_R = VGA_OUT_RED
+ PORT TFT_VGA_CLK = VGA_PIXEL_CLOCK
+ PORT TFT_DE = VGA_OUT_BLANK_Z
+ PORT TFT_DPS = VGA_COMP_SYNCH
+ PORT TFT_VSYNC = VGA_VSYNCH
+ PORT TFT_HSYNC = VGA_HSYNCH
+ PORT SYS_TFT_Clk = sys_tft_clk_25
+END
+
+# ################# Bus ###############################
+BEGIN plb_v46
+ PARAMETER INSTANCE = plb_video_out
+ PARAMETER HW_VER = 1.03.a
+ PORT SYS_Rst = sys_bus_reset
+ PORT PLB_Clk = sys_clk_s
+END
+
+# #####################################################
+# ############### SYSTEM CONTROL ######################
+# #####################################################
+# ################# Reset #############################
+BEGIN proc_sys_reset
+ PARAMETER INSTANCE = proc_sys_reset_0
+ PARAMETER HW_VER = 2.00.a
+ PARAMETER C_EXT_RESET_HIGH = 0
+ PORT Slowest_sync_clk = sys_clk_s
+ PORT Dcm_locked = Dcm_all_locked
+ PORT Ext_Reset_In = sys_rst_s
+ PORT MB_Reset = mb_reset
+ PORT Bus_Struct_Reset = sys_bus_reset
+ PORT MB_Debug_Sys_Rst = Debug_SYS_Rst
+ PORT Peripheral_Reset = sys_periph_reset
+END
+
+# ################# External Memory ###################
+BEGIN mpmc
+ PARAMETER INSTANCE = DDR_SDRAM
+ PARAMETER HW_VER = 4.03.a
+ PARAMETER C_MEM_PARTNO = KVR266X64C25/256
+ PARAMETER C_MEM_TYPE = DDR
+ PARAMETER C_USE_STATIC_PHY = 1
+ PARAMETER C_MEM_CLK_WIDTH = 3
+ PARAMETER C_STATIC_PHY_RDEN_DELAY = 6
+ PARAMETER C_MPMC_CLK0_PERIOD_PS = 10000
+ PARAMETER C_MPMC_BASEADDR = 0x40000000
+ PARAMETER C_MPMC_HIGHADDR = 0x4FFFFFFF
+ PARAMETER C_MPMC_CTRL_BASEADDR = 0x84800000
+ PARAMETER C_MPMC_CTRL_HIGHADDR = 0x8480ffff
+ PARAMETER C_NUM_PORTS = 3
+ PARAMETER C_PIM0_BASETYPE = 2
+ PARAMETER C_PIM1_BASETYPE = 2
+ PARAMETER C_PIM2_BASETYPE = 2
+ PARAMETER C_SPLB1_NATIVE_DWIDTH = 32
+ BUS_INTERFACE MPMC_CTRL = plb_uB
+ BUS_INTERFACE SPLB0 = plb_uB
+ BUS_INTERFACE SPLB1 = plb_video_to_ram
+ BUS_INTERFACE SPLB2 = plb_video_out
+ PORT DDR_Addr = fpga_0_DDR_SDRAM_DDR_Addr
+ PORT DDR_BankAddr = fpga_0_DDR_SDRAM_DDR_BankAddr
+ PORT DDR_CAS_n = fpga_0_DDR_SDRAM_DDR_CAS_n
+ PORT DDR_CE = fpga_0_DDR_SDRAM_DDR_CE
+ PORT DDR_CS_n = fpga_0_DDR_SDRAM_DDR_CS_n
+ PORT DDR_RAS_n = fpga_0_DDR_SDRAM_DDR_RAS_n
+ PORT DDR_WE_n = fpga_0_DDR_SDRAM_DDR_WE_n
+ PORT DDR_DM = fpga_0_DDR_SDRAM_DDR_DM
+ PORT DDR_DQS = fpga_0_DDR_SDRAM_DDR_DQS
+ PORT DDR_DQ = fpga_0_DDR_SDRAM_DDR_DQ
+ PORT DDR_Clk = fpga_0_DDR_SDRAM_DDR_Clk
+ PORT DDR_Clk_n = fpga_0_DDR_SDRAM_DDR_Clk_n
+ PORT MPMC_Clk0 = sys_clk_s
+ PORT MPMC_Clk90 = DDR_SDRAM_mpmc_clk_90_s
+ PORT MPMC_Clk_Mem = DDR_SDRAM_MPMC_Clk_Mem
+ PORT MPMC_Rst = sys_periph_reset
+ PORT MPMC_InitDone = DDR_SDRAM_MPMC_InitDone
+END
+
+# ################# Clock Generation ##################
+BEGIN clock_generator
+ PARAMETER INSTANCE = clock_generator_0
+ PARAMETER HW_VER = 2.01.a
+ PARAMETER C_EXT_RESET_HIGH = 1
+ PARAMETER C_CLKIN_FREQ = 100000000
+ PARAMETER C_CLKOUT0_FREQ = 100000000
+ PARAMETER C_CLKOUT0_BUF = TRUE
+ PARAMETER C_CLKOUT0_PHASE = 0
+ PARAMETER C_CLKOUT0_GROUP = DCM0
+ PARAMETER C_CLKOUT1_FREQ = 100000000
+ PARAMETER C_CLKOUT1_BUF = TRUE
+ PARAMETER C_CLKOUT1_PHASE = 90
+ PARAMETER C_CLKOUT1_GROUP = DCM0
+ PARAMETER C_CLKOUT2_FREQ = 100000000
+ PARAMETER C_CLKOUT2_BUF = TRUE
+ PARAMETER C_CLKOUT2_PHASE = 47
+ PARAMETER C_CLKOUT2_GROUP = NONE
+ PARAMETER C_CLKIN_BUF = FALSE
+ PARAMETER C_CLKOUT3_FREQ = 25000000
+ PARAMETER C_CLKOUT3_PHASE = 0
+ PARAMETER C_CLKOUT3_GROUP = NONE
+ PARAMETER C_CLKOUT3_BUF = TRUE
+ PORT CLKOUT0 = sys_clk_s
+ PORT CLKOUT1 = DDR_SDRAM_mpmc_clk_90_s
+ PORT CLKOUT2 = DDR_SDRAM_MPMC_Clk_Mem
+ PORT CLKIN = dcm_clk_s
+ PORT LOCKED = Dcm_all_locked
+ PORT RST = net_gnd
+ PORT CLKOUT3 = sys_tft_clk_25
+END
+
+# #####################################################
+# ############### DEBUGGING ###########################
+# #####################################################
+BEGIN led_debug_mux
+ PARAMETER INSTANCE = led_debug_mux_0
+ PARAMETER HW_VER = 1.00.a
+ PARAMETER C_NUM_INPUTS = 2
+ PORT SELECTOR = DIP_SW
+ PORT LED_OUT = LED
+ PORT IN_0 = video_to_ram_0_o_DBG_fsm_cs
+ PORT IN_1 = video_to_ram_0_o_DBG_general_purpose
+END
+
+# ################# Debugger ##########################
+BEGIN mdm
+ PARAMETER INSTANCE = debug_module
+ PARAMETER HW_VER = 1.00.d
+ PARAMETER C_MB_DBG_PORTS = 0
+ PARAMETER C_USE_UART = 1
+ PARAMETER C_UART_WIDTH = 8
+ PARAMETER C_BASEADDR = 0x84400000
+ PARAMETER C_HIGHADDR = 0x8440ffff
+ BUS_INTERFACE SPLB = plb_uB
+ PORT Debug_SYS_Rst = Debug_SYS_Rst
+END
+

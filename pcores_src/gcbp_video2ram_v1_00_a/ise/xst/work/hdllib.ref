@@ -1,0 +1,11 @@
+MO video_to_ram NULL ../hdl/verilog/video_to_ram.v vlg6C/video__to__ram.bin 1329431555
+MO NEG_EDGE_DETECT NULL ../hdl/verilog/neg_edge_detect.v vlg5E/_n_e_g___e_d_g_e___d_e_t_e_c_t.bin 1329431555
+MO OFDDRRSE NULL ../hdl/verilog/video_to_ram.v vlg61/_o_f_d_d_r_r_s_e.bin 1329431555
+MO RAMB16_S9_S9 NULL ../hdl/verilog/line_buffer.v vlg2B/_r_a_m_b16___s9___s9.bin 1329431555
+MO LINE_BUFFER NULL ../hdl/verilog/line_buffer.v vlg1D/_l_i_n_e___b_u_f_f_e_r.bin 1329431555
+MO IBUFG NULL ../hdl/verilog/video_to_ram.v vlg65/_i_b_u_f_g.bin 1329431555
+MO YCrCb2RGB NULL ../hdl/verilog/ycrcb2rgb.v vlg34/_y_cr_cb2_r_g_b.bin 1329431555
+MO lf_decode NULL ../hdl/verilog/lf_decode.v vlg01/lf__decode.bin 1329431555
+MO vp422_444_dup NULL ../hdl/verilog/vp422_444_dup.v vlg65/vp422__444__dup.bin 1329431555
+MO BUFG NULL ../hdl/verilog/video_to_ram.v vlg2C/_b_u_f_g.bin 1329431555
+MO SPECIAL_SVGA_TIMING_GENERATION NULL ../hdl/verilog/special_svga_timing_generation.v vlg6F/_s_p_e_c_i_a_l___s_v_g_a___t_i_m_i_n_g___g_e_n_e_r_a_t_i_o_n.bin 1329431555

@@ -1,0 +1,3 @@
+Net DDR_SDRAM/*rd_data_rise_in* MAXDELAY = 1000 ps;
+Net DDR_SDRAM/*rd_data_fall_in* MAXDELAY = 1000 ps;
+

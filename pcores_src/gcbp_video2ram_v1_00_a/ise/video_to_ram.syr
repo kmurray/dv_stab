@@ -1,0 +1,1415 @@
+Release 10.1.03 - xst K.39 (lin64)
+Copyright (c) 1995-2008 Xilinx, Inc.  All rights reserved.
+--> 
+Parameter TMPDIR set to /home/kevin/ece532/dv_stab/pcores_src/gcbp_video2ram_v1_00_a/ise/xst/projnav.tmp
+
+
+Total REAL time to Xst completion: 1.00 secs
+Total CPU time to Xst completion: 0.07 secs
+ 
+--> 
+Parameter xsthdpdir set to /home/kevin/ece532/dv_stab/pcores_src/gcbp_video2ram_v1_00_a/ise/xst
+
+
+Total REAL time to Xst completion: 1.00 secs
+Total CPU time to Xst completion: 0.07 secs
+ 
+--> 
+Reading design: video_to_ram.prj
+
+TABLE OF CONTENTS
+  1) Synthesis Options Summary
+  2) HDL Compilation
+  3) Design Hierarchy Analysis
+  4) HDL Analysis
+  5) HDL Synthesis
+     5.1) HDL Synthesis Report
+  6) Advanced HDL Synthesis
+     6.1) Advanced HDL Synthesis Report
+  7) Low Level Synthesis
+  8) Partition Report
+  9) Final Report
+     9.1) Device utilization summary
+     9.2) Partition Resource Summary
+     9.3) TIMING REPORT
+
+
+=========================================================================
+*                      Synthesis Options Summary                        *
+=========================================================================
+---- Source Parameters
+Input File Name                    : "video_to_ram.prj"
+Input Format                       : mixed
+Ignore Synthesis Constraint File   : NO
+
+---- Target Parameters
+Output File Name                   : "video_to_ram"
+Output Format                      : NGC
+Target Device                      : xc2vp30-7-ff896
+
+---- Source Options
+Top Module Name                    : video_to_ram
+Automatic FSM Extraction           : YES
+FSM Encoding Algorithm             : Auto
+Safe Implementation                : No
+FSM Style                          : lut
+RAM Extraction                     : Yes
+RAM Style                          : Auto
+ROM Extraction                     : Yes
+Mux Style                          : Auto
+Decoder Extraction                 : YES
+Priority Encoder Extraction        : YES
+Shift Register Extraction          : YES
+Logical Shifter Extraction         : YES
+XOR Collapsing                     : YES
+ROM Style                          : Auto
+Mux Extraction                     : YES
+Resource Sharing                   : YES
+Asynchronous To Synchronous        : NO
+Multiplier Style                   : auto
+Automatic Register Balancing       : No
+
+---- Target Options
+Add IO Buffers                     : YES
+Global Maximum Fanout              : 500
+Add Generic Clock Buffer(BUFG)     : 16
+Register Duplication               : YES
+Slice Packing                      : YES
+Optimize Instantiated Primitives   : NO
+Convert Tristates To Logic         : Yes
+Use Clock Enable                   : Yes
+Use Synchronous Set                : Yes
+Use Synchronous Reset              : Yes
+Pack IO Registers into IOBs        : auto
+Equivalent register Removal        : YES
+
+---- General Options
+Optimization Goal                  : Speed
+Optimization Effort                : 1
+Library Search Order               : video_to_ram.lso
+Keep Hierarchy                     : NO
+Netlist Hierarchy                  : as_optimized
+RTL Output                         : Yes
+Global Optimization                : AllClockNets
+Read Cores                         : YES
+Write Timing Constraints           : NO
+Cross Clock Analysis               : NO
+Hierarchy Separator                : /
+Bus Delimiter                      : <>
+Case Specifier                     : maintain
+Slice Utilization Ratio            : 100
+BRAM Utilization Ratio             : 100
+Verilog 2001                       : YES
+Auto BRAM Packing                  : NO
+Slice Utilization Ratio Delta      : 5
+
+=========================================================================
+
+
+=========================================================================
+*                          HDL Compilation                              *
+=========================================================================
+Compiling verilog file "../hdl/verilog/ycrcb2rgb.v" in library work
+Compiling verilog file "../hdl/verilog/vp422_444_dup.v" in library work
+Module <YCrCb2RGB> compiled
+Compiling verilog file "../hdl/verilog/special_svga_timing_generation.v" in library work
+Module <vp422_444_dup> compiled
+Compiling verilog file "../hdl/verilog/neg_edge_detect.v" in library work
+Module <SPECIAL_SVGA_TIMING_GENERATION> compiled
+Compiling verilog file "../hdl/verilog/line_buffer.v" in library work
+Module <NEG_EDGE_DETECT> compiled
+Module <LINE_BUFFER> compiled
+Compiling verilog file "../hdl/verilog/lf_decode.v" in library work
+Module <RAMB16_S9_S9> compiled
+Compiling verilog file "../hdl/verilog/video_to_ram.v" in library work
+Module <lf_decode> compiled
+Module <video_to_ram> compiled
+Module <IBUFG> compiled
+Module <BUFG> compiled
+Module <OFDDRRSE> compiled
+No errors in compilation
+Analysis of file <"video_to_ram.prj"> succeeded.
+ 
+
+=========================================================================
+*                     Design Hierarchy Analysis                         *
+=========================================================================
+Analyzing hierarchy for module <video_to_ram> in library <work> with parameters.
+	C_BE_BITS = "00000000000000000000000000001000"
+	C_BURSTS_PER_LINE = "00000000000000000000000000101101"
+	C_BURST_CNT_BITS = "00000000000000000000000000000110"
+	C_BURST_LENGTH = "00000000000000000000000000010000"
+	C_BYTES_PER_BURST = "00000000000000000000000001000000"
+	C_BYTES_PER_LINE = "00000000000000000001000000000000"
+	C_LINES_PER_FRAME = "00000000000000000000000111100000"
+	C_LINE_CNT_BITS = "00000000000000000000000000001001"
+	C_PIXELS_PER_LINE = "00000000000000000000001011010000"
+	C_PLBV46_DWIDTH = "00000000000000000000000001000000"
+	C_PLBV46_NUM_SLAVES = "00000000000000000000000000000001"
+	C_SIMULATION_DEBUG_MODE = "00000000000000000000000000000000"
+	C_STATE_BITS = "00000000000000000000000000000011"
+	C_VIDEO_RAM_BASEADDR = "00000000000000000000000000000000"
+	S_INIT = "000"
+	S_START_LINE = "001"
+	S_WRITE = "011"
+	S_WRITE_COMPLETE = "100"
+	S_WRITE_REQUEST = "010"
+
+Analyzing hierarchy for module <lf_decode> in library <work>.
+
+Analyzing hierarchy for module <vp422_444_dup> in library <work>.
+
+Analyzing hierarchy for module <YCrCb2RGB> in library <work>.
+
+Analyzing hierarchy for module <LINE_BUFFER> in library <work>.
+
+Analyzing hierarchy for module <NEG_EDGE_DETECT> in library <work> with parameters.
+	HIGH = "10"
+	LOW = "01"
+	START = "00"
+
+Analyzing hierarchy for module <SPECIAL_SVGA_TIMING_GENERATION> in library <work>.
+
+
+=========================================================================
+*                            HDL Analysis                               *
+=========================================================================
+Analyzing top module <video_to_ram>.
+	C_BE_BITS = 32'sb00000000000000000000000000001000
+	C_BURSTS_PER_LINE = 32'sb00000000000000000000000000101101
+	C_BURST_CNT_BITS = 32'sb00000000000000000000000000000110
+	C_BURST_LENGTH = 32'sb00000000000000000000000000010000
+	C_BYTES_PER_BURST = 32'sb00000000000000000000000001000000
+	C_BYTES_PER_LINE = 32'sb00000000000000000001000000000000
+	C_LINES_PER_FRAME = 32'sb00000000000000000000000111100000
+	C_LINE_CNT_BITS = 32'sb00000000000000000000000000001001
+	C_PIXELS_PER_LINE = 32'sb00000000000000000000001011010000
+	C_PLBV46_DWIDTH = 32'sb00000000000000000000000001000000
+	C_PLBV46_NUM_SLAVES = 32'sb00000000000000000000000000000001
+	C_SIMULATION_DEBUG_MODE = 32'sb00000000000000000000000000000000
+	C_STATE_BITS = 32'sb00000000000000000000000000000011
+	C_VIDEO_RAM_BASEADDR = 32'b00000000000000000000000000000000
+	S_INIT = 3'b000
+	S_START_LINE = 3'b001
+	S_WRITE = 3'b011
+	S_WRITE_COMPLETE = 3'b100
+	S_WRITE_REQUEST = 3'b010
+WARNING:Xst:2211 - "../hdl/verilog/video_to_ram.v" line 549: Instantiating black box module <IBUFG>.
+WARNING:Xst:2211 - "../hdl/verilog/video_to_ram.v" line 556: Instantiating black box module <BUFG>.
+WARNING:Xst:2211 - "../hdl/verilog/video_to_ram.v" line 563: Instantiating black box module <OFDDRRSE>.
+Module <video_to_ram> is correct for synthesis.
+ 
+    Set user-defined property "SYN_BLACK_BOX =  1" for instance <LLC_INPUT_BUF> in unit <video_to_ram>.
+    Set user-defined property "SYN_BLACK_BOX =  1" for instance <CLK_13MHZ_BUF> in unit <video_to_ram>.
+    Set user-defined property "SYN_BLACK_BOX =  1" for instance <PIXEL_CLOCK_DDR_FF> in unit <video_to_ram>.
+Analyzing module <lf_decode> in library <work>.
+Module <lf_decode> is correct for synthesis.
+ 
+Analyzing module <vp422_444_dup> in library <work>.
+Module <vp422_444_dup> is correct for synthesis.
+ 
+Analyzing module <YCrCb2RGB> in library <work>.
+Module <YCrCb2RGB> is correct for synthesis.
+ 
+Analyzing module <LINE_BUFFER> in library <work>.
+WARNING:Xst:2211 - "../hdl/verilog/line_buffer.v" line 74: Instantiating black box module <RAMB16_S9_S9>.
+WARNING:Xst:2211 - "../hdl/verilog/line_buffer.v" line 96: Instantiating black box module <RAMB16_S9_S9>.
+WARNING:Xst:2211 - "../hdl/verilog/line_buffer.v" line 118: Instantiating black box module <RAMB16_S9_S9>.
+Module <LINE_BUFFER> is correct for synthesis.
+ 
+    Set user-defined property "INITP_00 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INITP_01 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INITP_02 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INITP_03 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INITP_04 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INITP_05 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INITP_06 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INITP_07 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_00 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_01 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_02 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_03 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_04 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_05 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_06 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_07 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_08 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_09 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_0A =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_0B =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_0C =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_0D =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_0E =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_0F =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_10 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_11 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_12 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_13 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_14 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_15 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_16 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_17 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_18 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_19 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_1A =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_1B =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_1C =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_1D =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_1E =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_1F =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_20 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_21 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_22 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_23 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_24 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_25 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_26 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_27 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_28 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_29 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_2A =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_2B =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_2C =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_2D =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_2E =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_2F =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_30 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_31 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_32 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_33 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_34 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_35 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_36 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_37 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_38 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_39 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_3A =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_3B =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_3C =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_3D =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_3E =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_3F =  0000000000000000000000000000000000000000000000000000000000000000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_A =  000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_B =  000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "SRVAL_A =  000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "SRVAL_B =  000" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "SYN_BLACK_BOX =  1" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "WRITE_MODE_A =  WRITE_FIRST" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "WRITE_MODE_B =  WRITE_FIRST" for instance <RED_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INITP_00 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INITP_01 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INITP_02 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INITP_03 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INITP_04 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INITP_05 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INITP_06 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INITP_07 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_00 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_01 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_02 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_03 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_04 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_05 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_06 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_07 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_08 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_09 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_0A =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_0B =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_0C =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_0D =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_0E =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_0F =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_10 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_11 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_12 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_13 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_14 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_15 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_16 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_17 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_18 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_19 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_1A =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_1B =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_1C =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_1D =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_1E =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_1F =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_20 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_21 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_22 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_23 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_24 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_25 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_26 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_27 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_28 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_29 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_2A =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_2B =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_2C =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_2D =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_2E =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_2F =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_30 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_31 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_32 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_33 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_34 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_35 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_36 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_37 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_38 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_39 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_3A =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_3B =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_3C =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_3D =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_3E =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_3F =  0000000000000000000000000000000000000000000000000000000000000000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_A =  000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_B =  000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "SRVAL_A =  000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "SRVAL_B =  000" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "SYN_BLACK_BOX =  1" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "WRITE_MODE_A =  WRITE_FIRST" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "WRITE_MODE_B =  WRITE_FIRST" for instance <GREEN_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INITP_00 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INITP_01 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INITP_02 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INITP_03 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INITP_04 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INITP_05 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INITP_06 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INITP_07 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_00 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_01 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_02 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_03 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_04 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_05 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_06 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_07 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_08 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_09 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_0A =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_0B =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_0C =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_0D =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_0E =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_0F =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_10 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_11 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_12 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_13 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_14 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_15 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_16 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_17 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_18 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_19 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_1A =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_1B =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_1C =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_1D =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_1E =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_1F =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_20 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_21 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_22 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_23 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_24 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_25 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_26 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_27 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_28 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_29 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_2A =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_2B =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_2C =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_2D =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_2E =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_2F =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_30 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_31 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_32 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_33 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_34 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_35 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_36 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_37 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_38 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_39 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_3A =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_3B =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_3C =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_3D =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_3E =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_3F =  0000000000000000000000000000000000000000000000000000000000000000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_A =  000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "INIT_B =  000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "SRVAL_A =  000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "SRVAL_B =  000" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "SYN_BLACK_BOX =  1" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "WRITE_MODE_A =  WRITE_FIRST" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+    Set user-defined property "WRITE_MODE_B =  WRITE_FIRST" for instance <BLUE_DATA_RAM> in unit <LINE_BUFFER>.
+Analyzing module <NEG_EDGE_DETECT> in library <work>.
+	HIGH = 2'b10
+	LOW = 2'b01
+	START = 2'b00
+Module <NEG_EDGE_DETECT> is correct for synthesis.
+ 
+Analyzing module <SPECIAL_SVGA_TIMING_GENERATION> in library <work>.
+Module <SPECIAL_SVGA_TIMING_GENERATION> is correct for synthesis.
+ 
+
+=========================================================================
+*                           HDL Synthesis                               *
+=========================================================================
+
+Performing bidirectional port resolution...
+
+Synthesizing Unit <lf_decode>.
+    Related source file is "../hdl/verilog/lf_decode.v".
+    Found 1-bit register for signal <Fo>.
+    Found 1-bit register for signal <Vo>.
+    Found 5-bit register for signal <format_count>.
+    Found 5-bit adder for signal <format_count$addsub0000> created at line 289.
+    Found 5-bit register for signal <format_count_max>.
+    Found 5-bit register for signal <H_rg>.
+    Found 10-bit register for signal <YCrCb_rg1>.
+    Found 10-bit register for signal <YCrCb_rg2>.
+    Found 10-bit register for signal <YCrCb_rg3>.
+    Found 10-bit register for signal <YCrCb_rg4>.
+    Found 10-bit register for signal <YCrCb_rg5>.
+    Summary:
+	inferred  62 D-type flip-flop(s).
+	inferred   1 Adder/Subtractor(s).
+Unit <lf_decode> synthesized.
+
+
+Synthesizing Unit <vp422_444_dup>.
+    Related source file is "../hdl/verilog/vp422_444_dup.v".
+WARNING:Xst:646 - Signal <chroma_red_rg4> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:1780 - Signal <blanking> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
+    Found 10-bit register for signal <chroma_blue_rg1>.
+    Found 10-bit register for signal <chroma_blue_rg2>.
+    Found 10-bit register for signal <chroma_blue_rg3>.
+    Found 10-bit register for signal <chroma_blue_rg4>.
+    Found 10-bit register for signal <chroma_blue_rg5>.
+    Found 10-bit register for signal <chroma_red_rg1>.
+    Found 10-bit register for signal <chroma_red_rg2>.
+    Found 10-bit register for signal <chroma_red_rg3>.
+    Found 1-bit register for signal <fi_reg>.
+    Found 1-bit register for signal <hi_reg>.
+    Found 1-bit register for signal <ntsc_reg>.
+    Found 5-bit register for signal <pipe_fo>.
+    Found 5-bit register for signal <pipe_ho>.
+    Found 5-bit register for signal <pipe_ntsc>.
+    Found 5-bit register for signal <pipe_vo>.
+    Found 2-bit up counter for signal <state_cnt>.
+    Found 1-bit register for signal <vi_reg>.
+    Found 10-bit register for signal <Y_rg1>.
+    Found 10-bit register for signal <Y_rg2>.
+    Found 10-bit register for signal <Y_rg3>.
+    Found 10-bit register for signal <Y_rg4>.
+    Found 10-bit register for signal <ycrcb_in_reg>.
+    Summary:
+	inferred   1 Counter(s).
+	inferred 154 D-type flip-flop(s).
+Unit <vp422_444_dup> synthesized.
+
+
+Synthesizing Unit <YCrCb2RGB>.
+    Related source file is "../hdl/verilog/ycrcb2rgb.v".
+WARNING:Xst:646 - Signal <R_int<9:0>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:646 - Signal <G_int<9:0>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:646 - Signal <B_int<9:0>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:643 - "../hdl/verilog/ycrcb2rgb.v" line 138: The result of a 11x11-bit multiplication is partially used. Only the 21 least significant bits are used. If you are doing this on purpose, you may safely ignore this warning. Otherwise, make sure you are not losing information, leading to unexpected circuit behavior.
+    Found 21-bit register for signal <A_int>.
+    Found 11x10-bit multiplier for signal <A_int$mult0000> created at line 135.
+    Found 21-bit register for signal <B1_int>.
+    Found 11x9-bit multiplier for signal <B1_int$mult0000> created at line 136.
+    Found 11-bit subtractor for signal <B1_int$sub0000> created at line 136.
+    Found 21-bit register for signal <B2_int>.
+    Found 11x8-bit multiplier for signal <B2_int$mult0000> created at line 137.
+    Found 11-bit subtractor for signal <B2_int$sub0000> created at line 137.
+    Found 21-bit register for signal <B_int>.
+    Found 21-bit adder for signal <B_int$add0000> created at line 150.
+    Found 21-bit register for signal <C_int>.
+    Found 11x11-bit multiplier for signal <C_int$mult0001> created at line 138.
+    Found 10-bit register for signal <Cb_reg>.
+    Found 10-bit comparator greater for signal <Cb_reg$cmp_gt0000> created at line 117.
+    Found 10-bit comparator less for signal <Cb_reg$cmp_lt0000> created at line 120.
+    Found 10-bit register for signal <Cr_reg>.
+    Found 10-bit comparator greater for signal <Cr_reg$cmp_gt0000> created at line 101.
+    Found 10-bit comparator less for signal <Cr_reg$cmp_lt0000> created at line 104.
+    Found 21-bit register for signal <G_int>.
+    Found 21-bit subtractor for signal <G_int$addsub0000> created at line 149.
+    Found 21-bit subtractor for signal <G_int$sub0000> created at line 149.
+    Found 21-bit register for signal <R_int>.
+    Found 21-bit adder for signal <R_int$add0000> created at line 148.
+    Found 21-bit register for signal <X_int>.
+    Found 11-bit subtractor for signal <X_int$addsub0000> created at line 134.
+    Found 11x10-bit multiplier for signal <X_int$mult0000> created at line 134.
+    Found 10-bit register for signal <Y_reg>.
+    Found 10-bit comparator greater for signal <Y_reg$cmp_gt0000> created at line 84.
+    Found 10-bit comparator less for signal <Y_reg$cmp_lt0000> created at line 87.
+    Summary:
+	inferred 198 D-type flip-flop(s).
+	inferred   7 Adder/Subtractor(s).
+	inferred   5 Multiplier(s).
+	inferred   6 Comparator(s).
+Unit <YCrCb2RGB> synthesized.
+
+
+Synthesizing Unit <NEG_EDGE_DETECT>.
+    Related source file is "../hdl/verilog/neg_edge_detect.v".
+    Found finite state machine <FSM_0> for signal <PRESENT_STATE>.
+    -----------------------------------------------------------------------
+    | States             | 3                                              |
+    | Transitions        | 5                                              |
+    | Inputs             | 1                                              |
+    | Outputs            | 1                                              |
+    | Clock              | clk (rising_edge)                              |
+    | Reset              | reset (positive)                               |
+    | Reset type         | asynchronous                                   |
+    | Reset State        | 00                                             |
+    | Encoding           | automatic                                      |
+    | Implementation     | LUT                                            |
+    -----------------------------------------------------------------------
+    Summary:
+	inferred   1 Finite State Machine(s).
+Unit <NEG_EDGE_DETECT> synthesized.
+
+
+Synthesizing Unit <SPECIAL_SVGA_TIMING_GENERATION>.
+    Related source file is "../hdl/verilog/special_svga_timing_generation.v".
+    Found 1-bit register for signal <h_synch_delay>.
+    Found 11-bit up counter for signal <pixel_count>.
+    Found 1-bit register for signal <v_synch_delay>.
+    Found 3-bit up counter for signal <char_pixel>.
+    Found 1-bit register for signal <comp_synch>.
+    Found 3-bit register for signal <char_line_count>.
+    Found 1-bit register for signal <blank>.
+    Found 17-bit register for signal <char_count>.
+    Found 17-bit adder for signal <char_count$addsub0000> created at line 392.
+    Found 3-bit adder for signal <char_line_count$addsub0000> created at line 375.
+    Found 1-bit xor2 for signal <comp_synch$xor0000> created at line 341.
+    Found 1-bit register for signal <h_blank>.
+    Found 1-bit register for signal <h_c_synch>.
+    Found 1-bit register for signal <h_synch>.
+    Found 1-bit register for signal <h_synch_delay0>.
+    Found 1-bit register for signal <hold_char_count>.
+    Found 10-bit up counter for signal <line_count>.
+    Found 17-bit register for signal <line_start_address>.
+    Found 1-bit register for signal <reset_char_count>.
+    Found 1-bit register for signal <v_blank>.
+    Found 1-bit register for signal <v_c_synch>.
+    Found 1-bit register for signal <v_synch>.
+    Found 1-bit register for signal <v_synch_delay0>.
+    Summary:
+	inferred   3 Counter(s).
+	inferred  51 D-type flip-flop(s).
+	inferred   2 Adder/Subtractor(s).
+Unit <SPECIAL_SVGA_TIMING_GENERATION> synthesized.
+
+
+Synthesizing Unit <LINE_BUFFER>.
+    Related source file is "../hdl/verilog/line_buffer.v".
+Unit <LINE_BUFFER> synthesized.
+
+
+Synthesizing Unit <video_to_ram>.
+    Related source file is "../hdl/verilog/video_to_ram.v".
+WARNING:Xst:647 - Input <i_PLB_MBusy> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+WARNING:Xst:647 - Input <i_PLB_MWrBTerm> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+WARNING:Xst:647 - Input <i_PLB_MRdDBus> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+WARNING:Xst:647 - Input <i_PLB_MRearbitrate> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+WARNING:Xst:647 - Input <i_PLB_MRdErr> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+WARNING:Xst:647 - Input <i_PLB_MWrErr> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+WARNING:Xst:647 - Input <i_PLB_MRdDAck> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+WARNING:Xst:647 - Input <i_PLB_MAddrAck> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+WARNING:Xst:647 - Input <i_PLB_MRdBTerm> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+WARNING:Xst:647 - Input <i_Sl_wrDAck<0>> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+WARNING:Xst:647 - Input <i_PLB_MRdWdAddr> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+WARNING:Xst:647 - Input <i_PLB_MTimeout> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+WARNING:Xst:647 - Input <i_PLB_MSSize> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+WARNING:Xst:647 - Input <i_PLB_MWrDAck> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+WARNING:Xst:646 - Signal <w_V_444> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:646 - Signal <r_Red_from_buffer<1:0>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:646 - Signal <r_Green_from_buffer<1:0>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:646 - Signal <r_Blue_from_buffer<1:0>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+    Found finite state machine <FSM_1> for signal <r_cs>.
+    -----------------------------------------------------------------------
+    | States             | 5                                              |
+    | Transitions        | 11                                             |
+    | Inputs             | 6                                              |
+    | Outputs            | 9                                              |
+    | Clock              | i_clk_100_bus (rising_edge)                    |
+    | Reset              | i_sys_rst (positive)                           |
+    | Reset type         | asynchronous                                   |
+    | Reset State        | 000                                            |
+    | Encoding           | automatic                                      |
+    | Implementation     | LUT                                            |
+    -----------------------------------------------------------------------
+    Found 8-bit register for signal <r_Blue_from_buffer>.
+    Found 6-bit up counter for signal <r_burst_cnt>.
+    Found 8-bit register for signal <r_Green_from_buffer>.
+    Found 11-bit up counter for signal <r_line_buffer_read_addr>.
+    Found 11-bit up counter for signal <r_line_buffer_write_addr>.
+    Found 1-bit register for signal <r_line_ready>.
+    Found 32-bit register for signal <r_M_ABus>.
+    Found 32-bit adder for signal <r_M_ABus$addsub0000> created at line 527.
+    Found 8-bit register for signal <r_Red_from_buffer>.
+    Found 1-bit register for signal <r_write_buffer_0>.
+    Summary:
+	inferred   1 Finite State Machine(s).
+	inferred   3 Counter(s).
+	inferred  58 D-type flip-flop(s).
+	inferred   1 Adder/Subtractor(s).
+Unit <video_to_ram> synthesized.
+
+
+=========================================================================
+HDL Synthesis Report
+
+Macro Statistics
+# Multipliers                                          : 5
+ 11x10-bit multiplier                                  : 2
+ 11x11-bit multiplier                                  : 1
+ 11x8-bit multiplier                                   : 1
+ 11x9-bit multiplier                                   : 1
+# Adders/Subtractors                                   : 11
+ 11-bit subtractor                                     : 3
+ 17-bit adder                                          : 1
+ 21-bit adder                                          : 2
+ 21-bit subtractor                                     : 2
+ 3-bit adder                                           : 1
+ 32-bit adder                                          : 1
+ 5-bit adder                                           : 1
+# Counters                                             : 7
+ 10-bit up counter                                     : 1
+ 11-bit up counter                                     : 3
+ 2-bit up counter                                      : 1
+ 3-bit up counter                                      : 1
+ 6-bit up counter                                      : 1
+# Registers                                            : 81
+ 1-bit register                                        : 42
+ 10-bit register                                       : 21
+ 17-bit register                                       : 2
+ 21-bit register                                       : 8
+ 3-bit register                                        : 1
+ 32-bit register                                       : 1
+ 5-bit register                                        : 3
+ 8-bit register                                        : 3
+# Comparators                                          : 6
+ 10-bit comparator greater                             : 3
+ 10-bit comparator less                                : 3
+# Xors                                                 : 1
+ 1-bit xor2                                            : 1
+
+=========================================================================
+
+=========================================================================
+*                       Advanced HDL Synthesis                          *
+=========================================================================
+
+Analyzing FSM <FSM_1> for best encoding.
+Optimizing FSM <r_cs/FSM> on signal <r_cs[1:3]> with gray encoding.
+-------------------
+ State | Encoding
+-------------------
+ 000   | 000
+ 001   | 001
+ 010   | 011
+ 011   | 010
+ 100   | 110
+-------------------
+Analyzing FSM <FSM_0> for best encoding.
+Optimizing FSM <NEG_EDGE_DETECT_i/PRESENT_STATE/FSM> on signal <PRESENT_STATE[1:2]> with gray encoding.
+-------------------
+ State | Encoding
+-------------------
+ 00    | 00
+ 01    | 01
+ 10    | 11
+-------------------
+Loading device for application Rf_Device from file '2vp30.nph' in environment /home/kevin/CAD/Xilinx/10.1/ISE.
+
+Synthesizing (advanced) Unit <YCrCb2RGB>.
+INFO:Xst:2385 - HDL ADVISOR - You can improve the performance of the multiplier Mmult_B1_int_mult0000 by adding 1 register level(s).
+INFO:Xst:2385 - HDL ADVISOR - You can improve the performance of the multiplier Mmult_C_int_mult0001 by adding 1 register level(s).
+INFO:Xst:2385 - HDL ADVISOR - You can improve the performance of the multiplier Mmult_B2_int_mult0000 by adding 1 register level(s).
+INFO:Xst:2385 - HDL ADVISOR - You can improve the performance of the multiplier Mmult_A_int_mult0000 by adding 1 register level(s).
+INFO:Xst:2385 - HDL ADVISOR - You can improve the performance of the multiplier Mmult_X_int_mult0000 by adding 1 register level(s).
+Unit <YCrCb2RGB> synthesized (advanced).
+WARNING:Xst:2677 - Node <R_int_0> of sequential type is unconnected in block <YCrCb2RGB>.
+WARNING:Xst:2677 - Node <R_int_1> of sequential type is unconnected in block <YCrCb2RGB>.
+WARNING:Xst:2677 - Node <R_int_2> of sequential type is unconnected in block <YCrCb2RGB>.
+WARNING:Xst:2677 - Node <R_int_3> of sequential type is unconnected in block <YCrCb2RGB>.
+WARNING:Xst:2677 - Node <R_int_4> of sequential type is unconnected in block <YCrCb2RGB>.
+WARNING:Xst:2677 - Node <R_int_5> of sequential type is unconnected in block <YCrCb2RGB>.
+WARNING:Xst:2677 - Node <R_int_6> of sequential type is unconnected in block <YCrCb2RGB>.
+WARNING:Xst:2677 - Node <R_int_7> of sequential type is unconnected in block <YCrCb2RGB>.
+WARNING:Xst:2677 - Node <R_int_8> of sequential type is unconnected in block <YCrCb2RGB>.
+WARNING:Xst:2677 - Node <R_int_9> of sequential type is unconnected in block <YCrCb2RGB>.
+WARNING:Xst:2677 - Node <B_int_0> of sequential type is unconnected in block <YCrCb2RGB>.
+WARNING:Xst:2677 - Node <B_int_1> of sequential type is unconnected in block <YCrCb2RGB>.
+WARNING:Xst:2677 - Node <B_int_2> of sequential type is unconnected in block <YCrCb2RGB>.
+WARNING:Xst:2677 - Node <B_int_3> of sequential type is unconnected in block <YCrCb2RGB>.
+WARNING:Xst:2677 - Node <B_int_4> of sequential type is unconnected in block <YCrCb2RGB>.
+WARNING:Xst:2677 - Node <B_int_5> of sequential type is unconnected in block <YCrCb2RGB>.
+WARNING:Xst:2677 - Node <B_int_6> of sequential type is unconnected in block <YCrCb2RGB>.
+WARNING:Xst:2677 - Node <B_int_7> of sequential type is unconnected in block <YCrCb2RGB>.
+WARNING:Xst:2677 - Node <B_int_8> of sequential type is unconnected in block <YCrCb2RGB>.
+WARNING:Xst:2677 - Node <B_int_9> of sequential type is unconnected in block <YCrCb2RGB>.
+WARNING:Xst:2677 - Node <G_int_0> of sequential type is unconnected in block <YCrCb2RGB>.
+WARNING:Xst:2677 - Node <G_int_1> of sequential type is unconnected in block <YCrCb2RGB>.
+WARNING:Xst:2677 - Node <G_int_2> of sequential type is unconnected in block <YCrCb2RGB>.
+WARNING:Xst:2677 - Node <G_int_3> of sequential type is unconnected in block <YCrCb2RGB>.
+WARNING:Xst:2677 - Node <G_int_4> of sequential type is unconnected in block <YCrCb2RGB>.
+WARNING:Xst:2677 - Node <G_int_5> of sequential type is unconnected in block <YCrCb2RGB>.
+WARNING:Xst:2677 - Node <G_int_6> of sequential type is unconnected in block <YCrCb2RGB>.
+WARNING:Xst:2677 - Node <G_int_7> of sequential type is unconnected in block <YCrCb2RGB>.
+WARNING:Xst:2677 - Node <G_int_8> of sequential type is unconnected in block <YCrCb2RGB>.
+WARNING:Xst:2677 - Node <G_int_9> of sequential type is unconnected in block <YCrCb2RGB>.
+INFO:Xst:2261 - The FF/Latch <B1_int_19> in Unit <YCrCb2RGB> is equivalent to the following FF/Latch, which will be removed : <B1_int_20> 
+INFO:Xst:2261 - The FF/Latch <B2_int_18> in Unit <YCrCb2RGB> is equivalent to the following 2 FFs/Latches, which will be removed : <B2_int_19> <B2_int_20> 
+WARNING:Xst:2677 - Node <r_Red_from_buffer_0> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <r_Red_from_buffer_1> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <r_Green_from_buffer_0> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <r_Green_from_buffer_1> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <r_Blue_from_buffer_0> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <r_Blue_from_buffer_1> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:1710 - FF/Latch <Cb_reg_1> (without init value) has a constant value of 0 in block <YCrCb2RGB_i>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <Cb_reg_0> (without init value) has a constant value of 0 in block <YCrCb2RGB_i>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <Cr_reg_1> (without init value) has a constant value of 0 in block <YCrCb2RGB_i>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <Cr_reg_0> (without init value) has a constant value of 0 in block <YCrCb2RGB_i>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <Y_reg_1> (without init value) has a constant value of 0 in block <YCrCb2RGB_i>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <Y_reg_0> (without init value) has a constant value of 0 in block <YCrCb2RGB_i>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <ycrcb_in_reg_1> (without init value) has a constant value of 0 in block <vp422_444_dup_i>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <ycrcb_in_reg_0> (without init value) has a constant value of 0 in block <vp422_444_dup_i>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <YCrCb_rg1_0> (without init value) has a constant value of 0 in block <lf_decode_i>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <YCrCb_rg1_1> (without init value) has a constant value of 0 in block <lf_decode_i>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <YCrCb_rg2_0> (without init value) has a constant value of 0 in block <lf_decode_i>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <YCrCb_rg2_1> (without init value) has a constant value of 0 in block <lf_decode_i>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <Y_rg1_0> (without init value) has a constant value of 0 in block <vp422_444_dup_i>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <Y_rg1_1> (without init value) has a constant value of 0 in block <vp422_444_dup_i>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <chroma_red_rg1_0> (without init value) has a constant value of 0 in block <vp422_444_dup_i>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <chroma_red_rg1_1> (without init value) has a constant value of 0 in block <vp422_444_dup_i>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <chroma_blue_rg1_0> (without init value) has a constant value of 0 in block <vp422_444_dup_i>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <chroma_blue_rg1_1> (without init value) has a constant value of 0 in block <vp422_444_dup_i>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <YCrCb_rg3_1> (without init value) has a constant value of 0 in block <lf_decode_i>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <YCrCb_rg3_0> (without init value) has a constant value of 0 in block <lf_decode_i>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <chroma_blue_rg2_1> (without init value) has a constant value of 0 in block <vp422_444_dup_i>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <chroma_blue_rg2_0> (without init value) has a constant value of 0 in block <vp422_444_dup_i>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <chroma_red_rg2_1> (without init value) has a constant value of 0 in block <vp422_444_dup_i>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <chroma_red_rg2_0> (without init value) has a constant value of 0 in block <vp422_444_dup_i>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <Y_rg2_1> (without init value) has a constant value of 0 in block <vp422_444_dup_i>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <Y_rg2_0> (without init value) has a constant value of 0 in block <vp422_444_dup_i>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <chroma_blue_rg3_1> (without init value) has a constant value of 0 in block <vp422_444_dup_i>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <chroma_blue_rg3_0> (without init value) has a constant value of 0 in block <vp422_444_dup_i>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <chroma_red_rg3_1> (without init value) has a constant value of 0 in block <vp422_444_dup_i>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <chroma_red_rg3_0> (without init value) has a constant value of 0 in block <vp422_444_dup_i>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <Y_rg3_1> (without init value) has a constant value of 0 in block <vp422_444_dup_i>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <Y_rg3_0> (without init value) has a constant value of 0 in block <vp422_444_dup_i>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <YCrCb_rg4_0> (without init value) has a constant value of 0 in block <lf_decode_i>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <YCrCb_rg4_1> (without init value) has a constant value of 0 in block <lf_decode_i>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <Y_rg4_0> (without init value) has a constant value of 0 in block <vp422_444_dup_i>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <Y_rg4_1> (without init value) has a constant value of 0 in block <vp422_444_dup_i>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <chroma_blue_rg4_0> (without init value) has a constant value of 0 in block <vp422_444_dup_i>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <chroma_blue_rg4_1> (without init value) has a constant value of 0 in block <vp422_444_dup_i>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <YCrCb_rg5_1> (without init value) has a constant value of 0 in block <lf_decode_i>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <YCrCb_rg5_0> (without init value) has a constant value of 0 in block <lf_decode_i>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <chroma_blue_rg5_0> (without init value) has a constant value of 0 in block <vp422_444_dup_i>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <chroma_blue_rg5_1> (without init value) has a constant value of 0 in block <vp422_444_dup_i>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:2677 - Node <ntsc_reg> of sequential type is unconnected in block <vp422_444_dup_i>.
+WARNING:Xst:2677 - Node <pipe_ntsc_4> of sequential type is unconnected in block <vp422_444_dup_i>.
+WARNING:Xst:2677 - Node <pipe_ntsc_3> of sequential type is unconnected in block <vp422_444_dup_i>.
+WARNING:Xst:2677 - Node <pipe_ntsc_2> of sequential type is unconnected in block <vp422_444_dup_i>.
+WARNING:Xst:2677 - Node <pipe_ntsc_1> of sequential type is unconnected in block <vp422_444_dup_i>.
+WARNING:Xst:2677 - Node <pipe_ntsc_0> of sequential type is unconnected in block <vp422_444_dup_i>.
+WARNING:Xst:2677 - Node <h_synch> of sequential type is unconnected in block <SPECIAL_SVGA_TIMING_GENERATION>.
+WARNING:Xst:2677 - Node <v_synch> of sequential type is unconnected in block <SPECIAL_SVGA_TIMING_GENERATION>.
+WARNING:Xst:2677 - Node <h_blank> of sequential type is unconnected in block <SPECIAL_SVGA_TIMING_GENERATION>.
+WARNING:Xst:2677 - Node <h_c_synch> of sequential type is unconnected in block <SPECIAL_SVGA_TIMING_GENERATION>.
+WARNING:Xst:2677 - Node <v_blank> of sequential type is unconnected in block <SPECIAL_SVGA_TIMING_GENERATION>.
+WARNING:Xst:2677 - Node <blank> of sequential type is unconnected in block <SPECIAL_SVGA_TIMING_GENERATION>.
+WARNING:Xst:2677 - Node <v_c_synch> of sequential type is unconnected in block <SPECIAL_SVGA_TIMING_GENERATION>.
+WARNING:Xst:2677 - Node <v_synch_delay0> of sequential type is unconnected in block <SPECIAL_SVGA_TIMING_GENERATION>.
+WARNING:Xst:2677 - Node <h_synch_delay0> of sequential type is unconnected in block <SPECIAL_SVGA_TIMING_GENERATION>.
+WARNING:Xst:2677 - Node <h_synch_delay> of sequential type is unconnected in block <SPECIAL_SVGA_TIMING_GENERATION>.
+WARNING:Xst:2677 - Node <v_synch_delay> of sequential type is unconnected in block <SPECIAL_SVGA_TIMING_GENERATION>.
+WARNING:Xst:2677 - Node <comp_synch> of sequential type is unconnected in block <SPECIAL_SVGA_TIMING_GENERATION>.
+
+=========================================================================
+Advanced HDL Synthesis Report
+
+Macro Statistics
+# Multipliers                                          : 5
+ 11x10-bit multiplier                                  : 2
+ 11x11-bit multiplier                                  : 1
+ 11x8-bit multiplier                                   : 1
+ 11x9-bit multiplier                                   : 1
+# Adders/Subtractors                                   : 11
+ 11-bit subtractor                                     : 3
+ 17-bit adder                                          : 1
+ 21-bit adder                                          : 2
+ 21-bit subtractor                                     : 2
+ 3-bit adder                                           : 1
+ 32-bit adder                                          : 1
+ 5-bit adder                                           : 1
+# Counters                                             : 7
+ 10-bit up counter                                     : 1
+ 11-bit up counter                                     : 3
+ 2-bit up counter                                      : 1
+ 3-bit up counter                                      : 1
+ 6-bit up counter                                      : 1
+# Registers                                            : 494
+ Flip-Flops                                            : 494
+# Comparators                                          : 6
+ 10-bit comparator greater                             : 3
+ 10-bit comparator less                                : 3
+# Xors                                                 : 1
+ 1-bit xor2                                            : 1
+
+=========================================================================
+
+=========================================================================
+*                         Low Level Synthesis                           *
+=========================================================================
+INFO:Xst:2261 - The FF/Latch <YCrCb_rg1_0> in Unit <lf_decode> is equivalent to the following FF/Latch, which will be removed : <YCrCb_rg1_1> 
+WARNING:Xst:1710 - FF/Latch <YCrCb_rg1_0> (without init value) has a constant value of 0 in block <lf_decode>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <YCrCb_rg2_0> (without init value) has a constant value of 0 in block <lf_decode>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <YCrCb_rg2_1> (without init value) has a constant value of 0 in block <lf_decode>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <YCrCb_rg3_0> (without init value) has a constant value of 0 in block <lf_decode>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <YCrCb_rg3_1> (without init value) has a constant value of 0 in block <lf_decode>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <YCrCb_rg4_0> (without init value) has a constant value of 0 in block <lf_decode>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <YCrCb_rg4_1> (without init value) has a constant value of 0 in block <lf_decode>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <YCrCb_rg5_0> (without init value) has a constant value of 0 in block <lf_decode>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <YCrCb_rg5_1> (without init value) has a constant value of 0 in block <lf_decode>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <r_M_ABus_31> (without init value) has a constant value of 0 in block <video_to_ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <r_M_ABus_30> (without init value) has a constant value of 0 in block <video_to_ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <r_M_ABus_29> (without init value) has a constant value of 0 in block <video_to_ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <r_M_ABus_28> (without init value) has a constant value of 0 in block <video_to_ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <r_M_ABus_27> (without init value) has a constant value of 0 in block <video_to_ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <r_M_ABus_26> (without init value) has a constant value of 0 in block <video_to_ram>. This FF/Latch will be trimmed during the optimization process.
+
+Optimizing unit <video_to_ram> ...
+
+Optimizing unit <vp422_444_dup> ...
+
+Optimizing unit <YCrCb2RGB> ...
+
+Optimizing unit <SPECIAL_SVGA_TIMING_GENERATION> ...
+
+Optimizing unit <lf_decode> ...
+WARNING:Xst:1710 - FF/Latch <YCrCb2RGB_i/Y_reg_0> (without init value) has a constant value of 0 in block <video_to_ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <YCrCb2RGB_i/Y_reg_1> (without init value) has a constant value of 0 in block <video_to_ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <YCrCb2RGB_i/Cr_reg_0> (without init value) has a constant value of 0 in block <video_to_ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <YCrCb2RGB_i/Cr_reg_1> (without init value) has a constant value of 0 in block <video_to_ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <YCrCb2RGB_i/Cb_reg_0> (without init value) has a constant value of 0 in block <video_to_ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <YCrCb2RGB_i/Cb_reg_1> (without init value) has a constant value of 0 in block <video_to_ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <vp422_444_dup_i/ycrcb_in_reg_0> (without init value) has a constant value of 0 in block <video_to_ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <vp422_444_dup_i/ycrcb_in_reg_1> (without init value) has a constant value of 0 in block <video_to_ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <vp422_444_dup_i/Y_rg1_0> (without init value) has a constant value of 0 in block <video_to_ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <vp422_444_dup_i/Y_rg1_1> (without init value) has a constant value of 0 in block <video_to_ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <vp422_444_dup_i/chroma_red_rg1_0> (without init value) has a constant value of 0 in block <video_to_ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <vp422_444_dup_i/chroma_red_rg1_1> (without init value) has a constant value of 0 in block <video_to_ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <vp422_444_dup_i/chroma_blue_rg1_0> (without init value) has a constant value of 0 in block <video_to_ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <vp422_444_dup_i/chroma_blue_rg1_1> (without init value) has a constant value of 0 in block <video_to_ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <vp422_444_dup_i/Y_rg2_0> (without init value) has a constant value of 0 in block <video_to_ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <vp422_444_dup_i/Y_rg2_1> (without init value) has a constant value of 0 in block <video_to_ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <vp422_444_dup_i/chroma_red_rg2_0> (without init value) has a constant value of 0 in block <video_to_ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <vp422_444_dup_i/chroma_red_rg2_1> (without init value) has a constant value of 0 in block <video_to_ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <vp422_444_dup_i/chroma_blue_rg2_0> (without init value) has a constant value of 0 in block <video_to_ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <vp422_444_dup_i/chroma_blue_rg2_1> (without init value) has a constant value of 0 in block <video_to_ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <vp422_444_dup_i/Y_rg3_0> (without init value) has a constant value of 0 in block <video_to_ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <vp422_444_dup_i/Y_rg3_1> (without init value) has a constant value of 0 in block <video_to_ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <vp422_444_dup_i/chroma_red_rg3_0> (without init value) has a constant value of 0 in block <video_to_ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <vp422_444_dup_i/chroma_red_rg3_1> (without init value) has a constant value of 0 in block <video_to_ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <vp422_444_dup_i/chroma_blue_rg3_0> (without init value) has a constant value of 0 in block <video_to_ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <vp422_444_dup_i/chroma_blue_rg3_1> (without init value) has a constant value of 0 in block <video_to_ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <vp422_444_dup_i/Y_rg4_0> (without init value) has a constant value of 0 in block <video_to_ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <vp422_444_dup_i/Y_rg4_1> (without init value) has a constant value of 0 in block <video_to_ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <vp422_444_dup_i/chroma_blue_rg4_0> (without init value) has a constant value of 0 in block <video_to_ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <vp422_444_dup_i/chroma_blue_rg4_1> (without init value) has a constant value of 0 in block <video_to_ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <vp422_444_dup_i/chroma_blue_rg5_0> (without init value) has a constant value of 0 in block <video_to_ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <vp422_444_dup_i/chroma_blue_rg5_1> (without init value) has a constant value of 0 in block <video_to_ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:2677 - Node <vp422_444_dup_i/pipe_ntsc_0> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <vp422_444_dup_i/pipe_ntsc_1> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <vp422_444_dup_i/pipe_ntsc_2> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <vp422_444_dup_i/pipe_ntsc_3> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <vp422_444_dup_i/pipe_ntsc_4> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <vp422_444_dup_i/ntsc_reg> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/char_pixel_2> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/char_pixel_1> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/char_pixel_0> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/comp_synch> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/v_synch_delay> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/h_synch_delay> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/h_synch_delay0> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/v_synch_delay0> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/hold_char_count> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/reset_char_count> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/line_start_address_16> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/line_start_address_15> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/line_start_address_14> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/line_start_address_13> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/line_start_address_12> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/line_start_address_11> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/line_start_address_10> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/line_start_address_9> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/line_start_address_8> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/line_start_address_7> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/line_start_address_6> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/line_start_address_5> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/line_start_address_4> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/line_start_address_3> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/line_start_address_2> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/line_start_address_1> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/line_start_address_0> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/char_count_16> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/char_count_15> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/char_count_14> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/char_count_13> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/char_count_12> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/char_count_11> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/char_count_10> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/char_count_9> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/char_count_8> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/char_count_7> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/char_count_6> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/char_count_5> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/char_count_4> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/char_count_3> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/char_count_2> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/char_count_1> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/char_count_0> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/v_c_synch> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/char_line_count_2> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/char_line_count_1> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/char_line_count_0> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/blank> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/v_blank> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/h_c_synch> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/h_blank> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/v_synch> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <SPECIAL_SVGA_TIMING_GENERATION/h_synch> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <lf_decode_i/format_count_max_2> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <lf_decode_i/format_count_max_0> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <lf_decode_i/format_count_max_1> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <lf_decode_i/format_count_max_3> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <lf_decode_i/format_count_max_4> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <lf_decode_i/format_count_4> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <lf_decode_i/format_count_3> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <lf_decode_i/format_count_2> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <lf_decode_i/format_count_1> of sequential type is unconnected in block <video_to_ram>.
+WARNING:Xst:2677 - Node <lf_decode_i/format_count_0> of sequential type is unconnected in block <video_to_ram>.
+
+Mapping all equations...
+Building and optimizing final netlist ...
+Found area constraint ratio of 100 (+ 5) on block video_to_ram, actual ratio is 2.
+
+Final Macro Processing ...
+
+Processing Unit <video_to_ram> :
+	Found 4-bit shift register for signal <vp422_444_dup_i/chroma_blue_rg5_9>.
+	Found 4-bit shift register for signal <vp422_444_dup_i/chroma_blue_rg5_8>.
+	Found 4-bit shift register for signal <vp422_444_dup_i/chroma_blue_rg5_7>.
+	Found 4-bit shift register for signal <vp422_444_dup_i/chroma_blue_rg5_6>.
+	Found 4-bit shift register for signal <vp422_444_dup_i/chroma_blue_rg5_5>.
+	Found 4-bit shift register for signal <vp422_444_dup_i/chroma_blue_rg5_4>.
+	Found 4-bit shift register for signal <vp422_444_dup_i/chroma_blue_rg5_3>.
+	Found 4-bit shift register for signal <vp422_444_dup_i/chroma_blue_rg5_2>.
+	Found 5-bit shift register for signal <vp422_444_dup_i/pipe_ho_0>.
+	Found 5-bit shift register for signal <vp422_444_dup_i/pipe_fo_0>.
+	Found 5-bit shift register for signal <vp422_444_dup_i/pipe_vo_0>.
+	Found 3-bit shift register for signal <vp422_444_dup_i/Y_rg4_9>.
+	Found 3-bit shift register for signal <vp422_444_dup_i/Y_rg4_8>.
+	Found 3-bit shift register for signal <vp422_444_dup_i/Y_rg4_7>.
+	Found 3-bit shift register for signal <vp422_444_dup_i/Y_rg4_6>.
+	Found 3-bit shift register for signal <vp422_444_dup_i/Y_rg4_5>.
+	Found 3-bit shift register for signal <vp422_444_dup_i/Y_rg4_4>.
+	Found 3-bit shift register for signal <vp422_444_dup_i/Y_rg4_3>.
+	Found 3-bit shift register for signal <vp422_444_dup_i/Y_rg4_2>.
+	Found 2-bit shift register for signal <vp422_444_dup_i/chroma_red_rg3_9>.
+	Found 2-bit shift register for signal <vp422_444_dup_i/chroma_red_rg3_8>.
+	Found 2-bit shift register for signal <vp422_444_dup_i/chroma_red_rg3_7>.
+	Found 2-bit shift register for signal <vp422_444_dup_i/chroma_red_rg3_6>.
+	Found 2-bit shift register for signal <vp422_444_dup_i/chroma_red_rg3_5>.
+	Found 2-bit shift register for signal <vp422_444_dup_i/chroma_red_rg3_4>.
+	Found 2-bit shift register for signal <vp422_444_dup_i/chroma_red_rg3_3>.
+	Found 2-bit shift register for signal <vp422_444_dup_i/chroma_red_rg3_2>.
+Unit <video_to_ram> processed.
+
+=========================================================================
+Final Register Report
+
+Macro Statistics
+# Registers                                            : 343
+ Flip-Flops                                            : 343
+# Shift Registers                                      : 27
+ 2-bit shift register                                  : 8
+ 3-bit shift register                                  : 8
+ 4-bit shift register                                  : 8
+ 5-bit shift register                                  : 3
+
+=========================================================================
+
+=========================================================================
+*                           Partition Report                             *
+=========================================================================
+
+Partition Implementation Status
+-------------------------------
+
+  No Partitions were found in this design.
+
+-------------------------------
+
+=========================================================================
+*                            Final Report                               *
+=========================================================================
+Final Results
+RTL Top Level Output File Name     : video_to_ram.ngr
+Top Level Output File Name         : video_to_ram
+Output Format                      : NGC
+Optimization Goal                  : Speed
+Keep Hierarchy                     : NO
+
+Design Statistics
+# IOs                              : 243
+
+Cell Usage :
+# BELS                             : 600
+#      GND                         : 1
+#      INV                         : 12
+#      LUT1                        : 64
+#      LUT2                        : 111
+#      LUT3                        : 55
+#      LUT3_D                      : 1
+#      LUT4                        : 77
+#      LUT4_D                      : 2
+#      LUT4_L                      : 1
+#      MUXCY                       : 150
+#      MUXF5                       : 2
+#      VCC                         : 1
+#      XORCY                       : 123
+# FlipFlops/Latches                : 371
+#      FD                          : 27
+#      FDC                         : 204
+#      FDCE                        : 4
+#      FDE                         : 34
+#      FDP                         : 1
+#      FDPE                        : 7
+#      FDR                         : 57
+#      FDRE                        : 34
+#      FDSE                        : 2
+#      OFDDRRSE                    : 1
+# RAMS                             : 6
+#      RAMB16_S9_S9                : 6
+# Shift Registers                  : 27
+#      SRL16                       : 27
+# Clock Buffers                    : 3
+#      BUFG                        : 2
+#      BUFGP                       : 1
+# IO Buffers                       : 160
+#      IBUF                        : 13
+#      IBUFG                       : 1
+#      OBUF                        : 146
+# MULTs                            : 5
+#      MULT18X18                   : 5
+=========================================================================
+
+Device utilization summary:
+---------------------------
+
+Selected Device : 2vp30ff896-7 
+
+ Number of Slices:                      270  out of  13696     1%  
+ Number of Slice Flip Flops:            371  out of  27392     1%  
+ Number of 4 input LUTs:                350  out of  27392     1%  
+    Number used as logic:               323
+    Number used as Shift registers:      27
+ Number of IOs:                         243
+ Number of bonded IOBs:                 161  out of    556    28%  
+ Number of BRAMs:                         6  out of    136     4%  
+ Number of MULT18X18s:                    5  out of    136     3%  
+ Number of GCLKs:                         3  out of     16    18%  
+
+---------------------------
+Partition Resource Summary:
+---------------------------
+
+  No Partitions were found in this design.
+
+---------------------------
+
+
+=========================================================================
+TIMING REPORT
+
+NOTE: THESE TIMING NUMBERS ARE ONLY A SYNTHESIS ESTIMATE.
+      FOR ACCURATE TIMING INFORMATION PLEASE REFER TO THE TRACE REPORT
+      GENERATED AFTER PLACE-and-ROUTE.
+
+Clock Information:
+------------------
+-----------------------------------+------------------------------------+-------+
+Clock Signal                       | Clock buffer(FF name)              | Load  |
+-----------------------------------+------------------------------------+-------+
+i_clk_100_bus                      | BUFGP                              | 71    |
+vp422_444_dup_i/pipe_ho_0          | NONE(r_write_buffer_0)             | 1     |
+i_LLC_CLOCK                        | IBUFG+BUFG                         | 163   |
+clk_ceo_444(vp422_444_dup_i/ceo1:O)| BUFG(*)(r_line_buffer_write_addr_0)| 176   |
+-----------------------------------+------------------------------------+-------+
+(*) This 1 clock signal(s) are generated by combinatorial logic,
+and XST is not able to identify which are the primary clock signals.
+Please use the CLOCK_SIGNAL constraint to specify the clock signal(s) generated by combinatorial logic.
+INFO:Xst:2169 - HDL ADVISOR - Some clock signals were not automatically buffered by XST with BUFG/BUFR resources. Please use the buffer_type constraint in order to insert these buffers to the clock signals to help prevent skew problems.
+
+Asynchronous Control Signals Information:
+----------------------------------------
+------------------------------------------------------+----------------------------------------------------+-------+
+Control Signal                                        | Buffer(FF name)                                    | Load  |
+------------------------------------------------------+----------------------------------------------------+-------+
+i_sys_rst                                             | IBUF                                               | 183   |
+w_rst_timing_generation(w_rst_timing_generation1:O)   | NONE(SPECIAL_SVGA_TIMING_GENERATION/pixel_count_10)| 21    |
+vp422_444_dup_i/pipe_ho_0(vp422_444_dup_i/pipe_ho_0:Q)| NONE(r_line_ready)                                 | 12    |
+------------------------------------------------------+----------------------------------------------------+-------+
+
+Timing Summary:
+---------------
+Speed Grade: -7
+
+   Minimum period: 4.867ns (Maximum Frequency: 205.472MHz)
+   Minimum input arrival time before clock: 3.099ns
+   Maximum output required time after clock: 4.430ns
+   Maximum combinational path delay: 4.473ns
+
+Timing Detail:
+--------------
+All values displayed in nanoseconds (ns)
+
+=========================================================================
+Timing constraint: Default period analysis for Clock 'i_clk_100_bus'
+  Clock period: 3.882ns (frequency: 257.616MHz)
+  Total number of paths / destination ports: 775 / 191
+-------------------------------------------------------------------------
+Delay:               3.882ns (Levels of Logic = 24)
+  Source:            r_M_ABus_24 (FF)
+  Destination:       r_M_ABus_3 (FF)
+  Source Clock:      i_clk_100_bus rising
+  Destination Clock: i_clk_100_bus rising
+
+  Data Path: r_M_ABus_24 to r_M_ABus_3
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDE:C->Q              2   0.370   0.514  r_M_ABus_24 (r_M_ABus_24)
+     LUT1:I0->O            1   0.275   0.000  Madd_r_M_ABus_addsub0000_cy<7>_rt (Madd_r_M_ABus_addsub0000_cy<7>_rt)
+     MUXCY:S->O            1   0.334   0.000  Madd_r_M_ABus_addsub0000_cy<7> (Madd_r_M_ABus_addsub0000_cy<7>)
+     MUXCY:CI->O           1   0.036   0.000  Madd_r_M_ABus_addsub0000_cy<8> (Madd_r_M_ABus_addsub0000_cy<8>)
+     MUXCY:CI->O           1   0.036   0.000  Madd_r_M_ABus_addsub0000_cy<9> (Madd_r_M_ABus_addsub0000_cy<9>)
+     MUXCY:CI->O           1   0.036   0.000  Madd_r_M_ABus_addsub0000_cy<10> (Madd_r_M_ABus_addsub0000_cy<10>)
+     MUXCY:CI->O           1   0.036   0.000  Madd_r_M_ABus_addsub0000_cy<11> (Madd_r_M_ABus_addsub0000_cy<11>)
+     MUXCY:CI->O           1   0.036   0.000  Madd_r_M_ABus_addsub0000_cy<12> (Madd_r_M_ABus_addsub0000_cy<12>)
+     MUXCY:CI->O           1   0.036   0.000  Madd_r_M_ABus_addsub0000_cy<13> (Madd_r_M_ABus_addsub0000_cy<13>)
+     MUXCY:CI->O           1   0.036   0.000  Madd_r_M_ABus_addsub0000_cy<14> (Madd_r_M_ABus_addsub0000_cy<14>)
+     MUXCY:CI->O           1   0.036   0.000  Madd_r_M_ABus_addsub0000_cy<15> (Madd_r_M_ABus_addsub0000_cy<15>)
+     MUXCY:CI->O           1   0.036   0.000  Madd_r_M_ABus_addsub0000_cy<16> (Madd_r_M_ABus_addsub0000_cy<16>)
+     MUXCY:CI->O           1   0.036   0.000  Madd_r_M_ABus_addsub0000_cy<17> (Madd_r_M_ABus_addsub0000_cy<17>)
+     MUXCY:CI->O           1   0.036   0.000  Madd_r_M_ABus_addsub0000_cy<18> (Madd_r_M_ABus_addsub0000_cy<18>)
+     MUXCY:CI->O           1   0.036   0.000  Madd_r_M_ABus_addsub0000_cy<19> (Madd_r_M_ABus_addsub0000_cy<19>)
+     MUXCY:CI->O           1   0.036   0.000  Madd_r_M_ABus_addsub0000_cy<20> (Madd_r_M_ABus_addsub0000_cy<20>)
+     MUXCY:CI->O           1   0.036   0.000  Madd_r_M_ABus_addsub0000_cy<21> (Madd_r_M_ABus_addsub0000_cy<21>)
+     MUXCY:CI->O           1   0.036   0.000  Madd_r_M_ABus_addsub0000_cy<22> (Madd_r_M_ABus_addsub0000_cy<22>)
+     MUXCY:CI->O           1   0.036   0.000  Madd_r_M_ABus_addsub0000_cy<23> (Madd_r_M_ABus_addsub0000_cy<23>)
+     MUXCY:CI->O           1   0.036   0.000  Madd_r_M_ABus_addsub0000_cy<24> (Madd_r_M_ABus_addsub0000_cy<24>)
+     MUXCY:CI->O           1   0.036   0.000  Madd_r_M_ABus_addsub0000_cy<25> (Madd_r_M_ABus_addsub0000_cy<25>)
+     MUXCY:CI->O           1   0.036   0.000  Madd_r_M_ABus_addsub0000_cy<26> (Madd_r_M_ABus_addsub0000_cy<26>)
+     MUXCY:CI->O           1   0.036   0.000  Madd_r_M_ABus_addsub0000_cy<27> (Madd_r_M_ABus_addsub0000_cy<27>)
+     XORCY:CI->O           1   0.708   0.468  Madd_r_M_ABus_addsub0000_xor<28> (r_M_ABus_addsub0000<28>)
+     LUT3:I0->O            1   0.275   0.000  r_M_ABus_mux0000<28>1 (r_M_ABus_mux0000<28>)
+     FDE:D                     0.208          r_M_ABus_3
+    ----------------------------------------
+    Total                      3.882ns (2.900ns logic, 0.982ns route)
+                                       (74.7% logic, 25.3% route)
+
+=========================================================================
+Timing constraint: Default period analysis for Clock 'vp422_444_dup_i/pipe_ho_0'
+  Clock period: 1.979ns (frequency: 505.242MHz)
+  Total number of paths / destination ports: 1 / 1
+-------------------------------------------------------------------------
+Delay:               1.979ns (Levels of Logic = 1)
+  Source:            r_write_buffer_0 (FF)
+  Destination:       r_write_buffer_0 (FF)
+  Source Clock:      vp422_444_dup_i/pipe_ho_0 rising
+  Destination Clock: vp422_444_dup_i/pipe_ho_0 rising
+
+  Data Path: r_write_buffer_0 to r_write_buffer_0
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDP:C->Q             25   0.370   0.661  r_write_buffer_0 (r_write_buffer_0)
+     INV:I->O              7   0.275   0.465  w_read_buffer_01_INV_0 (w_read_buffer_0)
+     FDP:D                     0.208          r_write_buffer_0
+    ----------------------------------------
+    Total                      1.979ns (0.853ns logic, 1.126ns route)
+                                       (43.1% logic, 56.9% route)
+
+=========================================================================
+Timing constraint: Default period analysis for Clock 'i_LLC_CLOCK'
+  Clock period: 3.523ns (frequency: 283.825MHz)
+  Total number of paths / destination ports: 918 / 192
+-------------------------------------------------------------------------
+Delay:               3.523ns (Levels of Logic = 4)
+  Source:            SPECIAL_SVGA_TIMING_GENERATION/line_count_8 (FF)
+  Destination:       SPECIAL_SVGA_TIMING_GENERATION/line_count_9 (FF)
+  Source Clock:      i_LLC_CLOCK rising
+  Destination Clock: i_LLC_CLOCK rising
+
+  Data Path: SPECIAL_SVGA_TIMING_GENERATION/line_count_8 to SPECIAL_SVGA_TIMING_GENERATION/line_count_9
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDPE:C->Q             3   0.370   0.533  SPECIAL_SVGA_TIMING_GENERATION/line_count_8 (SPECIAL_SVGA_TIMING_GENERATION/line_count_8)
+     LUT4:I0->O            1   0.275   0.429  SPECIAL_SVGA_TIMING_GENERATION/line_count_and00007 (SPECIAL_SVGA_TIMING_GENERATION/line_count_and00007)
+     LUT4_L:I1->LO         1   0.275   0.236  SPECIAL_SVGA_TIMING_GENERATION/line_count_and000047_SW0 (N20)
+     LUT4:I0->O           10   0.275   0.647  SPECIAL_SVGA_TIMING_GENERATION/line_count_and000047 (SPECIAL_SVGA_TIMING_GENERATION/line_count_and0000)
+     LUT2:I0->O            1   0.275   0.000  SPECIAL_SVGA_TIMING_GENERATION/Mcount_line_count_eqn_01 (SPECIAL_SVGA_TIMING_GENERATION/Mcount_line_count_eqn_0)
+     FDCE:D                    0.208          SPECIAL_SVGA_TIMING_GENERATION/line_count_0
+    ----------------------------------------
+    Total                      3.523ns (1.678ns logic, 1.845ns route)
+                                       (47.6% logic, 52.4% route)
+
+=========================================================================
+Timing constraint: Default period analysis for Clock 'clk_ceo_444'
+  Clock period: 4.867ns (frequency: 205.472MHz)
+  Total number of paths / destination ports: 11099 / 250
+-------------------------------------------------------------------------
+Delay:               4.867ns (Levels of Logic = 2)
+  Source:            YCrCb2RGB_i/Y_reg_9 (FF)
+  Destination:       YCrCb2RGB_i/X_int_20 (FF)
+  Source Clock:      clk_ceo_444 rising
+  Destination Clock: clk_ceo_444 rising
+
+  Data Path: YCrCb2RGB_i/Y_reg_9 to YCrCb2RGB_i/X_int_20
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDC:C->Q              2   0.370   0.514  YCrCb2RGB_i/Y_reg_9 (YCrCb2RGB_i/Y_reg_9)
+     LUT4:I0->O            8   0.275   0.478  YCrCb2RGB_i/Msub_X_int_addsub0000_xor<10>11 (YCrCb2RGB_i/X_int_addsub0000<10>)
+     MULT18X18:A10->P20    1   2.690   0.331  YCrCb2RGB_i/Mmult_X_int_mult0000 (YCrCb2RGB_i/X_int_mult0000<20>)
+     FDC:D                     0.208          YCrCb2RGB_i/X_int_20
+    ----------------------------------------
+    Total                      4.867ns (3.543ns logic, 1.323ns route)
+                                       (72.8% logic, 27.2% route)
+
+=========================================================================
+Timing constraint: Default OFFSET IN BEFORE for Clock 'i_clk_100_bus'
+  Total number of paths / destination ports: 16 / 8
+-------------------------------------------------------------------------
+Offset:              2.599ns (Levels of Logic = 3)
+  Source:            i_PLB_PAValid (PAD)
+  Destination:       r_burst_cnt_0 (FF)
+  Destination Clock: i_clk_100_bus rising
+
+  Data Path: i_PLB_PAValid to r_burst_cnt_0
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     IBUF:I->O             3   0.878   0.435  i_PLB_PAValid_IBUF (i_PLB_PAValid_IBUF)
+     LUT4:I3->O            1   0.275   0.000  r_burst_cnt_and00001 (r_burst_cnt_and00001)
+     MUXF5:I1->O           6   0.303   0.445  r_burst_cnt_and0000_f5 (r_burst_cnt_and0000)
+     FDRE:CE                   0.263          r_burst_cnt_0
+    ----------------------------------------
+    Total                      2.599ns (1.719ns logic, 0.880ns route)
+                                       (66.1% logic, 33.9% route)
+
+=========================================================================
+Timing constraint: Default OFFSET IN BEFORE for Clock 'i_LLC_CLOCK'
+  Total number of paths / destination ports: 84 / 84
+-------------------------------------------------------------------------
+Offset:              3.099ns (Levels of Logic = 2)
+  Source:            i_sys_rst (PAD)
+  Destination:       vp422_444_dup_i/state_cnt_1 (FF)
+  Destination Clock: i_LLC_CLOCK rising
+
+  Data Path: i_sys_rst to vp422_444_dup_i/state_cnt_1
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     IBUF:I->O           259   0.878   1.032  i_sys_rst_IBUF (i_sys_rst_IBUF)
+     LUT4:I3->O            2   0.275   0.378  vp422_444_dup_i/state_cnt_or00001 (vp422_444_dup_i/state_cnt_or0000)
+     FDR:R                     0.536          vp422_444_dup_i/state_cnt_0
+    ----------------------------------------
+    Total                      3.099ns (1.689ns logic, 1.410ns route)
+                                       (54.5% logic, 45.5% route)
+
+=========================================================================
+Timing constraint: Default OFFSET OUT AFTER for Clock 'i_clk_100_bus'
+  Total number of paths / destination ports: 58 / 50
+-------------------------------------------------------------------------
+Offset:              4.430ns (Levels of Logic = 2)
+  Source:            r_cs_FSM_FFd3 (FF)
+  Destination:       o_M_request (PAD)
+  Source Clock:      i_clk_100_bus rising
+
+  Data Path: r_cs_FSM_FFd3 to o_M_request
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDC:C->Q             37   0.370   0.814  r_cs_FSM_FFd3 (r_cs_FSM_FFd3)
+     LUT2:I0->O            2   0.275   0.378  c_M_wrBurst11 (o_M_request_OBUF)
+     OBUF:I->O                 2.592          o_M_request_OBUF (o_M_request)
+    ----------------------------------------
+    Total                      4.430ns (3.237ns logic, 1.193ns route)
+                                       (73.1% logic, 26.9% route)
+
+=========================================================================
+Timing constraint: Default path analysis
+  Total number of paths / destination ports: 3 / 3
+-------------------------------------------------------------------------
+Delay:               4.473ns (Levels of Logic = 3)
+  Source:            i_Sl_wrComp<0> (PAD)
+  Destination:       o_M_wrBurst (PAD)
+
+  Data Path: i_Sl_wrComp<0> to o_M_wrBurst
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     IBUF:I->O             2   0.878   0.396  i_Sl_wrComp_0_IBUF (i_Sl_wrComp)
+     LUT4:I2->O            1   0.275   0.332  c_M_wrBurst1 (o_M_wrBurst_OBUF)
+     OBUF:I->O                 2.592          o_M_wrBurst_OBUF (o_M_wrBurst)
+    ----------------------------------------
+    Total                      4.473ns (3.745ns logic, 0.728ns route)
+                                       (83.7% logic, 16.3% route)
+
+=========================================================================
+WARNING:Xst:616 - Invalid property "SYN_BLACK_BOX 1": Did not attach to LLC_INPUT_BUF.
+WARNING:Xst:616 - Invalid property "SYN_BLACK_BOX 1": Did not attach to CLK_13MHZ_BUF.
+WARNING:Xst:616 - Invalid property "SYN_BLACK_BOX 1": Did not attach to PIXEL_CLOCK_DDR_FF.
+WARNING:Xst:616 - Invalid property "SYN_BLACK_BOX 1": Did not attach to LB1/BLUE_DATA_RAM.
+WARNING:Xst:616 - Invalid property "SYN_BLACK_BOX 1": Did not attach to LB1/GREEN_DATA_RAM.
+WARNING:Xst:616 - Invalid property "SYN_BLACK_BOX 1": Did not attach to LB1/RED_DATA_RAM.
+WARNING:Xst:616 - Invalid property "SYN_BLACK_BOX 1": Did not attach to LB0/BLUE_DATA_RAM.
+WARNING:Xst:616 - Invalid property "SYN_BLACK_BOX 1": Did not attach to LB0/GREEN_DATA_RAM.
+WARNING:Xst:616 - Invalid property "SYN_BLACK_BOX 1": Did not attach to LB0/RED_DATA_RAM.
+
+
+Total REAL time to Xst completion: 15.00 secs
+Total CPU time to Xst completion: 12.91 secs
+ 
+--> 
+
+
+Total memory usage is 455344 kilobytes
+
+Number of errors   :    0 (   0 filtered)
+Number of warnings :  252 (   0 filtered)
+Number of infos    :    9 (   0 filtered)
+

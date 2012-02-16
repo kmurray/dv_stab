@@ -1,0 +1,47 @@
+#################################################
+##      
+##      LED Debux Mux for XUPV2P
+##
+##      Peripheral Definition (.mpd)
+##
+##      Created By: Jeffrey Goeders
+##
+##      Date: January 19, 2010
+##
+#################################################
+BEGIN led_debug_mux
+
+## Peripheral Options
+OPTION IMP_NETLIST = TRUE				
+OPTION HDL = VERILOG
+OPTION LAST_UPDATED = 10.1.03
+OPTION USAGE_LEVEL = BASE_USER				
+OPTION DESC = LED Debug Mux for XUPV2P
+OPTION ARCH_SUPPORT_MAP = (virtex2p = PREFERRED)
+
+## BUSES:
+PARAMETER C_NUM_INPUTS = 16, DT = INTEGER, RANGE = (1:16)
+
+## PORTS:
+# PLB BUS Ports
+PORT IN_0 = "", DIR = I, VEC = [3:0], ISVALID = (C_NUM_INPUTS >= 1)
+PORT IN_1 = "", DIR = I, VEC = [3:0], ISVALID = (C_NUM_INPUTS >= 2)
+PORT IN_2 = "", DIR = I, VEC = [3:0], ISVALID = (C_NUM_INPUTS >= 3)
+PORT IN_3 = "", DIR = I, VEC = [3:0], ISVALID = (C_NUM_INPUTS >= 4)
+PORT IN_4 = "", DIR = I, VEC = [3:0], ISVALID = (C_NUM_INPUTS >= 5)
+PORT IN_5 = "", DIR = I, VEC = [3:0], ISVALID = (C_NUM_INPUTS >= 6)
+PORT IN_6 = "", DIR = I, VEC = [3:0], ISVALID = (C_NUM_INPUTS >= 7)
+PORT IN_7 = "", DIR = I, VEC = [3:0], ISVALID = (C_NUM_INPUTS >= 8)
+PORT IN_8 = "", DIR = I, VEC = [3:0], ISVALID = (C_NUM_INPUTS >= 9)
+PORT IN_9 = "", DIR = I, VEC = [3:0], ISVALID = (C_NUM_INPUTS >= 10)
+PORT IN_10 = "", DIR = I, VEC = [3:0], ISVALID = (C_NUM_INPUTS >= 11)
+PORT IN_11 = "", DIR = I, VEC = [3:0], ISVALID = (C_NUM_INPUTS >= 12)
+PORT IN_12 = "", DIR = I, VEC = [3:0], ISVALID = (C_NUM_INPUTS >= 13)
+PORT IN_13 = "", DIR = I, VEC = [3:0], ISVALID = (C_NUM_INPUTS >= 14)
+PORT IN_14 = "", DIR = I, VEC = [3:0], ISVALID = (C_NUM_INPUTS >= 15)
+PORT IN_15 = "", DIR = I, VEC = [3:0], ISVALID = (C_NUM_INPUTS >= 16)
+PORT SELECTOR = "", DIR = I, VEC = [3:0]
+PORT LED_OUT = "", DIR = O, VEC = [3:0]
+
+END
+
