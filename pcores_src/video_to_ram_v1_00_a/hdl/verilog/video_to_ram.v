@@ -1,9 +1,24 @@
-module video_to_ram
+/*###############################################
+##      
+##      Video to RAM for XUPV2P
+##
+##      Verilog Source File (.v)
+##
+##      Created By: Jeffrey Goeders
+##
+##      Date: January 22, 2010
+##
+##      Modified By: Kevin Murray
+##
+##      Date: February 16, 2012
+##
+###############################################*/
+
+module gcbp_video2ram
 (
 	// System
     i_sys_rst,
     i_clk_100_bus,
-	i_dcm_locked,
 	
 	// Video Input
     i_LLC_CLOCK,    
@@ -88,22 +103,27 @@ module video_to_ram
 	localparam						C_BYTES_PER_BURST		= C_BURST_LENGTH * 4;
 	localparam						C_LINES_PER_FRAME		= 480;
 	localparam						C_LINE_CNT_BITS			= CLogB2(C_LINES_PER_FRAME);
-	localparam						C_PIXELS_PER_LINE		= 688;
+	localparam						C_PIXELS_PER_LINE		= 720;
 	localparam						C_BURSTS_PER_LINE 		= C_PIXELS_PER_LINE / C_BURST_LENGTH;
 	localparam						C_BURST_CNT_BITS		= CLogB2(C_BURSTS_PER_LINE);
-	
+
+    //FSM States
 	localparam						C_STATE_BITS 			= 3;
-	localparam	[C_STATE_BITS-1:0]	S_AWAIT_FRAME 			= 0,
-									S_START_FRAME	 		= 1,
-									S_START_LINE			= 2,
-									S_WRITE_REQUEST			= 3,
-									S_WRITE					= 4,	
-									S_WRITE_COMPLETE		= 5;
+	localparam	[C_STATE_BITS-1:0]	S_INIT 			        = 0,
+									S_START_LINE			= 1,
+									S_WRITE_REQUEST			= 2,
+									S_WRITE					= 3,	
+									S_WRITE_COMPLETE		= 4;
                                     
     /*
     In Simulation Debug mode, external inputs are used for some of the
     video timing signals as actually simulating video input is difficult
-    and time consuming
+    and time consuming.
+    
+    Specifically, the H_444 (new line) signal used to indicate that a switch
+    between the buffers has occurred becomes externally driven for debugging
+    purposes.  Also the data written to RAM (c_M_wrDBus) is driven to 
+    a constant debug value of 0x12345678.
     */
     localparam                      C_SIMULATION_DEBUG_MODE = 0;
 
@@ -115,7 +135,6 @@ module video_to_ram
 	// System
 	input                           		i_sys_rst;
 	input                           		i_clk_100_bus;
-	input                           		i_dcm_locked;       
 
 	// Video 
 	input                           		i_LLC_CLOCK;     	// Line Locked Clock (27MHz) from VDEC1 daughter board
@@ -167,11 +186,12 @@ module video_to_ram
 	////////////////////////// DECLARATIONS ////////////////////
 	////////////////////////////////////////////////////////////
 
+    //Clocks
 	wire							clk_13;
 	wire                            clk_27;
 	wire                            clk_ceo_444;
-	wire                            w_rst;
 
+    //Input Video Processing
 	wire    [9:0]                   w_concat_YCrCb;
 	wire    [9:0]                   w_YCrCb_422;
 	wire                            w_NTSC_out;
@@ -195,36 +215,40 @@ module video_to_ram
 	wire                            w_write_buffer_1;
 	reg     [10:0]                  r_line_buffer_write_addr;
 	reg     [10:0]                  r_line_buffer_read_addr;   
+
 	wire    [7:0]                   w_line_buffer_read_Red_0;
 	wire    [7:0]                   w_line_buffer_read_Green_0;
 	wire    [7:0]                   w_line_buffer_read_Blue_0;
+	wire    [7:0]                   w_line_buffer_read_Luma_0;
+
 	wire    [7:0]                   w_line_buffer_read_Red_1;
 	wire    [7:0]                   w_line_buffer_read_Green_1;
 	wire    [7:0]                   w_line_buffer_read_Blue_1;
+	wire    [7:0]                   w_line_buffer_read_Luma_1;
+
 	wire    [7:0]                   w_Red_to_buffer;
 	wire    [7:0]                   w_Green_to_buffer;
 	wire    [7:0]                   w_Blue_to_buffer;
+	wire    [7:0]                   w_Luma_to_buffer;
+
 	reg     [7:0]                   r_Red_from_buffer;
 	reg     [7:0]                   r_Green_from_buffer;
 	reg     [7:0]                   r_Blue_from_buffer;
-	wire	[0:7]					w_Red_to_memory;
-	wire	[0:7]					w_Green_to_memory;
-	wire	[0:7]					w_Blue_to_memory;
+	reg     [7:0]                   r_Luma_from_buffer;
     reg                             r_line_ready;
     
 	//Special Timing Generation
 	wire							w_one_shot_out;
 	wire							w_rst_timing_generation;
-	wire	[10:0]					w_vga_timing_pixel_count;
 	wire	[9:0]					w_vga_timing_line_count;
 
-	// PLB Master Write
+	// Memory Write State Machine
 	reg		[C_STATE_BITS-1:0]		r_cs;
 	reg		[C_STATE_BITS-1:0]		c_ns;
 
+    // PLB Master Write
 	reg		[0:31]					r_M_ABus;
 	reg		[C_BURST_CNT_BITS-1:0]	r_burst_cnt;
-	reg		[C_LINE_CNT_BITS-1:0]	r_line_cnt;
 	wire							w_M_request;
 	reg								c_M_wrBurst;
     reg     [0:(C_PLBV46_DWIDTH-1)]	c_M_wrDBus;
@@ -232,21 +256,24 @@ module video_to_ram
     //Debug
     reg     [3:0]                   c_DBG_fsm_cs;
     wire    [3:0]                   w_DBG_general_purpose;
-    reg                             r_DBG_one_write_completed;
 
 	////////////////////////////////////////////////////////////
 	////////////////////////// ASSIGNMENTS /////////////////////
 	////////////////////////////////////////////////////////////
 
-	assign 	w_rst 					= i_sys_rst;
-	assign 	w_concat_YCrCb 			= {i_YCrCb[9:2],2'B00};
-	assign 	w_rst_timing_generation	= ( w_rst || w_one_shot_out );
+    // Video Processing
+	assign 	w_concat_YCrCb 			= {i_YCrCb[9:2],2'B00};	
 	
+    // Line Buffers
 	assign 	w_read_buffer_0			= !r_write_buffer_0;
 	assign 	w_write_buffer_0		= r_write_buffer_0;
 	assign	w_read_buffer_1			= r_write_buffer_0;
 	assign 	w_write_buffer_1		= !r_write_buffer_0;
 
+    // Special Timing Generation
+    assign 	w_rst_timing_generation	= ( i_sys_rst || w_one_shot_out );
+    
+    // Output to PLB Bus
 	assign 	o_M_abort				= 1'b0;						// Not Used
 	assign	o_M_ABus				= r_M_ABus;
 	assign	o_M_BE					= C_BURST_LENGTH - 1;		// Burst Length
@@ -262,17 +289,12 @@ module video_to_ram
 	assign 	o_M_type				= 3'b000;					// Standard Memory Transfer
 	assign	o_M_wrBurst				= c_M_wrBurst;		
 	assign 	o_M_wrDBus				= c_M_wrDBus;
-
-	assign 	w_Red_to_memory			= r_Red_from_buffer;
-	assign	w_Green_to_memory		= r_Green_from_buffer;
-	assign 	w_Blue_to_memory		= r_Blue_from_buffer;
 	
-	assign	w_M_request				= ( r_cs == S_WRITE_REQUEST );
+    // PLB Signal Logic
+    assign	w_M_request				= ( r_cs == S_WRITE_REQUEST );
 	
-
     //Debug 
-    //assign  w_DBG_general_purpose   = 4'b1100;
-    assign  w_DBG_general_purpose   = { w_M_request, r_DBG_one_write_completed, i_Sl_addrAck, i_PLB_PAValid };
+    assign  w_DBG_general_purpose   = { w_M_request, 1'b0, i_Sl_addrAck, i_PLB_PAValid };
     assign  o_DBG_fsm_cs            = c_DBG_fsm_cs;
     assign  o_DBG_general_purpose   = w_DBG_general_purpose;
 
@@ -284,21 +306,16 @@ module video_to_ram
 	always @ (*)
 	begin
 		case(r_cs)
-		S_AWAIT_FRAME:
+		S_INIT:
 		begin
-			if ( i_MPMC_Done_Init &&
-                ((w_vga_timing_line_count == 10'b0) || (C_SIMULATION_DEBUG_MODE == 1)) )
+			if ( i_MPMC_Done_Init == 1'b1 )
 			begin
-				c_ns <= S_START_FRAME;
+				c_ns <= S_START_LINE;
 			end
 			else
 			begin
-				c_ns <= S_AWAIT_FRAME;
+				c_ns <= S_INIT;
 			end
-		end
-		S_START_FRAME:
-		begin
-			c_ns <= S_START_LINE;
 		end
 		S_START_LINE:
 		begin
@@ -334,12 +351,8 @@ module video_to_ram
 			end
 		end
 		S_WRITE_COMPLETE:
-		begin
-			if (r_line_cnt == C_LINES_PER_FRAME) // Frame Done
-			begin
-				c_ns <= S_AWAIT_FRAME;
-			end
-			else if (r_burst_cnt == C_BURSTS_PER_LINE) // Line Done
+		begin			
+			if (r_burst_cnt == C_BURSTS_PER_LINE) // Line Done
 			begin
 				c_ns <= S_START_LINE;
 			end
@@ -350,7 +363,7 @@ module video_to_ram
 		end
 		default:
 		begin
-			c_ns <= S_AWAIT_FRAME;
+			c_ns <= S_INIT;
 		end
 		endcase
 	end
@@ -376,33 +389,29 @@ module video_to_ram
     always @ (*)
     begin
         case (r_cs)
-        S_AWAIT_FRAME:
+        S_INIT:
         begin
             c_DBG_fsm_cs <= 0;
         end        
-        S_START_FRAME:
-        begin
-            c_DBG_fsm_cs <= 1;
-        end
         S_START_LINE:
         begin
-            c_DBG_fsm_cs <= 2;  
+            c_DBG_fsm_cs <= 1;  
         end
         S_WRITE_REQUEST:
         begin
-            c_DBG_fsm_cs <= 3;
+            c_DBG_fsm_cs <= 2;
         end
         S_WRITE:
         begin
-            c_DBG_fsm_cs <= 4;
+            c_DBG_fsm_cs <= 3;
         end
         S_WRITE_COMPLETE:
         begin
-            c_DBG_fsm_cs <= 5;
+            c_DBG_fsm_cs <= 4;
         end
         default
         begin
-            c_DBG_fsm_cs <= 6;
+            c_DBG_fsm_cs <= 5;
         end
         endcase
     end
@@ -415,7 +424,6 @@ module video_to_ram
         begin
             w_H_444_with_DBG    <= i_DBG_new_line;
             c_M_wrDBus	        <= 32'h12345678;
-            
         end
         else
         begin
@@ -436,7 +444,7 @@ module video_to_ram
 	begin
 		if ( i_sys_rst == 1'b1 )
 		begin
-			r_cs <= S_AWAIT_FRAME;
+			r_cs <= S_INIT;
 		end
 		else
 		begin
@@ -445,9 +453,9 @@ module video_to_ram
 	end
 
 	// r_write_buffer_0
-	always @ (posedge w_H_444_with_DBG or posedge w_rst) 
+	always @ (posedge w_H_444_with_DBG or posedge i_sys_rst) 
 	begin
-		if ( w_rst == 1'b1 ) 
+		if ( i_sys_rst == 1'b1 ) 
 		begin
 			r_write_buffer_0 <= 1'b1;
 		end
@@ -475,7 +483,7 @@ module video_to_ram
 	begin
 		if ( r_cs == S_START_LINE )
 		begin
-			r_line_buffer_read_addr <= 11'h000;
+			r_line_buffer_read_addr <= 11'h00A; //10 Pixel Offset to align frame
 		end
 		else if ( r_cs == S_WRITE )
 		begin
@@ -484,25 +492,28 @@ module video_to_ram
 	end
 	
 	// r_Red_from_buffer, r_Green_from_buffer, r_Blue_from_buffer
-	always @ (posedge i_clk_100_bus or posedge w_rst) 
+	always @ (posedge i_clk_100_bus or posedge i_sys_rst) 
 	begin
-		if ( w_rst == 1'b1 ) 
+		if ( i_sys_rst == 1'b1 ) 
 		begin
 			r_Red_from_buffer   <= 8'h00;
 			r_Green_from_buffer <= 8'h00;
 			r_Blue_from_buffer  <= 8'h00;
+			r_Luma_from_buffer  <= 8'h00;
 		end
 		else if ( w_read_buffer_0 == 1'b1 ) 
 		begin
 			r_Red_from_buffer   <= w_line_buffer_read_Red_0;
 			r_Green_from_buffer <= w_line_buffer_read_Green_0;
 			r_Blue_from_buffer  <= w_line_buffer_read_Blue_0;
+			r_Luma_from_buffer  <= w_line_buffer_read_Luma_0;
 		end
 		else 
 		begin
 			r_Red_from_buffer   <= w_line_buffer_read_Red_1;
 			r_Green_from_buffer <= w_line_buffer_read_Green_1;
 			r_Blue_from_buffer  <= w_line_buffer_read_Blue_1;
+			r_Luma_from_buffer  <= w_line_buffer_read_Luma_1;
 		end
 	end
 
@@ -519,19 +530,6 @@ module video_to_ram
 		end			
 	end
 	
-	//r_line_cnt
-	always @ (posedge i_clk_100_bus)
-	begin
-		if ( r_cs == S_START_FRAME )
-		begin
-			r_line_cnt <= {C_LINE_CNT_BITS{1'b0}};
-		end
-		else if ( (r_cs == S_START_LINE) && (c_ns != S_START_LINE) )
-		begin
-			r_line_cnt <= r_line_cnt + 1;
-		end			
-	end
-	
 	//r_M_ABus
 	always @ (posedge i_clk_100_bus)
 	begin
@@ -544,20 +542,7 @@ module video_to_ram
 			r_M_ABus <= r_M_ABus + C_BYTES_PER_BURST;
 		end
 	end
-			
-     //r_DBG_one_write_completed
-     always @ (posedge i_clk_100_bus)
-     begin
-        if ( i_sys_rst == 1'b1 )
-        begin
-            r_DBG_one_write_completed <= 1'b0;
-        end
-        else if ( r_cs == S_WRITE_COMPLETE )
-        begin
-            r_DBG_one_write_completed <= 1'b1;
-        end
-     end
-     
+    
      //r_line_ready
      always @ (posedge w_H_444_with_DBG or posedge i_clk_100_bus)
      begin
@@ -607,22 +592,22 @@ module video_to_ram
 	// TIMING REFERENCE CODES
 	lf_decode lf_decode_i
 	(
-		.rst       (w_rst),                       // Reset and Clock input
-		.clk       (clk_27),                    // 27Mhz for SDTV
-		.YCrCb_in  (w_concat_YCrCb),           // data from the input video stream
+		.rst       (i_sys_rst),             // Reset and Clock input
+		.clk       (clk_27),                // 27Mhz for SDTV
+		.YCrCb_in  (w_concat_YCrCb),        // data from the input video stream
 		.YCrCb_out (w_YCrCb_422),           // data delayed by pipe length
-		.NTSC_out  (w_NTSC_out),                // high = NTSC format detected
-		.Fo        (w_F_422),                  // high = field one (even)
-		.Vo        (w_V_422),                  // high = vertical blank
-		.Ho        (w_H_422)                   // low = active video
+		.NTSC_out  (w_NTSC_out),            // high = NTSC format detected
+		.Fo        (w_F_422),               // high = field one (even)
+		.Vo        (w_V_422),               // high = vertical blank
+		.Ho        (w_H_422)                // low = active video
 	);
 
 	// CONVERT FROM 4:2:2 DATA TO 4:4:4 DATA
 	vp422_444_dup vp422_444_dup_i
 	(
-		.rst          (w_rst),              // resets input data register and control
+		.rst          (i_sys_rst),          // resets input data register and control
 		.clk          (clk_27),             // video component rate clock, 27Mhz for SDTV
-		.ycrcb_in     (w_YCrCb_422),          // video component data
+		.ycrcb_in     (w_YCrCb_422),        // video component data
 		.ntsc_in      (w_NTSC_out),     
 		.fi           (w_F_422),            // Low to High signals start of Field One
 		.vi           (w_V_422),            // High signals Vertical Blanking
@@ -644,7 +629,7 @@ module video_to_ram
 		.G    (w_Green_to_buffer),     
 		.B    (w_Blue_to_buffer),      
 		.clk  (clk_13),    
-		.rst  (w_rst),       
+		.rst  (i_sys_rst),       
 		.Y    (w_Y),  
 		.Cr   (w_Cr), 
 		.Cb   (w_Cb)  
@@ -662,13 +647,15 @@ module video_to_ram
 	.read_red_data   (w_line_buffer_read_Red_0),
 	.read_green_data (w_line_buffer_read_Green_0),
 	.read_blue_data  (w_line_buffer_read_Blue_0),
+	.read_luma_data  (w_line_buffer_read_Luma_0),
 
 	.write_clk        (clk_13),
-	.write_address    (r_line_buffer_write_addr), // the -5 is used to align output
+	.write_address    (r_line_buffer_write_addr), 
 	.write_enable     (w_write_buffer_0),
 	.write_red_data   (w_Red_to_buffer),
 	.write_green_data (w_Green_to_buffer),
-	.write_blue_data  (w_Blue_to_buffer)
+	.write_blue_data  (w_Blue_to_buffer),
+	.write_luma_data  (w_Luma_to_buffer)
 	);
 
 	LINE_BUFFER LB1
@@ -679,13 +666,15 @@ module video_to_ram
 	.read_red_data    (w_line_buffer_read_Red_1),
 	.read_green_data  (w_line_buffer_read_Green_1),
 	.read_blue_data   (w_line_buffer_read_Blue_1),
+	.read_luma_data   (w_line_buffer_read_Luma_1),
 
 	.write_clk        (clk_13),
-	.write_address    (r_line_buffer_write_addr),  // the -5 is used to align output
+	.write_address    (r_line_buffer_write_addr),  
 	.write_enable     (w_write_buffer_1),
 	.write_red_data   (w_Red_to_buffer),
 	.write_green_data (w_Green_to_buffer),
-	.write_blue_data  (w_Blue_to_buffer)
+	.write_blue_data  (w_Blue_to_buffer),
+	.write_luma_data  (w_Luma_to_buffer)
 	);
 
 	// INSTANTIATE A ONE SHOT TO DETECT THE FALLING EDGS OF THE FIELD
@@ -696,11 +685,14 @@ module video_to_ram
 	(
 		.clk          (clk_27),     
 		.data_in      (w_F_444),     
-		.reset        (w_rst),        
+		.reset        (i_sys_rst),        
 		.one_shot_out (w_one_shot_out)
 	);
 
 	// INSTANTIATE THE SVGA TIMING GENERATION MODULE
+    // This module is used for the line count generates
+    // It handles the interlaced video and correctly outputs the 
+    // appropriate line numbere
 	SPECIAL_SVGA_TIMING_GENERATION SPECIAL_SVGA_TIMING_GENERATION
 	(
 		.pixel_clock          (clk_27),           
@@ -712,7 +704,7 @@ module video_to_ram
 		.char_line_count      (),  
 		.char_address         (),     
 		.char_pixel           (),       
-		.pixel_count          (w_vga_timing_pixel_count),      
+		.pixel_count          (),      
 		.line_count_out       (w_vga_timing_line_count)
 	);
 
@@ -733,3 +725,4 @@ module OFDDRRSE (Q, C0, C1, CE, D0, D1, R, S); // synthesis syn_black_box
     output Q;
     input  C0, C1, CE, D0, D1, R, S;
 endmodule
+

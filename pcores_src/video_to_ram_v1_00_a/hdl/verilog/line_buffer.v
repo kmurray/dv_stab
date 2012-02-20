@@ -47,13 +47,15 @@ read_enable,
 read_red_data,
 read_green_data,
 read_blue_data,
+read_luma_data,
 
 write_clk,
 write_address,
 write_enable,
 write_red_data,
 write_green_data,
-write_blue_data
+write_blue_data,
+write_luma_data
 );
 
 input 			read_clk;
@@ -62,6 +64,7 @@ input 			read_enable;
 output [7:0] 	read_red_data;
 output [7:0] 	read_green_data;
 output [7:0] 	read_blue_data;
+output [7:0] 	read_luma_data;
 
 input write_clk;
 input [10:0] 	write_address;
@@ -69,6 +72,7 @@ input 			write_enable;
 input [7:0] 	write_red_data;
 input [7:0] 	write_green_data;
 input [7:0] 	write_blue_data;
+input [7:0] 	write_luma_data;
 
 // instantiate the BRAMS
 RAMB16_S9_S9 RED_DATA_RAM(
@@ -136,7 +140,31 @@ RAMB16_S9_S9 BLUE_DATA_RAM(
 .SSRB(1'b0), 
 .WEB(1'b0)
 );
+
+//Store the luma data aswell
+RAMB16_S9_S9 LUMA_DATA_RAM(
+.DOA(),
+.DOPA(), 
+.ADDRA(write_address[10:0]), 
+.CLKA(write_clk), 
+.DIA(write_luma_data[7:0]), 
+.DIPA(1'b0),
+.ENA(write_enable), 
+.WEA(1'b1),
+.SSRA(1'b0),
+
+.DOB(read_luma_data[7:0]), 
+.DOPB(), 
+.ADDRB(read_address[10:0]), 
+.CLKB(read_clk), 
+.DIB(8'h00), 
+.DIPB(1'b0), 
+.ENB(read_enable), 
+.SSRB(1'b0), 
+.WEB(1'b0)
+);
 endmodule
+
 
 module RAMB16_S9_S9 (DOA, DOB, DOPA, DOPB, ADDRA, ADDRB, CLKA, CLKB, DIA, DIB, DIPA, DIPB, ENA, ENB, SSRA, SSRB, WEA, WEB) /* synthesis syn_black_box */ ;
 

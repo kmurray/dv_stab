@@ -1,1 +1,0 @@
-xst -ise "/home/kevin/ece532/dv_stab/pcores_src/gcbp_video2ram_v1_00_a/ise/gcbp_video2ram_v1_00_a.ise" -intstyle ise -ifn "/home/kevin/ece532/dv_stab/pcores_src/gcbp_video2ram_v1_00_a/ise/video_to_ram.xst" -ofn "/home/kevin/ece532/dv_stab/pcores_src/gcbp_video2ram_v1_00_a/ise/video_to_ram.syr"

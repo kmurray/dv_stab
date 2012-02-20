@@ -18,7 +18,7 @@ TopInst: system_i
 GenSimTB: 0
 InsertNoPads: 0
 WarnForEAArch: 1
-HdlLang: VHDL
+HdlLang: Verilog
 Simulator: mti
 SimModel: BEHAVIORAL
 MixLangSim: 1

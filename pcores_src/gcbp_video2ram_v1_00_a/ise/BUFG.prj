@@ -1,7 +1,0 @@
-verilog work "../hdl/verilog/ycrcb2rgb.v"
-verilog work "../hdl/verilog/vp422_444_dup.v"
-verilog work "../hdl/verilog/special_svga_timing_generation.v"
-verilog work "../hdl/verilog/neg_edge_detect.v"
-verilog work "../hdl/verilog/line_buffer.v"
-verilog work "../hdl/verilog/lf_decode.v"
-verilog work "../hdl/verilog/video_to_ram.v"
