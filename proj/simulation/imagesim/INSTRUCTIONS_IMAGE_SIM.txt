@@ -1,0 +1,48 @@
+How to load and store images from/to simulated DRAM
+---------------------------------------------------
+R.Willenberg - Jan 19, 2012
+Many thanks to Michael Lee for the 'dramtoraw' and 'rawtodram' binary tools
+
+- LINUX ONLY, SORRY -
+
+NOTE A: This is just for simulation. You cannot load/store images from/to the board this way.
+
+NOTE B: This tool inputs and outputs images of type PNG of size 1024x480. The video input
+        component stores 720x480 images into RAM, and the video output component reads 640x480
+        images. However, both components use pixel data that is power-of-two aligned per line,
+        which is why lines in memory are 1024 pixel (or 4096 byte) long
+
+NOTE C: Even on a 512MB system, only the lower 256MB can be loaded and stored from/to
+
+USAGE EXAMPLE:
+
+1. Make sure that the tool suite "ImageMagick" is installed:
+     sudo apt-get install imagemagick
+
+2. Setup a Microblaze design with DDR-RAM
+
+3. Add a Software project (Check 'Init BRAMs') with invert_test.c as the source
+
+4. Generate simulation files and start the simulator
+
+3. copy the folder "imagesim" from the ZIP into your project subdirectory /simulation/
+
+4. Make sure the simulation has been compiled and started with the DRAM model.
+
+5. Load an image into memory by using this command on the Modelsim console:
+     do ../imagesim/loadimagedata.do 0x01000000 input.png
+
+   NOTE: The start address of the image is always relative to the DRAM base address, so if the
+         DRAM starts at 0x90000000, the image is loaded to 0x91000000.
+
+6. Run the simulator for about 172 ms for inverting the full image (or less for inverting a
+   part of the image).
+
+7. Store the inverted image into the /imagesim/ folder with
+     do ../imagesim/saveimagedata.do 0x02000000 output.png
+
+8. Compare 'input.png' and 'output.png' in /imagesim/
+
+SIDE NOTE: As you see, reading and writing an image in single words takes very long (172 ms
+           means a frame rate of 5.7/s). For any serious processing, you will have to use
+           burst-mode access to the Multi-ported Memory Controller.

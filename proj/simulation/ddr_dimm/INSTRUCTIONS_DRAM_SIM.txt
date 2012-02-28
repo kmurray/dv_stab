@@ -1,0 +1,40 @@
+How to simulate XUP2VP designs with DRAM
+----------------------------------------
+R.Willenberg - Jan 19, 2012
+
+
+1. In your XPS project, go to "Project->Project Options->HDL and Simulation".
+   Set the HDL to Verilog and check "Generate Testbench template".
+   Make sure that your MPMC component is called "DDR_SDRAM" (the default)
+
+2. Make sure that regular simulation works by starting "Simulation->Start HDL simulation".
+   If everything works, this should generate simulation files, start Modelsim and run the script 'system_setup.do'.
+   Type 'c' for compile, 's' to start the simulation, 'w' to set up the wave output and 'run 1 us' to simulate
+   the first microsecond. This will simulate everything _inside_ the FPGA.
+
+3. Copy the folder "ddr_dimm" in the ZIP file into the project subdirectory /simulation/
+
+4. On the modelsim commandline,type
+     do ../ddr_dimm/add_dimm.do
+   or, if you have a 512MB DRAM module
+     do ../ddr_dimm/add_dimm.do 512MB
+   This will write an instance of the DRAM module into the testbench file 'system_tb.v'and connect the instance
+   to the MPMC pins on the FPGA. It will also add compilation commands for the DRAM chip and module files to
+   the compilation script 'system.do'
+
+5. Compile and start the simulation again with 'c','s','w' and 'run xx us'. You should now be able to read written
+   information back from DRAM. For testing, you can use the source 'dram_test.c' in the '/ddr_dimm' directory.
+
+6. Remember that any time you change the system, including changes in the C program, you have to re-generate the
+   changed files from XPS with "Simulation->Generate Simulation HDL files", call the 'add_dimm.do' script again(!)
+   and re-compile and re-start the simulation (You do not have to leave and re-start Modelsim)
+
+----- Vaguely related recommendations -----
+a) To save 200us of useless simulation time, de-activate MPMC calibration by double-clicking the MPMC component in
+   XPS and activating "Advanced->Misc->Perform Shorter Simulation Initialization". DON'T FORGET to de-activate this
+   option again before building your FPGA bitstream
+
+b) If you change wave display settings and want to save them into a wave.do file, save the file one path up in
+   /simulation/ instead of /simulation/behavioral/. In that case if you click "Simulation->Clean Simulation",
+   you do not delete your wave settings. You can later call the specific wave file with 'do ../wave.do" instead of
+   typing 'w' after system generation.

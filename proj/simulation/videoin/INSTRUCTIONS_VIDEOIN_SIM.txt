@@ -1,0 +1,60 @@
+How to simulate video input from images
+---------------------------------------
+R.Willenberg - Feb 10, 2012
+
+- LINUX ONLY, SORRY -
+
+NOTE A: This is just for simulation. You cannot get video input to the board this way.
+
+NOTE B: This tool takes one or more images of type PNG of size 720x480 (Digital NTSC) and simulates
+        inputing them frame by frame by simulating the ITU656-compatible digital video signal coming
+        out of the ADV7183B decoder chip. Note that this is a different resolution than the 1024x768
+        that are used by the scripts to load and store images to/from simulated DRAM.
+
+
+USAGE EXAMPLE:
+
+1. Make sure that the tool suite "ImageMagick" is installed:
+     sudo apt-get install imagemagick
+
+2. Open the "Video_to_RAM_System" demo system in either the 256MB or 512MB version
+
+3. Generate simulation files and start Modelsim
+
+4. Make sure that both the "imagesim" and "ddr_dimm" folders have been copied into the
+   /simulation/ subdirectory of the project and that the DRAM model has been added by typing
+     do ../ddr_dimm/add_dimm.do [512MB]
+
+5. Copy the folder "videoin" from the ZIP into your project subdirectory /simulation/
+
+6. Add the video decoder model and convert the images to simulation data format by typing
+     do ../videoin/setvideoin.do lenna.png test.png
+   In this example, a two frame video will repeat, made up out fo the images lenna.png and test.png
+   You can add any number of images >0 as call arguments for a longer video loop.
+
+7. Compile ('c') and start ('s') the simulation. Add the populated waveform view with 'w'.
+
+8. Run the simulation for one full frame by typing 'run 34500 us'.
+
+9. When the simulation is finished, store the image from simulated DRAM by typing
+      do ../imagesim/saveimagedata.do
+
+10. Open the original input image from */videoin/lenna.png and the one retrieved from simulated 
+    memory from */imagesim/output.png
+
+11. Compare the images. On close observation, you can recognize two major differences:
+    - 8 pixel columns on the left and 4 columns on the right have not been transmitted
+    - From every set of 18 pixel columns, the last two have been dropped
+    Both are implementation bugs in the video input module that happen in simulation as well as in
+    reality. Most video applications will not suffer from it significantly.
+
+12. If of interest, run the simulation for 32.5 more ms to be able to retrieve the second frame (test.png)
+
+FURTHER NOTE: It's also interesting to break the simulation e.g. in the middle of the first frame and
+              store a copy. You can well identify that the NTSC video is interlaced, i.e. only every
+              second line is transmitted in the first half frame (~17ms), and the rest is filled up in
+              the second half frame. Type 'run -continue' to go on.
+
+FURHTER NOTE B: To follow the frame timing in the wave window, e.g. add the signal 'w_F_444' from inside
+                the video_to_ram_0 module, which will edge from 1 to 0 when a new frame starts. At this
+                moment, one full frame will be complete in memory
