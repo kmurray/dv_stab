@@ -14,7 +14,7 @@
 ##
 ###############################################*/
 
-module gcbp_video2ram
+module video_to_ram
 (
 	// System
     i_sys_rst,
