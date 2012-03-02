@@ -19,6 +19,7 @@ proj/simulation/behavioral
 proj/hdl
 *.opt
 *.elf
+*work
 
 #png and raw files from simulation debugging
 *.png
