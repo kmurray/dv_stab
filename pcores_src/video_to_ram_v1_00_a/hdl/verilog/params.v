@@ -1,0 +1,4 @@
+`define BIT_PLANE_NUM 5
+`define LINES_PER_FRAME 480
+`define PIXELS_PER_LINE 720
+
