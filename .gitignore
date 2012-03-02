@@ -17,7 +17,7 @@ Session.vim
 ***/implementation
 proj/simulation/behavioral
 proj/hdl
-proj/simgen.opt
+*.opt
 *.elf
 
 #png and raw files from simulation debugging
