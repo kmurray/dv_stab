@@ -1,0 +1,7 @@
+MO six_three_comp NULL six_three_comp.v vlg01/six__three__comp.bin 1330508191
+MO twelve_four_comp NULL twelve_four_comp.v vlg4C/twelve__four__comp.bin 1330508191
+MO ternary_add NULL ternary_add.v vlg55/ternary__add.bin 1330508191
+MO correlator_xor NULL correlator_xor.v vlg75/correlator__xor.bin 1330508191
+MO sum_of_3bit_pair NULL sum_of_3bit_pair.v vlg31/sum__of__3bit__pair.bin 1330508191
+MO bitsum_comp NULL bitsum_comp.v vlg46/bitsum__comp.bin 1330508191
+MO sum_of_64 NULL sum_of_64.v vlg7A/sum__of__64.bin 1330508191

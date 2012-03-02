@@ -1,0 +1,163 @@
+m255
+K3
+13
+cModel Technology
+Z0 dC:\Dropbox\ece532\PROJECT_TEST\correlator\correlator_proj\motion_corr
+T_opt
+Z1 VlARU]g7nDQV^<CiXzi4OK0
+Z2 04 14 4 work correlator_xor fast 0
+Z3 04 4 4 work glbl fast 0
+Z4 =1-001d7d0af007-4f4dbdbb-2fe-3b0
+Z5 o-quiet +acc -auto_acc_if_foreign -work work -L xilinxcorelib_ver -L unisims_ver -L unimacro_ver -L secureip
+Z6 n@_opt
+Z7 OE;O;6.6f;45
+Z8 dC:\Dropbox\ece532\PROJECT_TEST\correlator\correlator_proj\motion_corr
+T_opt1
+Z9 VEAKh9?BeXKzPZHS3]?l?N2
+Z10 04 13 4 work correlator_tb fast 0
+R3
+Z11 =1-001d7d0af007-4f4df042-1d6-1120
+R5
+Z12 n@_opt1
+R7
+R8
+vbitsum_comp
+Z13 IaM:JSJ;N6fhBb4ejN;dWd0
+Z14 Vc5an_5KBHL7m=jDLQHOX21
+R8
+Z15 w1330491454
+Z16 8bitsum_comp.v
+Z17 Fbitsum_comp.v
+L0 5
+Z18 OE;L;6.6f;45
+r1
+31
+Z19 o+acc -L mtiAvm -L mtiOvm -L mtiUvm -L mtiUPF
+Z20 !s100 R;OD9Xajmek9>IJoJLQVL0
+!s85 0
+vbram
+Z21 IA^lV`V<iE85=c9F1QhUV30
+Z22 VB7g`SdVZn8=olCe2o[X0D1
+R8
+Z23 w1330490216
+Z24 8bram.v
+Z25 Fbram.v
+L0 40
+R18
+r1
+31
+R19
+Z26 !s100 fc34zz<MVH=Qn3gMJlY9`1
+!s85 0
+vcorrelator_tb
+Z27 Ik=:;PeTNkbPQ0aC]:^dFV1
+Z28 Vka<@4PYhYY^QXG84EN`G>3
+R8
+Z29 w1330507837
+Z30 8correlator_tb.v
+Z31 Fcorrelator_tb.v
+L0 25
+R18
+r1
+31
+R19
+Z32 !s100 2>W8Vi4SKeoHG8de0;^QP2
+!s85 0
+vcorrelator_xor
+Z33 I2WaP18n9K<]CFF0HRf<Z:0
+Z34 VbE><dCH:5OW3;:8WG0[k[1
+R8
+Z35 w1330506303
+Z36 8correlator_xor.v
+Z37 Fcorrelator_xor.v
+L0 3
+R18
+r1
+31
+R19
+Z38 !s100 `Qi=78FVlC?YmoY1F:Mha2
+!s85 0
+vglbl
+Z39 IDKhCLWzm36RaR8?VSjMb30
+Z40 VnN]4Gon>inod6>M^M2[SV1
+R8
+Z41 w1202685744
+Z42 8C:/Xilinx/10.1/ISE/verilog/src/glbl.v
+Z43 FC:/Xilinx/10.1/ISE/verilog/src/glbl.v
+L0 5
+R18
+r1
+31
+R19
+Z44 !s100 T?5S;>bN`@zG_25]R_4A33
+!s85 0
+vsix_three_comp
+Z45 I]=EIEOQ_d?_D]nSCdf4Ln1
+Z46 V4?JUA84jUU1CTTj^NDa3f2
+R8
+Z47 w1231185058
+Z48 8six_three_comp.v
+Z49 Fsix_three_comp.v
+L0 30
+R18
+r1
+31
+R19
+Z50 !s100 P0LjQc3omT>nFDIK@Q5_S2
+!s85 0
+vsum_of_3bit_pair
+Z51 IzGK@b_7d]IA8bCJFUa@kL0
+Z52 V>J^UZfFF^MMgn_K6:2KS41
+R8
+R47
+Z53 8sum_of_3bit_pair.v
+Z54 Fsum_of_3bit_pair.v
+L0 29
+R18
+r1
+31
+R19
+Z55 !s100 =E61?>jN1o4k@dDTYA[Qa3
+!s85 0
+vsum_of_64
+Z56 IHllnb4R^9=glj=01_[d4z0
+Z57 VTP3==RWeVB?cZkgoA2aTY2
+R8
+R47
+Z58 8sum_of_64.v
+Z59 Fsum_of_64.v
+L0 27
+R18
+r1
+31
+R19
+Z60 !s100 gM[GE6J5cW9ad@=eO3EeS0
+!s85 0
+vternary_add
+Z61 I8TRVe76io=okXMY32dBS`2
+Z62 V>XXRn0YZ;a;a=1:R7l4Tz0
+R8
+R47
+Z63 8ternary_add.v
+Z64 Fternary_add.v
+L0 23
+R18
+r1
+31
+R19
+Z65 !s100 8Bg]2jf9FWOYjzJz^L3_K1
+!s85 0
+vtwelve_four_comp
+Z66 Ik:bL<5P9I78h2W<]:V:V22
+Z67 VSFkIcB4C?<cY_mXm?`;DC2
+R8
+R47
+Z68 8twelve_four_comp.v
+Z69 Ftwelve_four_comp.v
+L0 26
+R18
+r1
+31
+R19
+Z70 !s100 ^?DP5HE9Zo4=`nFXI4J0b3
+!s85 0

@@ -1,0 +1,263 @@
+--------------------------------------------------------------------------------
+Release 10.1 Trace  (nt)
+Copyright (c) 1995-2008 Xilinx, Inc.  All rights reserved.
+
+C:\Xilinx\10.1\ISE\bin\nt\unwrapped\trce.exe -ise
+C:/Dropbox/ece532/PROJECT_TEST/correlator/correlator_proj/motion_corr/motion_corr.ise
+-intstyle ise -e 3 -s 7 -xml correlator_xor correlator_xor.ncd -o
+correlator_xor.twr correlator_xor.pcf
+
+Design file:              correlator_xor.ncd
+Physical constraint file: correlator_xor.pcf
+Device,package,speed:     xc2vp30,ff896,-7 (PRODUCTION 1.94 2008-01-09)
+Report level:             error report
+
+Environment Variable      Effect 
+--------------------      ------ 
+NONE                      No environment variables were set
+--------------------------------------------------------------------------------
+
+INFO:Timing:2698 - No timing constraints found, doing default enumeration.
+INFO:Timing:2752 - To get complete path coverage, use the unconstrained paths 
+   option. All paths that are not constrained will be reported in the 
+   unconstrained paths section(s) of the report.
+INFO:Timing:3339 - The clock-to-out numbers in this timing report are based on 
+   a 50 Ohm transmission line loading model.  For the details of this model, 
+   and for more information on accounting for different loading conditions, 
+   please see the device datasheet.
+
+
+
+Data Sheet report:
+-----------------
+All values displayed in nanoseconds (ns)
+
+Setup/Hold to clock clk
+--------------+------------+------------+------------------+--------+
+              |  Setup to  |  Hold to   |                  | Clock  |
+Source        | clk (edge) | clk (edge) |Internal Clock(s) | Phase  |
+--------------+------------+------------+------------------+--------+
+bram_data<0>  |    0.038(R)|    0.802(R)|clk_BUFGP         |   0.000|
+bram_data<1>  |   -0.020(R)|    0.848(R)|clk_BUFGP         |   0.000|
+bram_data<2>  |   -0.245(R)|    1.033(R)|clk_BUFGP         |   0.000|
+bram_data<3>  |   -0.492(R)|    1.232(R)|clk_BUFGP         |   0.000|
+bram_data<4>  |   -0.226(R)|    1.012(R)|clk_BUFGP         |   0.000|
+bram_data<5>  |   -0.472(R)|    1.208(R)|clk_BUFGP         |   0.000|
+bram_data<6>  |   -0.378(R)|    1.140(R)|clk_BUFGP         |   0.000|
+bram_data<7>  |   -0.326(R)|    1.099(R)|clk_BUFGP         |   0.000|
+bram_data<8>  |    0.036(R)|    0.800(R)|clk_BUFGP         |   0.000|
+bram_data<9>  |    0.064(R)|    0.777(R)|clk_BUFGP         |   0.000|
+bram_data<10> |   -0.054(R)|    0.869(R)|clk_BUFGP         |   0.000|
+bram_data<11> |    0.101(R)|    0.744(R)|clk_BUFGP         |   0.000|
+bram_data<12> |    0.060(R)|    0.784(R)|clk_BUFGP         |   0.000|
+bram_data<13> |    0.027(R)|    0.811(R)|clk_BUFGP         |   0.000|
+bram_data<14> |   -0.386(R)|    1.136(R)|clk_BUFGP         |   0.000|
+bram_data<15> |   -0.382(R)|    1.132(R)|clk_BUFGP         |   0.000|
+bram_data<16> |    0.110(R)|    0.957(R)|clk_BUFGP         |   0.000|
+bram_data<17> |    0.387(R)|    0.956(R)|clk_BUFGP         |   0.000|
+bram_data<18> |    0.359(R)|    1.067(R)|clk_BUFGP         |   0.000|
+bram_data<19> |    0.402(R)|    1.066(R)|clk_BUFGP         |   0.000|
+bram_data<20> |    0.688(R)|    0.903(R)|clk_BUFGP         |   0.000|
+bram_data<21> |    0.935(R)|    0.927(R)|clk_BUFGP         |   0.000|
+bram_data<22> |    0.284(R)|    0.998(R)|clk_BUFGP         |   0.000|
+bram_data<23> |    0.320(R)|    0.909(R)|clk_BUFGP         |   0.000|
+bram_data<24> |    0.424(R)|    1.132(R)|clk_BUFGP         |   0.000|
+bram_data<25> |    0.649(R)|    1.171(R)|clk_BUFGP         |   0.000|
+bram_data<26> |    0.313(R)|    0.625(R)|clk_BUFGP         |   0.000|
+bram_data<27> |   -0.112(R)|    0.917(R)|clk_BUFGP         |   0.000|
+bram_data<28> |    0.413(R)|    0.774(R)|clk_BUFGP         |   0.000|
+bram_data<29> |    0.115(R)|    1.035(R)|clk_BUFGP         |   0.000|
+bram_data<30> |    0.263(R)|    1.097(R)|clk_BUFGP         |   0.000|
+bram_data<31> |    0.165(R)|    1.101(R)|clk_BUFGP         |   0.000|
+bram_data<32> |    1.062(R)|    0.091(R)|clk_BUFGP         |   0.000|
+bram_data<33> |    0.993(R)|    0.451(R)|clk_BUFGP         |   0.000|
+bram_data<34> |    0.050(R)|    0.964(R)|clk_BUFGP         |   0.000|
+bram_data<35> |    0.052(R)|    1.013(R)|clk_BUFGP         |   0.000|
+bram_data<36> |    0.314(R)|    1.116(R)|clk_BUFGP         |   0.000|
+bram_data<37> |    0.143(R)|    1.113(R)|clk_BUFGP         |   0.000|
+bram_data<38> |    1.919(R)|    0.212(R)|clk_BUFGP         |   0.000|
+bram_data<39> |    1.077(R)|    0.799(R)|clk_BUFGP         |   0.000|
+bram_data<40> |    0.030(R)|    0.829(R)|clk_BUFGP         |   0.000|
+bram_data<41> |    0.158(R)|    0.879(R)|clk_BUFGP         |   0.000|
+bram_data<42> |    0.419(R)|    1.021(R)|clk_BUFGP         |   0.000|
+bram_data<43> |    0.757(R)|    0.898(R)|clk_BUFGP         |   0.000|
+bram_data<44> |   -0.182(R)|    1.062(R)|clk_BUFGP         |   0.000|
+bram_data<45> |   -0.055(R)|    0.942(R)|clk_BUFGP         |   0.000|
+bram_data<46> |    0.363(R)|    0.861(R)|clk_BUFGP         |   0.000|
+bram_data<47> |    0.168(R)|    0.964(R)|clk_BUFGP         |   0.000|
+bram_data<48> |    0.107(R)|    0.981(R)|clk_BUFGP         |   0.000|
+bram_data<49> |   -0.088(R)|    0.917(R)|clk_BUFGP         |   0.000|
+bram_data<50> |    0.124(R)|    0.963(R)|clk_BUFGP         |   0.000|
+bram_data<51> |    0.166(R)|    0.914(R)|clk_BUFGP         |   0.000|
+bram_data<52> |    0.234(R)|    0.885(R)|clk_BUFGP         |   0.000|
+bram_data<53> |    0.124(R)|    1.117(R)|clk_BUFGP         |   0.000|
+bram_data<54> |    0.415(R)|    0.833(R)|clk_BUFGP         |   0.000|
+bram_data<55> |    0.269(R)|    0.911(R)|clk_BUFGP         |   0.000|
+bram_data<56> |    0.399(R)|    1.087(R)|clk_BUFGP         |   0.000|
+bram_data<57> |    0.246(R)|    0.868(R)|clk_BUFGP         |   0.000|
+bram_data<58> |    0.834(R)|    0.986(R)|clk_BUFGP         |   0.000|
+bram_data<59> |    0.291(R)|    1.124(R)|clk_BUFGP         |   0.000|
+bram_data<60> |    0.041(R)|    0.982(R)|clk_BUFGP         |   0.000|
+bram_data<61> |    0.347(R)|    1.097(R)|clk_BUFGP         |   0.000|
+bram_data<62> |    0.017(R)|    1.018(R)|clk_BUFGP         |   0.000|
+bram_data<63> |    0.107(R)|    1.079(R)|clk_BUFGP         |   0.000|
+bram_data<64> |    0.272(R)|    0.922(R)|clk_BUFGP         |   0.000|
+bram_data<65> |    0.261(R)|    1.162(R)|clk_BUFGP         |   0.000|
+bram_data<66> |   -0.133(R)|    1.147(R)|clk_BUFGP         |   0.000|
+bram_data<67> |    0.124(R)|    0.980(R)|clk_BUFGP         |   0.000|
+bram_data<68> |   -0.033(R)|    1.156(R)|clk_BUFGP         |   0.000|
+bram_data<69> |    0.258(R)|    1.149(R)|clk_BUFGP         |   0.000|
+bram_data<70> |    0.180(R)|    0.994(R)|clk_BUFGP         |   0.000|
+bram_data<71> |    0.840(R)|    0.982(R)|clk_BUFGP         |   0.000|
+bram_data<72> |    0.180(R)|    0.906(R)|clk_BUFGP         |   0.000|
+bram_data<73> |   -0.062(R)|    0.961(R)|clk_BUFGP         |   0.000|
+bram_data<74> |   -0.080(R)|    0.980(R)|clk_BUFGP         |   0.000|
+bram_data<75> |    0.043(R)|    1.109(R)|clk_BUFGP         |   0.000|
+bram_data<76> |    0.087(R)|    0.824(R)|clk_BUFGP         |   0.000|
+bram_data<77> |    0.048(R)|    1.017(R)|clk_BUFGP         |   0.000|
+bram_data<78> |    0.128(R)|    0.986(R)|clk_BUFGP         |   0.000|
+bram_data<79> |    0.242(R)|    0.892(R)|clk_BUFGP         |   0.000|
+bram_data<80> |    0.141(R)|    1.120(R)|clk_BUFGP         |   0.000|
+bram_data<81> |    0.278(R)|    1.100(R)|clk_BUFGP         |   0.000|
+bram_data<82> |    0.835(R)|    0.992(R)|clk_BUFGP         |   0.000|
+bram_data<83> |    0.635(R)|    0.784(R)|clk_BUFGP         |   0.000|
+bram_data<84> |    0.196(R)|    1.168(R)|clk_BUFGP         |   0.000|
+bram_data<85> |    0.106(R)|    1.141(R)|clk_BUFGP         |   0.000|
+bram_data<86> |   -0.150(R)|    1.092(R)|clk_BUFGP         |   0.000|
+bram_data<87> |   -0.152(R)|    1.035(R)|clk_BUFGP         |   0.000|
+bram_data<88> |    0.008(R)|    1.212(R)|clk_BUFGP         |   0.000|
+bram_data<89> |   -0.024(R)|    1.183(R)|clk_BUFGP         |   0.000|
+bram_data<90> |    0.066(R)|    1.179(R)|clk_BUFGP         |   0.000|
+bram_data<91> |   -0.081(R)|    0.966(R)|clk_BUFGP         |   0.000|
+bram_data<92> |   -0.026(R)|    1.001(R)|clk_BUFGP         |   0.000|
+bram_data<93> |    0.041(R)|    0.808(R)|clk_BUFGP         |   0.000|
+bram_data<94> |    0.022(R)|    0.876(R)|clk_BUFGP         |   0.000|
+bram_data<95> |    0.251(R)|    0.892(R)|clk_BUFGP         |   0.000|
+bram_data<96> |    0.043(R)|    1.119(R)|clk_BUFGP         |   0.000|
+bram_data<97> |    0.051(R)|    1.213(R)|clk_BUFGP         |   0.000|
+bram_data<98> |    0.546(R)|    0.835(R)|clk_BUFGP         |   0.000|
+bram_data<99> |    0.166(R)|    0.867(R)|clk_BUFGP         |   0.000|
+bram_data<100>|    0.038(R)|    0.873(R)|clk_BUFGP         |   0.000|
+bram_data<101>|   -0.078(R)|    0.903(R)|clk_BUFGP         |   0.000|
+bram_data<102>|    0.142(R)|    1.062(R)|clk_BUFGP         |   0.000|
+bram_data<103>|    0.221(R)|    1.018(R)|clk_BUFGP         |   0.000|
+bram_data<104>|    0.047(R)|    0.961(R)|clk_BUFGP         |   0.000|
+bram_data<105>|    0.620(R)|    0.968(R)|clk_BUFGP         |   0.000|
+bram_data<106>|    0.238(R)|    1.133(R)|clk_BUFGP         |   0.000|
+bram_data<107>|    0.070(R)|    1.242(R)|clk_BUFGP         |   0.000|
+bram_data<108>|    0.586(R)|    1.040(R)|clk_BUFGP         |   0.000|
+bram_data<109>|    0.086(R)|    1.178(R)|clk_BUFGP         |   0.000|
+bram_data<110>|    0.234(R)|    0.952(R)|clk_BUFGP         |   0.000|
+bram_data<111>|    0.959(R)|    0.715(R)|clk_BUFGP         |   0.000|
+bram_data<112>|   -0.214(R)|    1.003(R)|clk_BUFGP         |   0.000|
+bram_data<113>|   -0.151(R)|    0.957(R)|clk_BUFGP         |   0.000|
+bram_data<114>|    0.070(R)|    0.775(R)|clk_BUFGP         |   0.000|
+bram_data<115>|    0.175(R)|    0.688(R)|clk_BUFGP         |   0.000|
+bram_data<116>|   -0.106(R)|    0.906(R)|clk_BUFGP         |   0.000|
+bram_data<117>|   -0.083(R)|    0.897(R)|clk_BUFGP         |   0.000|
+bram_data<118>|   -0.145(R)|    0.945(R)|clk_BUFGP         |   0.000|
+bram_data<119>|    0.059(R)|    0.779(R)|clk_BUFGP         |   0.000|
+bram_data<120>|   -0.167(R)|    0.956(R)|clk_BUFGP         |   0.000|
+bram_data<121>|   -0.160(R)|    0.949(R)|clk_BUFGP         |   0.000|
+bram_data<122>|   -0.239(R)|    1.011(R)|clk_BUFGP         |   0.000|
+bram_data<123>|    0.051(R)|    0.791(R)|clk_BUFGP         |   0.000|
+bram_data<124>|   -0.274(R)|    1.050(R)|clk_BUFGP         |   0.000|
+bram_data<125>|   -0.266(R)|    1.036(R)|clk_BUFGP         |   0.000|
+bram_data<126>|   -0.021(R)|    0.839(R)|clk_BUFGP         |   0.000|
+bram_data<127>|    0.142(R)|    0.709(R)|clk_BUFGP         |   0.000|
+go            |    1.042(R)|    0.007(R)|clk_BUFGP         |   0.000|
+resetn        |    5.950(R)|    1.130(R)|clk_BUFGP         |   0.000|
+x_offset<0>   |    2.890(R)|   -0.631(R)|clk_BUFGP         |   0.000|
+x_offset<1>   |    2.845(R)|   -0.636(R)|clk_BUFGP         |   0.000|
+x_offset<2>   |    2.688(R)|   -0.421(R)|clk_BUFGP         |   0.000|
+x_offset<3>   |    2.918(R)|   -0.682(R)|clk_BUFGP         |   0.000|
+x_offset<4>   |    2.060(R)|   -0.483(R)|clk_BUFGP         |   0.000|
+x_offset<5>   |    1.874(R)|    0.066(R)|clk_BUFGP         |   0.000|
+--------------+------------+------------+------------------+--------+
+
+Clock clk to Pad
+------------+------------+------------------+--------+
+            | clk (edge) |                  | Clock  |
+Destination |   to PAD   |Internal Clock(s) | Phase  |
+------------+------------+------------------+--------+
+bram_addr<0>|   10.544(R)|clk_BUFGP         |   0.000|
+bram_addr<1>|   10.553(R)|clk_BUFGP         |   0.000|
+bram_addr<2>|   11.412(R)|clk_BUFGP         |   0.000|
+bram_addr<3>|   10.919(R)|clk_BUFGP         |   0.000|
+bram_addr<4>|   11.215(R)|clk_BUFGP         |   0.000|
+bram_addr<5>|   11.337(R)|clk_BUFGP         |   0.000|
+bram_addr<6>|   11.659(R)|clk_BUFGP         |   0.000|
+bram_addr<7>|    7.674(R)|clk_BUFGP         |   0.000|
+corr_sum<0> |    6.431(R)|clk_BUFGP         |   0.000|
+corr_sum<1> |    6.480(R)|clk_BUFGP         |   0.000|
+corr_sum<2> |    6.290(R)|clk_BUFGP         |   0.000|
+corr_sum<3> |    6.701(R)|clk_BUFGP         |   0.000|
+corr_sum<4> |    6.335(R)|clk_BUFGP         |   0.000|
+corr_sum<5> |    6.053(R)|clk_BUFGP         |   0.000|
+corr_sum<6> |    6.456(R)|clk_BUFGP         |   0.000|
+corr_sum<7> |    7.128(R)|clk_BUFGP         |   0.000|
+corr_sum<8> |    6.342(R)|clk_BUFGP         |   0.000|
+corr_sum<9> |    6.474(R)|clk_BUFGP         |   0.000|
+corr_sum<10>|    6.467(R)|clk_BUFGP         |   0.000|
+corr_sum<11>|    6.715(R)|clk_BUFGP         |   0.000|
+corr_sum<12>|    6.756(R)|clk_BUFGP         |   0.000|
+corr_sum<13>|    6.655(R)|clk_BUFGP         |   0.000|
+corr_sum<14>|    6.650(R)|clk_BUFGP         |   0.000|
+corr_sum<15>|    6.079(R)|clk_BUFGP         |   0.000|
+done        |    7.816(R)|clk_BUFGP         |   0.000|
+------------+------------+------------------+--------+
+
+Clock to Setup on destination clock clk
+---------------+---------+---------+---------+---------+
+               | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+---------------+---------+---------+---------+---------+
+clk            |   14.218|         |         |         |
+---------------+---------+---------+---------+---------+
+
+Pad to Pad
+--------------------------+---------------+---------+
+Source Pad                |Destination Pad|  Delay  |
+--------------------------+---------------+---------+
+curr_frame_bram_offset_sel|bram_addr<7>   |    3.622|
+y_offset<0>               |bram_addr<0>   |    6.111|
+y_offset<0>               |bram_addr<1>   |    7.158|
+y_offset<0>               |bram_addr<2>   |    8.054|
+y_offset<0>               |bram_addr<3>   |    7.974|
+y_offset<0>               |bram_addr<4>   |    8.740|
+y_offset<0>               |bram_addr<5>   |    8.316|
+y_offset<0>               |bram_addr<6>   |    8.902|
+y_offset<1>               |bram_addr<1>   |    7.083|
+y_offset<1>               |bram_addr<2>   |    8.142|
+y_offset<1>               |bram_addr<3>   |    8.062|
+y_offset<1>               |bram_addr<4>   |    8.828|
+y_offset<1>               |bram_addr<5>   |    8.404|
+y_offset<1>               |bram_addr<6>   |    8.990|
+y_offset<2>               |bram_addr<2>   |    8.261|
+y_offset<2>               |bram_addr<3>   |    8.440|
+y_offset<2>               |bram_addr<4>   |    9.538|
+y_offset<2>               |bram_addr<5>   |    9.114|
+y_offset<2>               |bram_addr<6>   |    9.700|
+y_offset<3>               |bram_addr<3>   |    8.230|
+y_offset<3>               |bram_addr<4>   |    9.491|
+y_offset<3>               |bram_addr<5>   |    9.067|
+y_offset<3>               |bram_addr<6>   |    9.653|
+y_offset<4>               |bram_addr<4>   |    7.486|
+y_offset<4>               |bram_addr<5>   |    7.321|
+y_offset<4>               |bram_addr<6>   |    7.907|
+y_offset<5>               |bram_addr<5>   |    8.690|
+y_offset<5>               |bram_addr<6>   |    9.439|
+--------------------------+---------------+---------+
+
+
+Analysis completed Wed Feb 29 04:37:13 2012 
+--------------------------------------------------------------------------------
+
+Trace Settings:
+-------------------------
+Trace Settings 
+
+Peak Memory Usage: 187 MB
+
+
+

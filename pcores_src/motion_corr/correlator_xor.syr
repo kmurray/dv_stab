@@ -1,0 +1,648 @@
+Release 10.1 - xst K.31 (nt)
+Copyright (c) 1995-2008 Xilinx, Inc.  All rights reserved.
+--> Parameter TMPDIR set to C:/Dropbox/ece532/PROJECT_TEST/correlator/correlator_proj/motion_corr/xst/projnav.tmp
+
+
+Total REAL time to Xst completion: 0.00 secs
+Total CPU time to Xst completion: 0.09 secs
+ 
+--> Parameter xsthdpdir set to C:/Dropbox/ece532/PROJECT_TEST/correlator/correlator_proj/motion_corr/xst
+
+
+Total REAL time to Xst completion: 0.00 secs
+Total CPU time to Xst completion: 0.09 secs
+ 
+--> Reading design: correlator_xor.prj
+
+TABLE OF CONTENTS
+  1) Synthesis Options Summary
+  2) HDL Compilation
+  3) Design Hierarchy Analysis
+  4) HDL Analysis
+  5) HDL Synthesis
+     5.1) HDL Synthesis Report
+  6) Advanced HDL Synthesis
+     6.1) Advanced HDL Synthesis Report
+  7) Low Level Synthesis
+  8) Partition Report
+  9) Final Report
+     9.1) Device utilization summary
+     9.2) Partition Resource Summary
+     9.3) TIMING REPORT
+
+
+=========================================================================
+*                      Synthesis Options Summary                        *
+=========================================================================
+---- Source Parameters
+Input File Name                    : "correlator_xor.prj"
+Input Format                       : mixed
+Ignore Synthesis Constraint File   : NO
+
+---- Target Parameters
+Output File Name                   : "correlator_xor"
+Output Format                      : NGC
+Target Device                      : xc2vp30-7-ff896
+
+---- Source Options
+Top Module Name                    : correlator_xor
+Automatic FSM Extraction           : YES
+FSM Encoding Algorithm             : Auto
+Safe Implementation                : No
+FSM Style                          : lut
+RAM Extraction                     : Yes
+RAM Style                          : Auto
+ROM Extraction                     : Yes
+Mux Style                          : Auto
+Decoder Extraction                 : YES
+Priority Encoder Extraction        : YES
+Shift Register Extraction          : YES
+Logical Shifter Extraction         : YES
+XOR Collapsing                     : YES
+ROM Style                          : Auto
+Mux Extraction                     : YES
+Resource Sharing                   : YES
+Asynchronous To Synchronous        : NO
+Multiplier Style                   : auto
+Automatic Register Balancing       : No
+
+---- Target Options
+Add IO Buffers                     : YES
+Global Maximum Fanout              : 500
+Add Generic Clock Buffer(BUFG)     : 16
+Register Duplication               : YES
+Slice Packing                      : YES
+Optimize Instantiated Primitives   : NO
+Convert Tristates To Logic         : Yes
+Use Clock Enable                   : Yes
+Use Synchronous Set                : Yes
+Use Synchronous Reset              : Yes
+Pack IO Registers into IOBs        : auto
+Equivalent register Removal        : YES
+
+---- General Options
+Optimization Goal                  : Speed
+Optimization Effort                : 1
+Library Search Order               : correlator_xor.lso
+Keep Hierarchy                     : NO
+Netlist Hierarchy                  : as_optimized
+RTL Output                         : Yes
+Global Optimization                : AllClockNets
+Read Cores                         : YES
+Write Timing Constraints           : NO
+Cross Clock Analysis               : NO
+Hierarchy Separator                : /
+Bus Delimiter                      : <>
+Case Specifier                     : maintain
+Slice Utilization Ratio            : 100
+BRAM Utilization Ratio             : 100
+Verilog 2001                       : YES
+Auto BRAM Packing                  : NO
+Slice Utilization Ratio Delta      : 5
+
+=========================================================================
+
+
+=========================================================================
+*                          HDL Compilation                              *
+=========================================================================
+Compiling verilog file "sum_of_3bit_pair.v" in library work
+Compiling verilog file "six_three_comp.v" in library work
+Module <sum_of_3bit_pair> compiled
+Compiling verilog file "twelve_four_comp.v" in library work
+Module <six_three_comp> compiled
+Compiling verilog file "ternary_add.v" in library work
+Module <twelve_four_comp> compiled
+Compiling verilog file "sum_of_64.v" in library work
+Module <ternary_add> compiled
+Compiling verilog file "bitsum_comp.v" in library work
+Compiling verilog include file "params.v"
+Module <sum_of_64> compiled
+Compiling verilog file "correlator_xor.v" in library work
+Compiling verilog include file "params.v"
+Module <bitsum_comp> compiled
+Module <correlator_xor> compiled
+No errors in compilation
+Analysis of file <"correlator_xor.prj"> succeeded.
+ 
+
+=========================================================================
+*                     Design Hierarchy Analysis                         *
+=========================================================================
+Analyzing hierarchy for module <correlator_xor> in library <work> with parameters.
+	CURR_ADDR = "011"
+	DONE = "111"
+	LD_CURR = "100"
+	LD_PREV = "010"
+	LINE_SUM = "110"
+	OFFSET_X = "101"
+	PREV_ADDR = "001"
+	RESET = "000"
+
+Analyzing hierarchy for module <bitsum_comp> in library <work>.
+
+Analyzing hierarchy for module <sum_of_64> in library <work>.
+
+Analyzing hierarchy for module <sum_of_64> in library <work>.
+
+Analyzing hierarchy for module <twelve_four_comp> in library <work>.
+
+Analyzing hierarchy for module <six_three_comp> in library <work>.
+
+Analyzing hierarchy for module <ternary_add> in library <work> with parameters.
+	SIGN_EXT = "0"
+	WIDTH = "00000000000000000000000000000101"
+
+Analyzing hierarchy for module <sum_of_3bit_pair> in library <work>.
+
+
+=========================================================================
+*                            HDL Analysis                               *
+=========================================================================
+Analyzing top module <correlator_xor>.
+	CURR_ADDR = 3'b011
+	DONE = 3'b111
+	LD_CURR = 3'b100
+	LD_PREV = 3'b010
+	LINE_SUM = 3'b110
+	OFFSET_X = 3'b101
+	PREV_ADDR = 3'b001
+	RESET = 3'b000
+Module <correlator_xor> is correct for synthesis.
+ 
+Analyzing module <bitsum_comp> in library <work>.
+Module <bitsum_comp> is correct for synthesis.
+ 
+Analyzing module <sum_of_64.1> in library <work>.
+Module <sum_of_64.1> is correct for synthesis.
+ 
+Analyzing module <twelve_four_comp> in library <work>.
+Module <twelve_four_comp> is correct for synthesis.
+ 
+Analyzing module <sum_of_3bit_pair> in library <work>.
+Module <sum_of_3bit_pair> is correct for synthesis.
+ 
+Analyzing module <six_three_comp> in library <work>.
+Module <six_three_comp> is correct for synthesis.
+ 
+Analyzing module <ternary_add> in library <work>.
+	SIGN_EXT = 1'b0
+	WIDTH = 32'sb00000000000000000000000000000101
+Module <ternary_add> is correct for synthesis.
+ 
+Analyzing module <sum_of_64.2> in library <work>.
+Module <sum_of_64.2> is correct for synthesis.
+ 
+
+=========================================================================
+*                           HDL Synthesis                               *
+=========================================================================
+
+Performing bidirectional port resolution...
+
+Synthesizing Unit <six_three_comp>.
+    Related source file is "six_three_comp.v".
+    Found 64x3-bit ROM for signal <sum>.
+    Summary:
+	inferred   1 ROM(s).
+Unit <six_three_comp> synthesized.
+
+
+Synthesizing Unit <ternary_add>.
+    Related source file is "ternary_add.v".
+    Found 6-bit adder carry out for signal <o$addsub0001>.
+    Found 5-bit adder carry out for signal <o$addsub0002> created at line 34.
+    Summary:
+	inferred   2 Adder/Subtractor(s).
+Unit <ternary_add> synthesized.
+
+
+Synthesizing Unit <sum_of_3bit_pair>.
+    Related source file is "sum_of_3bit_pair.v".
+    Found 64x4-bit ROM for signal <sum>.
+    Summary:
+	inferred   1 ROM(s).
+Unit <sum_of_3bit_pair> synthesized.
+
+
+Synthesizing Unit <twelve_four_comp>.
+    Related source file is "twelve_four_comp.v".
+Unit <twelve_four_comp> synthesized.
+
+
+Synthesizing Unit <sum_of_64_1>.
+    Related source file is "sum_of_64.v".
+    Found 4-bit adder carry out for signal <sum_g$addsub0000>.
+    Found 4-bit adder carry out for signal <sum_h$addsub0000>.
+    Found 4-bit adder carry out for signal <sum_i$addsub0000>.
+    Summary:
+	inferred   3 Adder/Subtractor(s).
+Unit <sum_of_64_1> synthesized.
+
+
+Synthesizing Unit <sum_of_64_2>.
+    Related source file is "sum_of_64.v".
+    Found 4-bit adder carry out for signal <sum_g$addsub0000>.
+    Found 4-bit adder carry out for signal <sum_h$addsub0000>.
+    Found 4-bit adder carry out for signal <sum_i$addsub0000>.
+    Summary:
+	inferred   3 Adder/Subtractor(s).
+Unit <sum_of_64_2> synthesized.
+
+
+Synthesizing Unit <bitsum_comp>.
+    Related source file is "bitsum_comp.v".
+    Found 7-bit adder carry out for signal <sum$addsub0000>.
+    Summary:
+	inferred   1 Adder/Subtractor(s).
+Unit <bitsum_comp> synthesized.
+
+
+Synthesizing Unit <correlator_xor>.
+    Related source file is "correlator_xor.v".
+INFO:Xst:2117 - HDL ADVISOR - Mux Selector <state> of Case statement line 146 was re-encoded using one-hot encoding. The case statement will be optimized (default statement optimization), but this optimization may lead to design initialization problems. To ensure the design works safely, you can:
+   	- add an 'INIT' attribute on signal <state> (optimization is then done without any risk)
+   	- use the attribute 'signal_encoding user' to avoid onehot optimization
+   	- use the attribute 'safe_implementation yes' to force XST to perform a safe (but less efficient) optimization
+    Found finite state machine <FSM_0> for signal <state>.
+    -----------------------------------------------------------------------
+    | States             | 8                                              |
+    | Transitions        | 12                                             |
+    | Inputs             | 4                                              |
+    | Outputs            | 7                                              |
+    | Clock              | clk (rising_edge)                              |
+    | Reset              | resetn (negative)                              |
+    | Reset type         | synchronous                                    |
+    | Reset State        | 000                                            |
+    | Encoding           | automatic                                      |
+    | Implementation     | LUT                                            |
+    -----------------------------------------------------------------------
+    Found 16-bit up accumulator for signal <corr_sum>.
+    Found 8-bit subtractor for signal <$sub0000> created at line 156.
+    Found 6-bit adder carry out for signal <bram_addr$addsub0004> created at line 113.
+    Found 8-bit adder carry out for signal <bram_addr$addsub0005> created at line 113.
+    Found 6-bit adder carry out for signal <bram_addr$addsub0006> created at line 115.
+    Found 8-bit adder carry out for signal <bram_addr$addsub0007> created at line 115.
+    Found 128-bit register for signal <cframe_line_reg>.
+    Found 96-bit xor2 for signal <frame_line_xor>.
+    Found 96-bit register for signal <pframe_line_reg>.
+    Found 6-bit comparator greater for signal <state$cmp_gt0000> created at line 153.
+    Found 8-bit comparator less for signal <state$cmp_lt0000> created at line 156.
+    Found 6-bit comparator less for signal <state$cmp_lt0001> created at line 159.
+    Found 6-bit up counter for signal <x_count>.
+    Found 6-bit up counter for signal <y_count>.
+    Summary:
+	inferred   1 Finite State Machine(s).
+	inferred   2 Counter(s).
+	inferred   1 Accumulator(s).
+	inferred 224 D-type flip-flop(s).
+	inferred   5 Adder/Subtractor(s).
+	inferred   3 Comparator(s).
+Unit <correlator_xor> synthesized.
+
+
+=========================================================================
+HDL Synthesis Report
+
+Macro Statistics
+# ROMs                                                 : 32
+ 64x3-bit ROM                                          : 22
+ 64x4-bit ROM                                          : 10
+# Adders/Subtractors                                   : 16
+ 4-bit adder carry out                                 : 6
+ 5-bit adder carry out                                 : 2
+ 6-bit adder carry out                                 : 4
+ 7-bit adder carry out                                 : 1
+ 8-bit adder carry out                                 : 2
+ 8-bit subtractor                                      : 1
+# Counters                                             : 2
+ 6-bit up counter                                      : 2
+# Accumulators                                         : 1
+ 16-bit up accumulator                                 : 1
+# Registers                                            : 2
+ 128-bit register                                      : 1
+ 96-bit register                                       : 1
+# Comparators                                          : 3
+ 6-bit comparator greater                              : 1
+ 6-bit comparator less                                 : 1
+ 8-bit comparator less                                 : 1
+# Xors                                                 : 1
+ 96-bit xor2                                           : 1
+
+=========================================================================
+
+=========================================================================
+*                       Advanced HDL Synthesis                          *
+=========================================================================
+
+Analyzing FSM <FSM_0> for best encoding.
+Optimizing FSM <state/FSM> on signal <state[1:3]> with gray encoding.
+-------------------
+ State | Encoding
+-------------------
+ 000   | 000
+ 001   | 001
+ 010   | 011
+ 011   | 010
+ 100   | 110
+ 101   | 111
+ 110   | 101
+ 111   | 100
+-------------------
+Loading device for application Rf_Device from file '2vp30.nph' in environment C:\Xilinx\10.1\ISE.
+
+=========================================================================
+Advanced HDL Synthesis Report
+
+Macro Statistics
+# ROMs                                                 : 32
+ 64x3-bit ROM                                          : 22
+ 64x4-bit ROM                                          : 10
+# Adders/Subtractors                                   : 16
+ 4-bit adder carry out                                 : 6
+ 5-bit adder carry out                                 : 2
+ 6-bit adder carry out                                 : 4
+ 7-bit adder carry out                                 : 1
+ 8-bit adder carry out                                 : 2
+ 8-bit subtractor                                      : 1
+# Counters                                             : 2
+ 6-bit up counter                                      : 2
+# Accumulators                                         : 1
+ 16-bit up accumulator                                 : 1
+# Registers                                            : 227
+ Flip-Flops                                            : 227
+# Comparators                                          : 3
+ 6-bit comparator greater                              : 1
+ 6-bit comparator less                                 : 1
+ 8-bit comparator less                                 : 1
+# Xors                                                 : 1
+ 96-bit xor2                                           : 1
+
+=========================================================================
+
+=========================================================================
+*                         Low Level Synthesis                           *
+=========================================================================
+INFO:Xst:2146 - In block <correlator_xor>, ROM <bitsum/sum64h/cf/Mrom_sum> <bitsum/sum64h/ce/cb/Mrom_sum> <bitsum/sum64h/ce/ca/Mrom_sum> <bitsum/sum64h/cd/ca/Mrom_sum> <bitsum/sum64h/cd/cb/Mrom_sum> are equivalent, XST will keep only <bitsum/sum64h/cf/Mrom_sum>.
+
+Optimizing unit <correlator_xor> ...
+
+Mapping all equations...
+Building and optimizing final netlist ...
+Found area constraint ratio of 100 (+ 5) on block correlator_xor, actual ratio is 2.
+
+Final Macro Processing ...
+
+=========================================================================
+Final Register Report
+
+Macro Statistics
+# Registers                                            : 255
+ Flip-Flops                                            : 255
+
+=========================================================================
+
+=========================================================================
+*                           Partition Report                             *
+=========================================================================
+
+Partition Implementation Status
+-------------------------------
+
+  No Partitions were found in this design.
+
+-------------------------------
+
+=========================================================================
+*                            Final Report                               *
+=========================================================================
+Final Results
+RTL Top Level Output File Name     : correlator_xor.ngr
+Top Level Output File Name         : correlator_xor
+Output Format                      : NGC
+Optimization Goal                  : Speed
+Keep Hierarchy                     : NO
+
+Design Statistics
+# IOs                              : 170
+
+Cell Usage :
+# BELS                             : 827
+#      GND                         : 1
+#      INV                         : 3
+#      LUT1                        : 10
+#      LUT2                        : 71
+#      LUT2_D                      : 45
+#      LUT2_L                      : 1
+#      LUT3                        : 173
+#      LUT3_D                      : 2
+#      LUT4                        : 301
+#      LUT4_D                      : 18
+#      LUT4_L                      : 77
+#      MUXCY                       : 51
+#      MUXF5                       : 18
+#      MUXF6                       : 16
+#      VCC                         : 1
+#      XORCY                       : 39
+# FlipFlops/Latches                : 255
+#      FDR                         : 2
+#      FDRE                        : 252
+#      FDRS                        : 1
+# Clock Buffers                    : 1
+#      BUFGP                       : 1
+# IO Buffers                       : 169
+#      IBUF                        : 143
+#      OBUF                        : 26
+=========================================================================
+
+Device utilization summary:
+---------------------------
+
+Selected Device : 2vp30ff896-7 
+
+ Number of Slices:                      372  out of  13696     2%  
+ Number of Slice Flip Flops:            255  out of  27392     0%  
+ Number of 4 input LUTs:                701  out of  27392     2%  
+ Number of IOs:                         170
+ Number of bonded IOBs:                 170  out of    556    30%  
+ Number of GCLKs:                         1  out of     16     6%  
+
+---------------------------
+Partition Resource Summary:
+---------------------------
+
+  No Partitions were found in this design.
+
+---------------------------
+
+
+=========================================================================
+TIMING REPORT
+
+NOTE: THESE TIMING NUMBERS ARE ONLY A SYNTHESIS ESTIMATE.
+      FOR ACCURATE TIMING INFORMATION PLEASE REFER TO THE TRACE REPORT
+      GENERATED AFTER PLACE-and-ROUTE.
+
+Clock Information:
+------------------
+-----------------------------------+------------------------+-------+
+Clock Signal                       | Clock buffer(FF name)  | Load  |
+-----------------------------------+------------------------+-------+
+clk                                | BUFGP                  | 255   |
+-----------------------------------+------------------------+-------+
+
+Asynchronous Control Signals Information:
+----------------------------------------
+No asynchronous control signals found in this design
+
+Timing Summary:
+---------------
+Speed Grade: -7
+
+   Minimum period: 12.877ns (Maximum Frequency: 77.660MHz)
+   Minimum input arrival time before clock: 4.453ns
+   Maximum output required time after clock: 6.038ns
+   Maximum combinational path delay: 6.409ns
+
+Timing Detail:
+--------------
+All values displayed in nanoseconds (ns)
+
+=========================================================================
+Timing constraint: Default period analysis for Clock 'clk'
+  Clock period: 12.877ns (frequency: 77.660MHz)
+  Total number of paths / destination ports: 16166167 / 440
+-------------------------------------------------------------------------
+Delay:               12.877ns (Levels of Logic = 28)
+  Source:            pframe_line_reg_12 (FF)
+  Destination:       corr_sum_15 (FF)
+  Source Clock:      clk rising
+  Destination Clock: clk rising
+
+  Data Path: pframe_line_reg_12 to corr_sum_15
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDRE:C->Q             4   0.370   0.549  pframe_line_reg_12 (pframe_line_reg_12)
+     LUT4:I0->O            1   0.275   0.349  bitsum/sum64l/cb/ca/Mrom_sum211_SW0 (N79)
+     LUT4:I2->O            4   0.275   0.431  bitsum/sum64l/cb/ca/Mrom_sum211 (N26)
+     LUT4:I2->O            1   0.275   0.429  bitsum/sum64l/cb/ca/Mrom_sum411135 (bitsum/sum64l/cb/ca/Mrom_sum411135)
+     LUT4:I1->O            7   0.275   0.503  bitsum/sum64l/cb/ca/Mrom_sum4111191 (N461)
+     LUT4:I3->O            1   0.275   0.000  bitsum/sum64l/cb/st/Mrom_sum31 (bitsum/sum64l/cb/st/Mrom_sum31)
+     MUXF5:I0->O           1   0.303   0.000  bitsum/sum64l/cb/st/Mrom_sum3_f5 (bitsum/sum64l/cb/st/Mrom_sum3_f5)
+     MUXF6:I1->O           2   0.288   0.514  bitsum/sum64l/cb/st/Mrom_sum3_f6 (bitsum/sum64l/cb/st/Mrom_sum3_f6)
+     LUT3_D:I0->O          2   0.275   0.396  bitsum/sum64l/Madd_sum_g_addsub0000_cy<2>11 (bitsum/sum64l/Madd_sum_g_addsub0000_cy<2>)
+     LUT3:I2->O            1   0.275   0.350  bitsum/sum64l/Madd_sum_g_addsub0000_cy<3>11 (bitsum/sum64l/sum_g<4>)
+     LUT4:I2->O            1   0.275   0.000  bitsum/sum64l/ta/Madd_o_addsub0002_lut<4> (bitsum/sum64l/ta/Madd_o_addsub0002_lut<4>)
+     XORCY:LI->O           1   0.454   0.430  bitsum/sum64l/ta/Madd_o_addsub0002_xor<4> (bitsum/sum64l/ta/o_addsub0002<4>)
+     LUT2:I1->O            1   0.275   0.000  bitsum/sum64l/ta/Madd_o_addsub0001_lut<4> (bitsum/sum64l/ta/Madd_o_addsub0001_lut<4>)
+     MUXCY:S->O            1   0.334   0.000  bitsum/sum64l/ta/Madd_o_addsub0001_cy<4> (bitsum/sum64l/ta/Madd_o_addsub0001_cy<4>)
+     XORCY:CI->O           1   0.708   0.430  bitsum/sum64l/ta/Madd_o_addsub0001_xor<5> (bitsum/sum_l<5>)
+     LUT2:I1->O            1   0.275   0.000  bitsum/Madd_sum_addsub0000_lut<5> (bitsum/Madd_sum_addsub0000_lut<5>)
+     MUXCY:S->O            1   0.334   0.000  bitsum/Madd_sum_addsub0000_cy<5> (bitsum/Madd_sum_addsub0000_cy<5>)
+     XORCY:CI->O           1   0.708   0.429  bitsum/Madd_sum_addsub0000_xor<6> (frame_line_xor_sum<6>)
+     LUT2:I1->O            1   0.275   0.000  Maccum_corr_sum_lut<6> (Maccum_corr_sum_lut<6>)
+     MUXCY:S->O            1   0.334   0.000  Maccum_corr_sum_cy<6> (Maccum_corr_sum_cy<6>)
+     MUXCY:CI->O           1   0.036   0.000  Maccum_corr_sum_cy<7> (Maccum_corr_sum_cy<7>)
+     MUXCY:CI->O           1   0.036   0.000  Maccum_corr_sum_cy<8> (Maccum_corr_sum_cy<8>)
+     MUXCY:CI->O           1   0.036   0.000  Maccum_corr_sum_cy<9> (Maccum_corr_sum_cy<9>)
+     MUXCY:CI->O           1   0.036   0.000  Maccum_corr_sum_cy<10> (Maccum_corr_sum_cy<10>)
+     MUXCY:CI->O           1   0.036   0.000  Maccum_corr_sum_cy<11> (Maccum_corr_sum_cy<11>)
+     MUXCY:CI->O           1   0.036   0.000  Maccum_corr_sum_cy<12> (Maccum_corr_sum_cy<12>)
+     MUXCY:CI->O           1   0.036   0.000  Maccum_corr_sum_cy<13> (Maccum_corr_sum_cy<13>)
+     MUXCY:CI->O           0   0.036   0.000  Maccum_corr_sum_cy<14> (Maccum_corr_sum_cy<14>)
+     XORCY:CI->O           1   0.708   0.000  Maccum_corr_sum_xor<15> (Result<15>)
+     FDRE:D                    0.208          corr_sum_15
+    ----------------------------------------
+    Total                     12.877ns (8.066ns logic, 4.811ns route)
+                                       (62.6% logic, 37.4% route)
+
+=========================================================================
+Timing constraint: Default OFFSET IN BEFORE for Clock 'clk'
+  Total number of paths / destination ports: 514 / 481
+-------------------------------------------------------------------------
+Offset:              4.453ns (Levels of Logic = 6)
+  Source:            x_offset<1> (PAD)
+  Destination:       state_FSM_FFd2 (FF)
+  Destination Clock: clk rising
+
+  Data Path: x_offset<1> to state_FSM_FFd2
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     IBUF:I->O             5   0.878   0.564  x_offset_1_IBUF (x_offset_1_IBUF)
+     LUT4:I0->O            3   0.275   0.533  _sub0000<4>11 (_sub0000<4>_bdd0)
+     LUT3:I0->O            1   0.275   0.000  _sub0000<6>_inv (Mcompar_state_cmp_lt0000_lut<6>)
+     MUXCY:S->O            1   0.713   0.429  Mcompar_state_cmp_lt0000_cy<6> (Mcompar_state_cmp_lt0000_cy<6>)
+     LUT3:I1->O            1   0.275   0.000  state_FSM_FFd2-In5711 (state_FSM_FFd2-In571)
+     MUXF5:I1->O           1   0.303   0.000  state_FSM_FFd2-In571_f5 (state_FSM_FFd2-In57)
+     FDRS:D                    0.208          state_FSM_FFd2
+    ----------------------------------------
+    Total                      4.453ns (2.927ns logic, 1.526ns route)
+                                       (65.7% logic, 34.3% route)
+
+=========================================================================
+Timing constraint: Default OFFSET OUT AFTER for Clock 'clk'
+  Total number of paths / destination ports: 99 / 25
+-------------------------------------------------------------------------
+Offset:              6.038ns (Levels of Logic = 8)
+  Source:            y_count_0 (FF)
+  Destination:       bram_addr<4> (PAD)
+  Source Clock:      clk rising
+
+  Data Path: y_count_0 to bram_addr<4>
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDRE:C->Q             8   0.370   0.614  y_count_0 (y_count_0)
+     LUT2:I0->O            1   0.275   0.000  Madd_bram_addr_addsub0006_lut<0> (Madd_bram_addr_addsub0006_lut<0>)
+     MUXCY:S->O            1   0.334   0.000  Madd_bram_addr_addsub0006_cy<0> (Madd_bram_addr_addsub0006_cy<0>)
+     MUXCY:CI->O           1   0.036   0.000  Madd_bram_addr_addsub0006_cy<1> (Madd_bram_addr_addsub0006_cy<1>)
+     MUXCY:CI->O           1   0.036   0.000  Madd_bram_addr_addsub0006_cy<2> (Madd_bram_addr_addsub0006_cy<2>)
+     MUXCY:CI->O           1   0.036   0.000  Madd_bram_addr_addsub0006_cy<3> (Madd_bram_addr_addsub0006_cy<3>)
+     XORCY:CI->O           1   0.708   0.430  Madd_bram_addr_addsub0006_xor<4> (bram_addr_addsub0006<4>)
+     LUT3:I1->O            1   0.275   0.332  bram_addr<4>1 (bram_addr_4_OBUF)
+     OBUF:I->O                 2.592          bram_addr_4_OBUF (bram_addr<4>)
+    ----------------------------------------
+    Total                      6.038ns (4.663ns logic, 1.375ns route)
+                                       (77.2% logic, 22.8% route)
+
+=========================================================================
+Timing constraint: Default path analysis
+  Total number of paths / destination ports: 28 / 8
+-------------------------------------------------------------------------
+Delay:               6.409ns (Levels of Logic = 9)
+  Source:            y_offset<0> (PAD)
+  Destination:       bram_addr<4> (PAD)
+
+  Data Path: y_offset<0> to bram_addr<4>
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     IBUF:I->O             2   0.878   0.476  y_offset_0_IBUF (y_offset_0_IBUF)
+     LUT2:I1->O            1   0.275   0.000  Madd_bram_addr_addsub0006_lut<0> (Madd_bram_addr_addsub0006_lut<0>)
+     MUXCY:S->O            1   0.334   0.000  Madd_bram_addr_addsub0006_cy<0> (Madd_bram_addr_addsub0006_cy<0>)
+     MUXCY:CI->O           1   0.036   0.000  Madd_bram_addr_addsub0006_cy<1> (Madd_bram_addr_addsub0006_cy<1>)
+     MUXCY:CI->O           1   0.036   0.000  Madd_bram_addr_addsub0006_cy<2> (Madd_bram_addr_addsub0006_cy<2>)
+     MUXCY:CI->O           1   0.036   0.000  Madd_bram_addr_addsub0006_cy<3> (Madd_bram_addr_addsub0006_cy<3>)
+     XORCY:CI->O           1   0.708   0.430  Madd_bram_addr_addsub0006_xor<4> (bram_addr_addsub0006<4>)
+     LUT3:I1->O            1   0.275   0.332  bram_addr<4>1 (bram_addr_4_OBUF)
+     OBUF:I->O                 2.592          bram_addr_4_OBUF (bram_addr<4>)
+    ----------------------------------------
+    Total                      6.409ns (5.171ns logic, 1.237ns route)
+                                       (80.7% logic, 19.3% route)
+
+=========================================================================
+
+
+Total REAL time to Xst completion: 11.00 secs
+Total CPU time to Xst completion: 11.00 secs
+ 
+--> 
+
+Total memory usage is 262792 kilobytes
+
+Number of errors   :    0 (   0 filtered)
+Number of warnings :    0 (   0 filtered)
+Number of infos    :    2 (   0 filtered)
+

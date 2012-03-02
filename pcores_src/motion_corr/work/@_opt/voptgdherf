@@ -1,0 +1,24 @@
+library verilog;
+use verilog.vl_types.all;
+entity correlator_xor is
+    generic(
+        RESET           : integer := 0;
+        LD_PREV         : integer := 1;
+        LD_CURR         : integer := 2;
+        OFFSET_X        : integer := 3;
+        LINE_SUM        : integer := 4;
+        \DONE\          : integer := 5
+    );
+    port(
+        clk             : in     vl_logic;
+        resetn          : in     vl_logic;
+        go              : in     vl_logic;
+        bram_data       : in     vl_logic_vector(127 downto 0);
+        bram_addr       : out    vl_logic_vector(8 downto 0);
+        x_offset        : in     vl_logic_vector(5 downto 0);
+        y_offset        : in     vl_logic_vector(5 downto 0);
+        curr_frame_bram_offset_sel: in     vl_logic;
+        corr_sum        : out    vl_logic_vector(15 downto 0);
+        done            : out    vl_logic
+    );
+end correlator_xor;
