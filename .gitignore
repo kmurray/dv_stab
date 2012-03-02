@@ -6,7 +6,20 @@
 **/blkdiagram
 proj/__xps/**
 tmp
+
+#Vim files
 *.bin
 .*.sw[a-z]
 *.un~
 Session.vim
+
+#Generated flow files
+***/implementation
+proj/simulation/behavioral
+proj/hdl
+proj/simgen.opt
+.*elf
+
+#png and raw files from simulation debugging
+***/.*png
+.*raw
