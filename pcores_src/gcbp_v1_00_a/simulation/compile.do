@@ -9,5 +9,12 @@ vlog +acc  "~/CAD/Xilinx/10.1/ISE/verilog/src/glbl.v"
 vsim -t 1ps -lib work gcbp_tb glbl
 do wave.do
 #run 6000ns
-run 120000ns
+ # One line
+#run 120000ns
+
+# 10 lines
+#run 1200000ns
+
+# 100 lines
+run 12000000ns
 
