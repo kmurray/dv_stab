@@ -15,7 +15,7 @@ UserCmd1Type: 0
 UserCmd2: 
 UserCmd2Type: 0
 TopInst: system_i
-GenSimTB: 0
+GenSimTB: 1
 InsertNoPads: 0
 WarnForEAArch: 1
 HdlLang: Verilog

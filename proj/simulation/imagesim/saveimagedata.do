@@ -33,3 +33,4 @@ echo "Collected chip data into RAW file"
 convert -size 1024x480 -depth 8 rgb:output.raw ../imagesim/$f
 echo "Converted RAW to PNG"
 
+display ../imagesim/$f
