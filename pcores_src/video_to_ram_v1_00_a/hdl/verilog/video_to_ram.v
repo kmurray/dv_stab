@@ -257,6 +257,9 @@ module video_to_ram
     reg     [3:0]                   c_DBG_fsm_cs;
     wire    [3:0]                   w_DBG_general_purpose;
 
+
+    reg  line_buf_data_valid;
+
 	////////////////////////////////////////////////////////////
 	////////////////////////// ASSIGNMENTS /////////////////////
 	////////////////////////////////////////////////////////////
@@ -308,6 +311,7 @@ module video_to_ram
 		case(r_cs)
 		S_INIT:
 		begin
+            //Initial state, wait for MPMC to initialize
 			if ( i_MPMC_Done_Init == 1'b1 )
 			begin
 				c_ns <= S_START_LINE;
@@ -319,6 +323,7 @@ module video_to_ram
 		end
 		S_START_LINE:
 		begin
+            //Start a line transfer
             if ( r_line_ready == 1'b1)
             begin
                 c_ns <= S_WRITE_REQUEST;
@@ -330,6 +335,7 @@ module video_to_ram
 		end
 		S_WRITE_REQUEST:
 		begin
+            //Request PLB bus control
 			if ( i_Sl_addrAck == 1'b1 && i_PLB_PAValid == 1'b1 )
 			begin
 				c_ns <= S_WRITE;
@@ -341,6 +347,7 @@ module video_to_ram
 		end
 		S_WRITE:
 		begin
+            //Write to the PLB
 			if ( i_Sl_wrComp == 1'b1 )
 			begin
 				c_ns <= S_WRITE_COMPLETE;
@@ -351,16 +358,19 @@ module video_to_ram
 			end
 		end
 		S_WRITE_COMPLETE:
-		begin			
+		begin
+            //Finished writing line
 			if (r_burst_cnt == C_BURSTS_PER_LINE) // Line Done
 			begin
 				c_ns <= S_START_LINE;
 			end
+            //Line not finished, re-request the bus
 			else // Line Incomplete
 			begin
 				c_ns <= S_WRITE_REQUEST;
 			end
 		end
+        //Init for default
 		default:
 		begin
 			c_ns <= S_INIT;
@@ -415,7 +425,22 @@ module video_to_ram
         end
         endcase
     end
-    
+/*    
+    //Valid line buffer output data for GCBP
+    always @ (*)
+    begin
+        case (r_cs)
+        S_WRITE:
+        begin
+            line_buf_data_valid = 1;
+        end
+        default:
+        begin
+            line_buf_data_valid = 0;
+        end
+    end
+    */
+
     //w_H_444_with_DBG
     //c_M_wrDBus
     always @ (*)
@@ -428,9 +453,13 @@ module video_to_ram
         else
         begin
             w_H_444_with_DBG    <= w_H_444;
+              //Data to put on the data bus  = 32 bits (4 bytes); 1st byte null, 2nd byte red, 3rd byte green, 4th byte blue
             c_M_wrDBus		    <= { 8'b0, r_Red_from_buffer[7:2], 2'b0, r_Green_from_buffer[7:2], 
                                     2'b0, r_Blue_from_buffer[7:2], 2'b0 };
-           	
+/*
+                //try storing luma for kicks
+              c_M_wrDBus		    <= { 8'b0, r_Luma_from_buffer[7:2], 8'b0, 8'b0 };
+*/
         end
     end
   
@@ -440,6 +469,7 @@ module video_to_ram
 	////////////////////////////////////////////////////////////
 
 	// r_cs
+    // FSM state update
 	always @ (posedge i_sys_rst or posedge i_clk_100_bus)
 	begin
 		if ( i_sys_rst == 1'b1 )
@@ -453,6 +483,7 @@ module video_to_ram
 	end
 
 	// r_write_buffer_0
+    // which line buffer to use
 	always @ (posedge w_H_444_with_DBG or posedge i_sys_rst) 
 	begin
 		if ( i_sys_rst == 1'b1 ) 
@@ -466,6 +497,7 @@ module video_to_ram
 	end
 	   
 	// r_line_buffer_write_addr
+    // where to write data in the line buffer
 	always @ (posedge clk_13 or posedge w_H_444_with_DBG) 
 	begin
 		if ( w_H_444_with_DBG == 1'b1 ) 
@@ -479,6 +511,7 @@ module video_to_ram
 	end
 
 	// r_line_buffer_read_addr
+    // Increment line buffer read address
 	always @ (posedge i_clk_100_bus)
 	begin
 		if ( r_cs == S_START_LINE )
@@ -492,6 +525,7 @@ module video_to_ram
 	end
 	
 	// r_Red_from_buffer, r_Green_from_buffer, r_Blue_from_buffer
+    //Select line buffer to read from
 	always @ (posedge i_clk_100_bus or posedge i_sys_rst) 
 	begin
 		if ( i_sys_rst == 1'b1 ) 
@@ -518,6 +552,7 @@ module video_to_ram
 	end
 
 	//r_burst_cnt
+    //Number of bursts
 	always @ (posedge i_clk_100_bus)
 	begin
 		if (r_cs == S_START_LINE)
@@ -530,7 +565,8 @@ module video_to_ram
 		end			
 	end
 	
-	//r_M_ABus
+	//r_M_ABus - Master address bus?
+    // DDR base address calculations
 	always @ (posedge i_clk_100_bus)
 	begin
 		if ( r_cs == S_START_LINE  )
@@ -543,7 +579,8 @@ module video_to_ram
 		end
 	end
     
-     //r_line_ready
+     //r_line_ready - line is finished start transfer
+     // Line has been completely buffered, can start transfer
      always @ (posedge w_H_444_with_DBG or posedge i_clk_100_bus)
      begin
         if ( w_H_444_with_DBG == 1'b1)
@@ -708,7 +745,13 @@ module video_to_ram
 		.line_count_out       (w_vga_timing_line_count)
 	);
 
-	
+/*
+   GCBP gcpb_inst
+   (
+       i_clk_100_bus 
+   );
+*/
+
 endmodule
 
 module IBUFG(O, I); // synthesis syn_black_box
