@@ -76,7 +76,7 @@ module GCBP (
     ***********************************************************/
     input          i_clk;
     input          i_resetn;
-    input          i_luma_data;
+    input  [  8:0] i_luma_data;
     input          i_line_ready;
     input          i_data_valid;
     input  [  9:0] i_line_count;
