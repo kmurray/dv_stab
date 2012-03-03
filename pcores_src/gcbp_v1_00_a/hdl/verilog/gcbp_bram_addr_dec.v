@@ -1,7 +1,9 @@
+
+
 module GCBP_BRAM_ADDR_DEC(
         i_clk,
         i_resetn,
-        i_line_count,
+        i_line_cnt,
         i_new_frame,
 
         o_curr_frame_loc,
@@ -22,7 +24,7 @@ module GCBP_BRAM_ADDR_DEC(
   	localparam						C_STATE_BITS 			= 2;
 	localparam	[C_STATE_BITS-1:0]	S_WRITE_LOC_0	        = 0,
 									S_WRITE_LOC_1    		= 1,
-									S_WRITE_LOC_2    		= 2,
+									S_WRITE_LOC_2    		= 2;
 
 
     /*
@@ -30,7 +32,9 @@ module GCBP_BRAM_ADDR_DEC(
         address space (BRAMs are word addressable).
 
         Since each sub image only requires 64 words,
-        this leaves more than sufficient space between them
+        twice that size leaves more than sufficient 
+        space between them, while not over-running
+        the BRAM
     */
     localparam C_SUBIMAGE_OFFSET_IN_BRAM    = 128;
 
@@ -43,17 +47,17 @@ module GCBP_BRAM_ADDR_DEC(
     input           i_resetn;
 
     //Which line of the frame is being worked on
-    input [9:0]     i_line_count;
+    input [8:0]     i_line_cnt;
 
     //Indicates the start of a new frame
     input           i_new_frame;
 
     //Which BRAM memory locations represent which frame?
-    output [1:0]    o_curr_frame_loc;
-    output [1:0]    o_prev_frame_loc;
-    output [1:0]    o_next_frame_loc;
+    output reg [1:0]    o_curr_frame_loc;
+    output reg [1:0]    o_prev_frame_loc;
+    output reg [1:0]    o_next_frame_loc;
 
-    //Write address for the current line (i_line_count)
+    //Write address for the current line (i_line_cnt)
     output [8:0]    o_bram_array_write_addr;
     
     /***********************************************************
@@ -151,11 +155,11 @@ module GCBP_BRAM_ADDR_DEC(
 
     /* 
         The GCBP module is writting the 'next' frame to BRAMs,
-        i_line_count is a 10 bit number generated in video2ram, we should have only 
+        i_line_cnt is a 10 bit number generated in video2ram, we should have only 
         480 vertical lines, so 9bits (512 lines) should be sufficient, and is 
         required to match the BRAM address width
     */
-    assign o_bram_array_write_addr = o_next_frame_loc*C_SUBIMAGE_OFFSET_IN_BRAM + i_line_count[8:0];
+    assign o_bram_array_write_addr = o_next_frame_loc*C_SUBIMAGE_OFFSET_IN_BRAM + i_line_cnt;
 
     /***********************************************************
     *
@@ -187,8 +191,12 @@ module GCBP_BRAM_ADDR_DEC(
         end
         default:
         begin
-
+            //S_WRITE_LOC_0
+            o_next_frame_loc = 0;
+            o_curr_frame_loc = 1;
+            o_prev_frame_loc = 2;
         end
+        endcase
     end
 
 
@@ -236,6 +244,7 @@ module GCBP_BRAM_ADDR_DEC(
         begin
             c_next_state <= S_WRITE_LOC_0;
         end
+        endcase
     end
 
 

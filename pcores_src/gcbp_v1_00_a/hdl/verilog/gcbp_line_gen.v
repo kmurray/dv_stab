@@ -1,4 +1,4 @@
-`include "params.v"
+`include functions.v
 
 /*
     About naming convetions:
@@ -41,8 +41,13 @@ module GCBP_LINE_GEN (
 									S_SUBIMAGE_2			= 3,	
 									S_SUBIMAGE_3        	= 4;
 
+    //Which bit do we select from the luma data?
+    localparam C_BIT_PLANE_NUM                  = 4;
+
+    parameter BRAM_DATA_WIDTH                   = 128;
+
     //Sub image width info
-    localparam C_SUBIMAGE_WIDTH                 = BRAM_DATA_WIDTH //128
+    localparam C_SUBIMAGE_WIDTH                 = BRAM_DATA_WIDTH; //128
     localparam C_NUM_HORI_SUBIMAGES             = 4;
 
     //Horizontal Frame width: 720
@@ -55,7 +60,7 @@ module GCBP_LINE_GEN (
     localparam C_HORI_SUBIMAGE_TO_SUBIMAGE      = 42;
 
     //Bits needed to count pixels in a line
-    localparam C_PIXELS_PER_LINE_CNT_BITS       = ClogB2(PIXELS_PER_LINE);
+    localparam C_PIXELS_PER_LINE_CNT_BITS       = ClogB2(C_PIXELS_PER_LINE);
 
     //Bits needed to count sub images in a line
     localparam C_SUBIMAGES_PER_LINE_CNT_BITS    = CLogB2(C_NUM_HORI_SUBIMAGES);
@@ -78,7 +83,7 @@ module GCBP_LINE_GEN (
     output                            o_gcbp_line_valid;
 
     //Which sub image is being output
-    output [1:0]                      o_hori_subimage_cnt;
+    output [C_SUBIMAGES_PER_LINE_CNT_BITS-1:0]                      o_hori_subimage_cnt;
 
 
     /***********************************************************
@@ -89,14 +94,14 @@ module GCBP_LINE_GEN (
 
 
     //Which pixel in the line we are processing
-    reg [C_LINE_PER_FRAME_CNT_BITS-1:0] r_hori_pixel_cnt;
+    reg [C_PIXELS_PER_LINE_CNT_BITS-1:0] r_hori_pixel_cnt;
 
     //FSM state
     reg [C_STATE_BITS-1:0] r_curr_state;
     reg [C_STATE_BITS-1:0] c_next_state;
 
     //At what pixel count is the current subimage complete?
-    reg [C_LINE_PER_FRAME_CNT_BITS-1:0] c_subimage_done_cnt;
+    reg [C_SUBIMAGES_PER_LINE_CNT_BITS-1:0] c_subimage_done_cnt;
 
     //A shift register used to store one line of a sub image
     reg [C_SUBIMAGE_WIDTH-1:0]   r_gcbp_line_shift_reg;
@@ -168,6 +173,7 @@ module GCBP_LINE_GEN (
             c_subimage_done_cnt = 0;
             o_hori_subimage_cnt = 0;
         end
+        endcase
     end
 
     /* 
@@ -195,7 +201,7 @@ module GCBP_LINE_GEN (
             //First sub image
             if ( r_hori_pixel_cnt == c_subimage_done_cnt)
             begin
-                c_next_state <= S_MID_LINE;
+                c_next_state <= S_SUBIMAGE_1;
             end
             else
             begin
@@ -268,7 +274,7 @@ module GCBP_LINE_GEN (
     always@(posedge i_clk)
     begin
         if(!i_resetn)
-            hori_pixel_count <= 0;
+            r_hori_pixel_cnt <= 0;
         else
         begin
             /* 
@@ -281,10 +287,10 @@ module GCBP_LINE_GEN (
             if (i_luma_data_valid)
             begin
                 //Don't counter more than the line width
-                if (horiz_pixel_count != C_PIXELS_PER_LINE)
-                    horiz_pixel_count <= horiz_pixel_count + 1; 
+                if (r_hori_pixel_cnt != C_PIXELS_PER_LINE)
+                    r_hori_pixel_cnt <= r_hori_pixel_cnt + 1; 
                 else
-                    horiz_pixel_count <= 0;
+                    r_hori_pixel_cnt <= 0;
             end
         end
     end
@@ -293,8 +299,10 @@ module GCBP_LINE_GEN (
     always@(posedge i_clk)
     begin
         if(!i_resetn)
+        begin
             o_gcbp_line_valid <= 0;
             o_gcbp_line <= 0;
+        end
         else
         begin
             /* 
@@ -305,12 +313,16 @@ module GCBP_LINE_GEN (
                We know this has occured when horiz_pixel_count 
                matches the done count for the subimage
             */
-            if (horiz_pixel_count == c_subimage_done_cnt) // and c_subimage_done_cnt > 0 ???
+            if (r_hori_pixel_cnt == c_subimage_done_cnt) // and c_subimage_done_cnt > 0 ???
+            begin
                 o_gcbp_line_valid <= 1;
                 o_gcbp_line <= r_gcbp_line_shift_reg;
+            end
             else
-                0_gcbp_line_valid <= 0;
+            begin
+                o_gcbp_line_valid <= 0;
                 o_gcbp_line <= 0;
+            end
         end
     end
 
@@ -331,7 +343,7 @@ module GCBP_LINE_GEN (
             if(i_luma_data_valid)
             begin
                 //Shift the gcbp line data, and add in the newest bit
-                r_gcbp_line_shift_reg = {r_gcbp_line_shift_reg[126:0],i_luma_data[0]};
+                r_gcbp_line_shift_reg = {r_gcbp_line_shift_reg[126:0],i_luma_data[C_BIT_PLANE_NUM]};
             end
             else
             begin

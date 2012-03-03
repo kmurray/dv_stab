@@ -1,4 +1,4 @@
-`include "params.v"
+`include functions.v
 
 /*
     About naming convetions:
@@ -21,7 +21,7 @@ module GCBP (
     i_luma_data,
     i_line_ready,
     i_luma_data_valid,
-    i_line_count,
+    i_line_cnt,
     i_new_frame,
 
     o_bram_array_write_addr,
@@ -41,14 +41,14 @@ module GCBP (
     ***********************************************************/
 
     //FSM states
-  	localparam						C_STATE_BITS 	= 2;
-	localparam	[C_STATE_BITS-1:0]	S_ROW_0			= 0,
-									S_ROW_1   		= 1,
-									S_ROW_2    		= 2,
-									S_ROW_3	    	= 3,	
+  	localparam						C_STATE_BITS 	    = 2;
+	localparam	[C_STATE_BITS-1:0]	S_SUBIMAGE_ROW_0	= 0,
+									S_SUBIMAGE_ROW_1   	= 1,
+									S_SUBIMAGE_ROW_2    = 2,
+									S_SUBIMAGE_ROW_3	= 3;	
 
     //Sub image height info
-    localparam C_SUBIMAGE_HEIGHT                = SUBIMAGE_H //64
+    localparam C_SUBIMAGE_HEIGHT                = 64;
     localparam C_NUM_VERT_SUBIMAGES             = 4;
 
     //Vertical Frame height: 640
@@ -61,11 +61,11 @@ module GCBP (
     localparam C_VERT_SUBIMAGE_TO_SUBIMAGE      = 44;
 
     //Bits needed to count lines in a frame
-    localparam C_LINES_PER_FRAME_CNT_BITS		= CLogB2(LINES_PER_FRAME);
+    localparam C_LINES_PER_FRAME_CNT_BITS		= CLogB2(C_LINES_PER_FRAME);
 
 
     //Bits needed to count sub images in a line
-    localparam C_SUBIMAGES_PER_LINE_CNT_BITS    = CLogB2(C_NUM_HORI_SUBIMAGES);
+    localparam C_SUBIMAGES_PER_LINE_CNT_BITS    = CLogB2(C_NUM_VERT_SUBIMAGES);
 
 
 
@@ -78,8 +78,8 @@ module GCBP (
     input          i_resetn;
     input  [  8:0] i_luma_data;
     input          i_line_ready;
-    input          i_data_valid;
-    input  [  9:0] i_line_count;
+    input          i_luma_data_valid;
+    input  [  8:0] i_line_cnt;
     input          i_new_frame;
 
     //Write address for BRAM array
@@ -106,7 +106,8 @@ module GCBP (
     reg  [C_STATE_BITS-1:0] c_next_state;
 
     //The current vertical row of sub images being worked on
-    reg  [1:0] c_vert_subimage_cnt;
+    reg  [C_SUBIMAGES_PER_LINE_CNT_BITS-1:0]    c_vert_subimage_cnt;
+    reg  [C_LINES_PER_FRAME_CNT_BITS:0]         c_subimage_done_row_cnt;
 
     //The current subimage in a row being worked on
     wire [1:0] w_hori_subimage_cnt;
@@ -154,16 +155,16 @@ module GCBP (
                                );
 
     /*
-        Generates BRAM write address based on i_line_count, and performing
+        Generates BRAM write address based on i_line_cnt, and performing
         double buffering as appropriate.
         
         It also indicates where the various frames are currently located 
         in the BRAM address space
      */ 
-    GCBP_BRAM_ADDRESS_DEC GCBP_BRAM_ADDRESS_OFFSET_DEC_inst(
+    GCBP_BRAM_ADDR_DEC GCBP_BRAM_ADDR_DEC_inst(
                             .i_clk                  (i_clk),
                             .i_resetn               (i_resetn),
-                            .i_line_count           (i_line_count),
+                            .i_line_cnt           (i_line_cnt),
                             .i_new_frame            (),
 
                             .o_curr_frame_loc       (o_curr_frame_loc),
@@ -188,25 +189,25 @@ module GCBP (
                 ----------------    -
                 | 46px              |
                 |      -------      | 
-                |      |     |      | S_ROW_0
+                |      |     |      | S_SUBIMAGE_ROW_0
                 | 64px |  0  |  ... |
                 |      |     |      |
                 |      -------      -
                 | 44px              |
                 |      -------      | 
-                |      |     |      | S_ROW_1
+                |      |     |      | S_SUBIMAGE_ROW_1
                 | 64px |  1  |  ... |
                 |      |     |      |
                 |      -------      -
          480px  | 44px              |
                 |      -------      | 
-                |      |     |      | S_ROW_2
+                |      |     |      | S_SUBIMAGE_ROW_2
                 | 64px |  2  |  ... |
                 |      |     |      |
                 |      -------      -
                 | 44px              |
                 |      -------      | 
-                |      |     |      | S_ROW_3
+                |      |     |      | S_SUBIMAGE_ROW_3
                 | 64px |  3  |  ... |
                 |      |     |      |
                 |      -------      -
@@ -219,31 +220,32 @@ module GCBP (
     always@(*)
     begin
         case (r_curr_state)
-        S_ROW_0:
+        S_SUBIMAGE_ROW_0:
         begin
-            c_row_done_cnt = C_VERT_FRAME_EDGE_TO_SUBIMAGE + C_SUBIMAGE_HEIGHT;
+            c_subimage_done_row_cnt = C_VERT_FRAME_EDGE_TO_SUBIMAGE + C_SUBIMAGE_HEIGHT;
             c_vert_subimage_cnt = 0;
         end
-        S_ROW_1:
+        S_SUBIMAGE_ROW_1:
         begin
-            c_row_done_cnt = C_VERT_FRAME_EDGE_TO_SUBIMAGE + C_VERT_SUBIMAGE_TO_SUBIMAGE + 2*C_SUBIMAGE_HEIGHT;
+            c_subimage_done_row_cnt = C_VERT_FRAME_EDGE_TO_SUBIMAGE + C_VERT_SUBIMAGE_TO_SUBIMAGE + 2*C_SUBIMAGE_HEIGHT;
             c_vert_subimage_cnt = 1;
         end
-        S_ROW_2:
+        S_SUBIMAGE_ROW_2:
         begin
-            c_row_done_cnt = C_VERT_FRAME_EDGE_TO_SUBIMAGE + 2*C_VERT_SUBIMAGE_TO_SUBIMAGE + 3*C_SUBIMAGE_HEIGHT;
+            c_subimage_done_row_cnt = C_VERT_FRAME_EDGE_TO_SUBIMAGE + 2*C_VERT_SUBIMAGE_TO_SUBIMAGE + 3*C_SUBIMAGE_HEIGHT;
             c_vert_subimage_cnt = 2;
         end
-        S_ROW_3:
+        S_SUBIMAGE_ROW_3:
         begin
-            c_row_done_cnt = C_VERT_FRAME_EDGE_TO_SUBIMAGE + 3*C_VERT_SUBIMAGE_TO_SUBIMAGE + 4*C_SUBIMAGE_HEIGHT;
+            c_subimage_done_row_cnt = C_VERT_FRAME_EDGE_TO_SUBIMAGE + 3*C_VERT_SUBIMAGE_TO_SUBIMAGE + 4*C_SUBIMAGE_HEIGHT;
             c_vert_subimage_cnt = 3;
         end
         default:
         begin
-            c_row_done_cnt = 0;
+            c_subimage_done_row_cnt = 0;
             c_vert_subimage_cnt = 0;
         end
+        endcase
     end
     
 
@@ -253,57 +255,57 @@ module GCBP (
 	always @ (*)
 	begin
 		case(r_curr_state)
-		S_ROW_0:
+		S_SUBIMAGE_ROW_0:
 		begin
             //First row
-            if ( vert_pixel_cnt == c_row_done_cnt)
+            if ( i_line_cnt == c_subimage_done_row_cnt)
             begin
-                c_next_state <= S_ROW_1;
+                c_next_state <= S_SUBIMAGE_ROW_1;
             end
             else
             begin
-                c_next_state <= S_ROW_0;
+                c_next_state <= S_SUBIMAGE_ROW_0;
             end
 		end
-		S_ROW_1:
+		S_SUBIMAGE_ROW_1:
 		begin
             //2nd row
-            if ( vert_pixel_cnt == c_row_done_cnt)
+            if ( i_line_cnt == c_subimage_done_row_cnt)
             begin
-                c_next_state <= S_ROW_2;
+                c_next_state <= S_SUBIMAGE_ROW_2;
             end
             else
             begin
-                c_next_state <= S_ROW_1;
+                c_next_state <= S_SUBIMAGE_ROW_1;
             end
 		end
-		S_ROW_2:
+		S_SUBIMAGE_ROW_2:
 		begin
             //3rd row
-            if ( vert_pixel_cnt == c_row_done_cnt)
+            if ( i_line_cnt == c_subimage_done_row_cnt)
             begin
-                c_next_state <= S_ROW_3;
+                c_next_state <= S_SUBIMAGE_ROW_3;
             end
             else
             begin
-                c_next_state <= S_ROW_2;
+                c_next_state <= S_SUBIMAGE_ROW_2;
             end
 		end
-		S_ROW_3:
+		S_SUBIMAGE_ROW_3:
 		begin
             //4th row
-            if ( vert_pixel_cnt == c_row_done_cnt)
+            if ( i_line_cnt == c_subimage_done_row_cnt)
             begin
-                c_next_state <= S_INIT;
+                c_next_state <= S_SUBIMAGE_ROW_0;
             end
             else
             begin
-                c_next_state <= S_ROW_3;
+                c_next_state <= S_SUBIMAGE_ROW_3;
             end
 		end
 		default:
 		begin
-			c_next_state <= S_ROW_0;
+			c_next_state <= S_SUBIMAGE_ROW_0;
 		end
 		endcase
 	end
@@ -319,7 +321,7 @@ module GCBP (
     always@(posedge i_clk)
     begin
         if(!i_resetn)
-            r_curr_state <= S_INIT;
+            r_curr_state <= S_SUBIMAGE_ROW_0;
         else
             r_curr_state <= c_next_state;
     end
