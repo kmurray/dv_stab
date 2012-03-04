@@ -1,6 +1,9 @@
-////////////////////////////////////////////////////////////
-//////////////////////////  PRE-COMPILER FUNCTIONS /////////
-////////////////////////////////////////////////////////////
+`ifndef gcbp_functions
+`define gcbp_functions
+/*
+    Useful pre-synthesis functions
+
+ */
 
 function integer CLogB2;
     input [31:0] Depth;
@@ -15,3 +18,4 @@ function integer CLogB2;
     end
 endfunction
 
+`endif

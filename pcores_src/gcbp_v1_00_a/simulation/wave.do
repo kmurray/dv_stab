@@ -13,7 +13,7 @@ add wave -noupdate -radix hexadecimal -label i_clk /gcbp_tb/uut/i_clk
 add wave -noupdate -radix hexadecimal -label i_resetn /gcbp_tb/uut/i_resetn
 add wave -noupdate -radix binary -label i_new_line /gcbp_tb/uut/i_new_line
 add wave -noupdate -radix binary -label i_luma_data_valid /gcbp_tb/uut/i_luma_data_valid
-add wave -noupdate -radix binary -label i_line_cnt /gcbp_tb/uut/i_line_cnt
+add wave -noupdate -radix unsigned -label i_line_cnt /gcbp_tb/uut/i_line_cnt
 add wave -noupdate -radix binary -label i_new_frame /gcbp_tb/uut/i_new_frame
 
 add wave -noupdate -divider {GCBP - Counters and State}
@@ -21,7 +21,7 @@ add wave -noupdate -radix unsigned -label c_vert_subimage_cnt /gcbp_tb/uut/c_ver
 add wave -noupdate -radix unsigned -label c_subimage_done_row_cnt /gcbp_tb/uut/c_subimage_done_row_cnt
 add wave -noupdate -radix unsigned -label w_hori_subimage_cnt /gcbp_tb/uut/w_hori_subimage_cnt
 add wave -noupdate -radix unsigned -label w_gcbp_subimage_line_valid /gcbp_tb/uut/w_gcbp_subimage_line_valid
-add wave -noupdate -radix hexadecimal -label w_gcbp_subimage_line /gcbp_tb/uut/w_gcbp_subimage_line
+add wave -noupdate -radix unsigned -label w_valid_subimage_line /gcbp_tb/uut/w_valid_subimage_line
 add wave -noupdate -radix unsigned -label r_curr_state /gcbp_tb/uut/r_curr_state
 add wave -noupdate -radix unsigned -label c_next_state /gcbp_tb/uut/c_next_state
 
@@ -40,11 +40,13 @@ add wave -noupdate -divider {}
 add wave -noupdate -divider {GCBP_BRAM_ADDR_DEC - Inputs}
 add wave -noupdate -radix hexadecimal -label i_clk /gcbp_tb/uut/GCBP_BRAM_ADDR_DEC_inst/i_clk
 add wave -noupdate -radix hexadecimal -label i_resetn /gcbp_tb/uut/GCBP_BRAM_ADDR_DEC_inst/i_resetn
-add wave -noupdate -radix unsigned -label i_line_cnt /gcbp_tb/uut/GCBP_BRAM_ADDR_DEC_inst/i_line_cnt
+add wave -noupdate -radix hexadecimal -label i_valid_subimage_line /gcbp_tb/uut/GCBP_BRAM_ADDR_DEC_inst/i_valid_subimage_line
+add wave -noupdate -radix hexadecimal -label i_new_line /gcbp_tb/uut/GCBP_BRAM_ADDR_DEC_inst/i_new_line
 add wave -noupdate -radix hexadecimal -label i_new_frame /gcbp_tb/uut/GCBP_BRAM_ADDR_DEC_inst/i_new_frame
 
 
 add wave -noupdate -divider {GCBP_BRAM_ADDR_DEC - Counters and State}
+add wave -noupdate -radix unsigned -label r_subimage_line_cnt /gcbp_tb/uut/GCBP_BRAM_ADDR_DEC_inst/r_subimage_line_cnt
 add wave -noupdate -radix unsigned -label r_curr_state /gcbp_tb/uut/GCBP_BRAM_ADDR_DEC_inst/r_curr_state
 add wave -noupdate -radix unsigned -label c_next_state /gcbp_tb/uut/GCBP_BRAM_ADDR_DEC_inst/c_next_state
 
@@ -62,6 +64,7 @@ add wave -noupdate -radix unsigned -label o_bram_array_write_addr /gcbp_tb/uut/G
 add wave -noupdate -divider {}
 add wave -noupdate -divider {GCBP_WEA_DEC - inputs}
 add wave -noupdate -radix hexadecimal -label i_gcbp_line_ready /gcbp_tb/uut/GCBP_BRAM_WRITE_ENABLE_DEC_inst/i_gcbp_line_ready
+add wave -noupdate -radix hexadecimal -label i_valid_subimage_liney /gcbp_tb/uut/GCBP_BRAM_WRITE_ENABLE_DEC_inst/i_valid_subimage_line
 add wave -noupdate -radix unsigned -label i_vert_subimage_cnt /gcbp_tb/uut/GCBP_BRAM_WRITE_ENABLE_DEC_inst/i_vert_subimage_cnt
 add wave -noupdate -radix unsigned -label i_hori_subimage_cnt /gcbp_tb/uut/GCBP_BRAM_WRITE_ENABLE_DEC_inst/i_hori_subimage_cnt
 

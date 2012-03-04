@@ -1,9 +1,11 @@
+`timescale 1ns / 1ps
 
 
 module GCBP_BRAM_ADDR_DEC(
         i_clk,
         i_resetn,
-        i_line_cnt,
+        i_valid_subimage_line,
+        i_new_line,
         i_new_frame,
 
         o_curr_frame_loc,
@@ -46,8 +48,11 @@ module GCBP_BRAM_ADDR_DEC(
     input           i_clk;
     input           i_resetn;
 
-    //Which line of the frame is being worked on
-    input [8:0]     i_line_cnt;
+    //Is the line part of a valid subimage (vertically)
+    input           i_valid_subimage_line;
+
+    //Indicates the start of a new line
+    input           i_new_line;
 
     //Indicates the start of a new frame
     input           i_new_frame;
@@ -57,7 +62,7 @@ module GCBP_BRAM_ADDR_DEC(
     output reg [1:0]    o_prev_frame_loc;
     output reg [1:0]    o_next_frame_loc;
 
-    //Write address for the current line (i_line_cnt)
+    //Write address for the current line
     output [8:0]    o_bram_array_write_addr;
     
     /***********************************************************
@@ -69,6 +74,9 @@ module GCBP_BRAM_ADDR_DEC(
     //FSM
     reg  [C_STATE_BITS-1:0] r_curr_state;
     reg  [C_STATE_BITS-1:0] c_next_state;
+
+    //The line of the subimage being worked on (64 total lines per sub image)
+    reg  [5:0] r_subimage_line_cnt;
 
     /***********************************************************
     *
@@ -155,11 +163,9 @@ module GCBP_BRAM_ADDR_DEC(
 
     /* 
         The GCBP module is writting the 'next' frame to BRAMs,
-        i_line_cnt is a 10 bit number generated in video2ram, we should have only 
-        480 vertical lines, so 9bits (512 lines) should be sufficient, and is 
-        required to match the BRAM address width
+        r_subimage_line_cnt represents the current line of the sub image
     */
-    assign o_bram_array_write_addr = o_next_frame_loc*C_SUBIMAGE_OFFSET_IN_BRAM + i_line_cnt;
+    assign o_bram_array_write_addr = o_next_frame_loc*C_SUBIMAGE_OFFSET_IN_BRAM + r_subimage_line_cnt;
 
     /***********************************************************
     *
@@ -262,6 +268,15 @@ module GCBP_BRAM_ADDR_DEC(
             r_curr_state <= c_next_state;
     end
 
+    always@(posedge i_clk)
+    begin
+        if(!i_resetn)
+            r_subimage_line_cnt <= 0;
+        else if (i_valid_subimage_line && i_new_line)
+            r_subimage_line_cnt <= r_subimage_line_cnt + 1;
+        else
+            r_subimage_line_cnt <= r_subimage_line_cnt;
+    end
 
 endmodule
 

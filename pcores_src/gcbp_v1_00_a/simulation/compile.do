@@ -18,3 +18,7 @@ do wave.do
 # 100 lines
 run 12000000ns
 
+#1000 lines (~2.5 Frames)
+run 120000000ns
+
+

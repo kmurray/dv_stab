@@ -1,5 +1,4 @@
-`include functions.v
-
+`timescale 1ns / 1ps
 /*
     About naming convetions:
 
@@ -15,11 +14,13 @@
 */
 
 
+
+
 module GCBP (
     i_clk,
     i_resetn,
     i_luma_data,
-    i_line_ready,
+    i_new_line,
     i_luma_data_valid,
     i_line_cnt,
     i_new_frame,
@@ -61,11 +62,11 @@ module GCBP (
     localparam C_VERT_SUBIMAGE_TO_SUBIMAGE      = 44;
 
     //Bits needed to count lines in a frame
-    localparam C_LINES_PER_FRAME_CNT_BITS		= CLogB2(C_LINES_PER_FRAME);
+    localparam C_LINES_PER_FRAME_CNT_BITS		= 9; //2^9 = 512  CLogB2(C_LINES_PER_FRAME);
 
 
     //Bits needed to count sub images in a line
-    localparam C_SUBIMAGES_PER_LINE_CNT_BITS    = CLogB2(C_NUM_VERT_SUBIMAGES);
+    localparam C_SUBIMAGES_PER_LINE_CNT_BITS    = 2; //2^2 = 4    CLogB2(C_NUM_VERT_SUBIMAGES);
 
 
 
@@ -77,13 +78,13 @@ module GCBP (
     input          i_clk;
     input          i_resetn;
     input  [  8:0] i_luma_data;
-    input          i_line_ready;
+    input          i_new_line;
     input          i_luma_data_valid;
     input  [  8:0] i_line_cnt;
     input          i_new_frame;
 
     //Write address for BRAM array
-    output reg [  8:0]  o_bram_array_write_addr;
+    output [  8:0]  o_bram_array_write_addr;
     //Write data for BRAM array
 	output [127:0]  o_bram_array_write_data;
     //1 hot write enables for BRAM array
@@ -112,9 +113,6 @@ module GCBP (
     //The current subimage in a row being worked on
     wire [1:0] w_hori_subimage_cnt;
 
-    //Write enables for the BRAM array
-    wire [15:0] w_bram_array_wea;
-
     //Data from GCBP_LINE_GEN is valid
     wire w_gcbp_subimage_line_valid;
 
@@ -126,7 +124,8 @@ module GCBP (
     *  ASSIGNMENTS
     *
     ***********************************************************/
-
+    //Indicate that this line is valid and should be stored to BRAM
+    assign w_valid_subimage_line = ((i_line_cnt >= c_subimage_done_row_cnt - C_SUBIMAGE_HEIGHT) && (i_line_cnt <= c_subimage_done_row_cnt)) ? 1 : 0;
 
     /***********************************************************
     *
@@ -139,19 +138,22 @@ module GCBP (
                     .i_clk                  (i_clk),
                     .i_resetn               (i_resetn),
                     .i_luma_data            (i_luma_data),
-                    .i_line_ready           (i_line_ready),
+                    .i_new_line             (i_new_line),
                     .i_luma_data_valid      (i_luma_data_valid),
 
-                    .o_gcbp_line            (w_gcbp_subimage_line),
+                    .o_gcbp_line            (o_bram_array_write_data),
                     .o_gcbp_line_valid      (w_gcbp_subimage_line_valid),
                     .o_hori_subimage_cnt    (w_hori_subimage_cnt)
                   );
 
     // Generates the "1 hot" encoding for the write enables in bram_array
     GCBP_BRAM_WRITE_ENABLE_DEC GCBP_BRAM_WRITE_ENABLE_DEC_inst(
-                                .vert_subimage_cnt  (c_vert_subimage_cnt),
-                                .hori_subimage_cnt  (w_hori_subimage_cnt),
-                                .bram_array_wea     (w_bram_array_wea) 
+                                .i_gcbp_line_ready    (w_gcbp_subimage_line_valid),
+                                .i_valid_subimage_line(w_valid_subimage_line),
+                                .i_vert_subimage_cnt  (c_vert_subimage_cnt),
+                                .i_hori_subimage_cnt  (w_hori_subimage_cnt),
+
+                                .o_bram_array_wea     (o_bram_array_write_enable) 
                                );
 
     /*
@@ -164,8 +166,9 @@ module GCBP (
     GCBP_BRAM_ADDR_DEC GCBP_BRAM_ADDR_DEC_inst(
                             .i_clk                  (i_clk),
                             .i_resetn               (i_resetn),
-                            .i_line_cnt           (i_line_cnt),
-                            .i_new_frame            (),
+                            .i_valid_subimage_line  (w_valid_subimage_line),
+                            .i_new_line             (i_new_line),
+                            .i_new_frame            (i_new_frame),
 
                             .o_curr_frame_loc       (o_curr_frame_loc),
                             .o_prev_frame_loc       (o_prev_frame_loc),
@@ -327,3 +330,4 @@ module GCBP (
     end
 
 endmodule
+
