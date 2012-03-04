@@ -1,0 +1,10 @@
+##############################################################################
+## Filename:          /home/kevin/ece532/dv_stab/proj/pcores/gcbp_v1_01_a/data/gcbp_v2_1_0.pao
+## Description:       Peripheral Analysis Order
+## Date:              Sat Mar  3 22:25:17 2012 (by Create and Import Peripheral Wizard)
+##############################################################################
+
+lib gcbp_v1_01_a gcbp_bram_addr_dec verilog
+lib gcbp_v1_01_a gcbp_bram_write_enable_dec verilog
+lib gcbp_v1_01_a gcbp_line_gen verilog
+lib gcbp_v1_01_a gcbp verilog

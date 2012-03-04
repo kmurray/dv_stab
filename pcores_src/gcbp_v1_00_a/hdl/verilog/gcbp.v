@@ -16,7 +16,7 @@
 
 
 
-module GCBP (
+module gcbp (
     i_clk,
     i_resetn,
     i_luma_data,

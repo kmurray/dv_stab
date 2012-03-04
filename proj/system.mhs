@@ -38,10 +38,6 @@
 # UART
  PORT fpga_0_RS232_Uart_1_RX_pin = fpga_0_RS232_Uart_1_RX, DIR = I
  PORT fpga_0_RS232_Uart_1_TX_pin = fpga_0_RS232_Uart_1_TX, DIR = O
-# LEDs
- PORT LED_pin = LED, DIR = O, VEC = [3:0]
-# Dip Switches
- PORT DIP_SW_pin = DIP_SW, DIR = I, VEC = [3:0]
 # DDR
  PORT fpga_0_DDR_SDRAM_DDR_Clk_pin = fpga_0_DDR_SDRAM_DDR_Clk, DIR = O, VEC = [2:0]
  PORT fpga_0_DDR_SDRAM_DDR_Clk_n_pin = fpga_0_DDR_SDRAM_DDR_Clk_n, DIR = O, VEC = [2:0]
@@ -172,8 +168,6 @@ BEGIN video_to_ram
  PORT i_sys_rst = sys_bus_reset
  PORT i_LLC_CLOCK = LLC_CLOCK
  PORT i_YCrCb = YCrCb_in
- PORT o_DBG_fsm_cs = video_to_ram_0_o_DBG_fsm_cs
- PORT o_DBG_general_purpose = video_to_ram_0_o_DBG_general_purpose
  PORT i_DBG_new_line = video_to_ram_0_i_DBG_new_line
  PORT i_MPMC_Done_Init = DDR_SDRAM_MPMC_InitDone
 END
@@ -308,19 +302,6 @@ BEGIN clock_generator
  PORT CLKOUT3 = sys_tft_clk_25
 END
 
-# #####################################################
-# ############### DEBUGGING ###########################
-# #####################################################
-BEGIN led_debug_mux
- PARAMETER INSTANCE = led_debug_mux_0
- PARAMETER HW_VER = 1.00.a
- PARAMETER C_NUM_INPUTS = 2
- PORT SELECTOR = DIP_SW
- PORT LED_OUT = LED
- PORT IN_0 = video_to_ram_0_o_DBG_fsm_cs
- PORT IN_1 = video_to_ram_0_o_DBG_general_purpose
-END
-
 # ################# Debugger ##########################
 BEGIN mdm
  PARAMETER INSTANCE = debug_module
@@ -332,5 +313,24 @@ BEGIN mdm
  PARAMETER C_HIGHADDR = 0x8440ffff
  BUS_INTERFACE SPLB = plb_uB
  PORT Debug_SYS_Rst = Debug_SYS_Rst
+END
+
+BEGIN gcbp
+ PARAMETER INSTANCE = gcbp_0
+ PARAMETER HW_VER = 1.00.a
+ PORT o_bram_array_write_enable = gcbp_0_o_bram_array_write_enable
+ PORT o_bram_array_write_data = gcbp_0_o_bram_array_write_data
+ PORT o_bram_array_write_addr = gcbp_0_o_bram_array_write_addr
+ PORT i_clk = sys_clk_s
+ PORT i_resetn = sys_periph_reset
+END
+
+BEGIN bram_array
+ PARAMETER INSTANCE = bram_array_0
+ PARAMETER HW_VER = 1.00.a
+ PORT bram_write_addr = gcbp_0_o_bram_array_write_addr
+ PORT bram_write_data = gcbp_0_o_bram_array_write_data
+ PORT bram_write_enable = gcbp_0_o_bram_array_write_enable
+ PORT clk_write = sys_clk_s
 END
 

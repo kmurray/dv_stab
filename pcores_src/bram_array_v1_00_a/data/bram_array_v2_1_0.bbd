@@ -1,0 +1,9 @@
+##############################################################################
+## Filename:          /home/kevin/ece532/dv_stab/proj/pcores/bram_array_v1_01_a/data/bram_array_v2_1_0.bbd
+## Description:       Black Box Definition
+## Date:              Sat Mar  3 23:27:45 2012 (by Create and Import Peripheral Wizard)
+##############################################################################
+
+Files
+################################################################################
+bram.ngc
