@@ -20,7 +20,14 @@ proj/hdl
 *.opt
 *.elf
 *work
+*html
+
+#Generated Sim Files
+*/simulation/transcript
+*/simulation/vsim.wlf
+*/simulation/
 
 #png and raw files from simulation debugging
 *.png
 *.raw
+
