@@ -42,7 +42,7 @@ module gcbp_tb;
 	wire [1:0] o_prev_frame_loc;
 
 	// Instantiate the Unit Under Test (UUT)
-	GCBP uut (
+	gcbp uut (
 		.i_clk(i_clk), 
 		.i_resetn(i_resetn), 
 		.i_luma_data(i_luma_data), 

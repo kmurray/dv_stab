@@ -22,7 +22,7 @@ DEVICE = xc2vp30ff896-7
 
 LANGUAGE = verilog
 
-SEARCHPATHOPT =  -lp lib/
+SEARCHPATHOPT =  -lp lib/ -lp /home/kevin/ece532/dv_stab/pcores_src/
 
 SUBMODULE_OPT = 
 
@@ -94,8 +94,9 @@ implementation/plb_video_out_wrapper.ngc \
 implementation/proc_sys_reset_0_wrapper.ngc \
 implementation/ddr_sdram_wrapper.ngc \
 implementation/clock_generator_0_wrapper.ngc \
-implementation/led_debug_mux_0_wrapper.ngc \
-implementation/debug_module_wrapper.ngc
+implementation/debug_module_wrapper.ngc \
+implementation/gcbp_0_wrapper.ngc \
+implementation/bram_array_0_wrapper.ngc
 
 POSTSYN_NETLIST = implementation/$(SYSTEM).ngc
 
