@@ -65,7 +65,7 @@ DEFAULT_SIM_SCRIPT = $(BEHAVIORAL_SIM_SCRIPT)
 
 MIX_LANG_SIM_OPT = -mixed yes
 
-SIMGEN_OPTIONS = -p $(DEVICE) -lang $(LANGUAGE) $(SEARCHPATHOPT) $(BRAMINIT_ELF_FILE_ARGS) $(MIX_LANG_SIM_OPT)  -s mti -tb -X /home/kevin/CAD/Xilinx/10.1/simlibs/ISE_lib/ -E /home/kevin/CAD/Xilinx/10.1/simlibs/EDK_lib/
+SIMGEN_OPTIONS = -p $(DEVICE) -lang $(LANGUAGE) $(SEARCHPATHOPT) $(BRAMINIT_ELF_FILE_ARGS) $(MIX_LANG_SIM_OPT)  -s mti -tb -X /home/kevin/CAD/Xilinx/10.1/simlibs/ISE_Lib/ -E /home/kevin/CAD/Xilinx/10.1/simlibs/EDK_Lib/
 
 UB_XMDSTUB = ub/code/xmdstub.elf
 
@@ -77,7 +77,13 @@ LIBSCLEAN_TARGETS = ub_libsclean
 
 PROGRAMCLEAN_TARGETS = TestApp_Peripheral_programclean 
 
-CORE_STATE_DEVELOPMENT_FILES = 
+CORE_STATE_DEVELOPMENT_FILES = /home/kevin/ece532/dv_stab/proj/pcores/bram_array_v1_00_a/netlist/bram.ngc \
+/home/kevin/ece532/dv_stab/proj/pcores/gcbp_v1_00_a/hdl/verilog/gcbp_bram_addr_dec.v \
+/home/kevin/ece532/dv_stab/proj/pcores/gcbp_v1_00_a/hdl/verilog/gcbp_bram_write_enable_dec.v \
+/home/kevin/ece532/dv_stab/proj/pcores/gcbp_v1_00_a/hdl/verilog/gcbp_line_gen.v \
+/home/kevin/ece532/dv_stab/proj/pcores/gcbp_v1_00_a/hdl/verilog/gcbp.v \
+/home/kevin/ece532/dv_stab/proj/pcores/bram_array_v1_00_a/hdl/verilog/bram_array.v \
+/home/kevin/ece532/dv_stab/proj/pcores/bram_array_v1_00_a/hdl/verilog/bram.v
 
 WRAPPER_NGC_FILES = implementation/ub_wrapper.ngc \
 implementation/ilmb_wrapper.ngc \

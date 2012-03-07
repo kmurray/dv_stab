@@ -64,7 +64,16 @@ module video_to_ram
     //Debug
     o_DBG_fsm_cs,
     o_DBG_general_purpose,
-    i_DBG_new_line
+    i_DBG_new_line,
+
+
+    //custom outputs
+    o_luma_data,
+    o_luma_data_valid,
+    o_new_line,
+    o_line_cnt,
+    o_new_frame
+
 );
 	////////////////////////////////////////////////////////////
 	//////////////////////////  PRE-COMPILER FUNCTIONS /////////
@@ -182,6 +191,13 @@ module video_to_ram
     output  [3:0]                           o_DBG_fsm_cs;
     output  [3:0]                           o_DBG_general_purpose;
     
+    //Custom outputs
+    output  [7:0]                           o_luma_data;
+    output                                  o_luma_data_valid;
+    output                                  o_new_line;
+    output  [9:0]                           o_line_cnt;
+    output                                  o_new_frame;
+
 	////////////////////////////////////////////////////////////
 	////////////////////////// DECLARATIONS ////////////////////
 	////////////////////////////////////////////////////////////
@@ -257,8 +273,10 @@ module video_to_ram
     reg     [3:0]                   c_DBG_fsm_cs;
     wire    [3:0]                   w_DBG_general_purpose;
 
-
-    reg  line_buf_data_valid;
+    //Which line number is in which buffer
+    reg     [9:0]                   r_Buf_0_line_num;
+    reg     [9:0]                   r_Buf_1_line_num;
+    reg     [9:0]                   r_Line_num_from_buffer;
 
 	////////////////////////////////////////////////////////////
 	////////////////////////// ASSIGNMENTS /////////////////////
@@ -300,6 +318,22 @@ module video_to_ram
     assign  w_DBG_general_purpose   = { w_M_request, 1'b0, i_Sl_addrAck, i_PLB_PAValid };
     assign  o_DBG_fsm_cs            = c_DBG_fsm_cs;
     assign  o_DBG_general_purpose   = w_DBG_general_purpose;
+
+
+    //Custom 
+    // Luma data from 4:2:2 to 4:4:4 converter
+    assign w_Luma_to_buffer         = w_Y[9:1];
+    //Buffered luma data
+    assign o_luma_data              = r_Luma_from_buffer;
+    //luma data in buffer is ready
+    assign o_new_line               = r_line_ready;
+    //Which line of the frame are we on?
+    assign o_line_cnt               = r_Line_num_from_buffer;
+    //Indicates a new line has started, w_V_444 is the vertical blank signal... corresponds to a new frame
+    assign o_new_frame              = w_V_444;
+    //This indicates that we are currently bursting out data, with new data every clock edge
+    assign o_luma_data_valid        = ( (r_cs == S_WRITE)	&& (i_Sl_wrComp == 1'b0) );
+
 
 	////////////////////////////////////////////////////////////
 	///////////////////// COMBINATIONAL LOGIC //////////////////
@@ -425,21 +459,6 @@ module video_to_ram
         end
         endcase
     end
-/*    
-    //Valid line buffer output data for GCBP
-    always @ (*)
-    begin
-        case (r_cs)
-        S_WRITE:
-        begin
-            line_buf_data_valid = 1;
-        end
-        default:
-        begin
-            line_buf_data_valid = 0;
-        end
-    end
-    */
 
     //w_H_444_with_DBG
     //c_M_wrDBus
@@ -523,7 +542,31 @@ module video_to_ram
 			r_line_buffer_read_addr <= r_line_buffer_read_addr + 1;
 		end
 	end
-	
+
+
+    /*
+        Save the line number that is stored in each line buffer
+    */
+    always@(posedge i_clk_100_bus)
+    begin
+        if ( i_sys_rst == 1'b1)
+        begin
+            r_Buf_0_line_num <= 0;
+            r_Buf_1_line_num <= 0;
+        end
+        else if (w_write_buffer_0)
+        begin
+            r_Buf_0_line_num <= w_vga_timing_line_count;
+            r_Buf_1_line_num <= r_Buf_1_line_num;
+        end
+        else
+        begin
+            r_Buf_0_line_num <= r_Buf_0_line_num;
+            r_Buf_1_line_num <= w_vga_timing_line_count;
+        end
+    end
+
+
 	// r_Red_from_buffer, r_Green_from_buffer, r_Blue_from_buffer
     //Select line buffer to read from
 	always @ (posedge i_clk_100_bus or posedge i_sys_rst) 
@@ -541,6 +584,7 @@ module video_to_ram
 			r_Green_from_buffer <= w_line_buffer_read_Green_0;
 			r_Blue_from_buffer  <= w_line_buffer_read_Blue_0;
 			r_Luma_from_buffer  <= w_line_buffer_read_Luma_0;
+            r_Line_num_from_buffer <= r_Buf_0_line_num;
 		end
 		else 
 		begin
@@ -548,6 +592,7 @@ module video_to_ram
 			r_Green_from_buffer <= w_line_buffer_read_Green_1;
 			r_Blue_from_buffer  <= w_line_buffer_read_Blue_1;
 			r_Luma_from_buffer  <= w_line_buffer_read_Luma_1;
+            r_Line_num_from_buffer <= r_Buf_1_line_num;
 		end
 	end
 

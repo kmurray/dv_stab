@@ -3,6 +3,7 @@ if {( $argc != 2 )} {
     abort
 }
 
+# copy in the memory initialization file, so MODELSIM doens't crap out on brams
 cp ../../pcores/bram_array_v1_00_a/hdl/verilog/bram.mif bram.mif
 
 #Fix missing library refs

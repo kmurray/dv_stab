@@ -170,6 +170,11 @@ BEGIN video_to_ram
  PORT i_YCrCb = YCrCb_in
  PORT i_DBG_new_line = video_to_ram_0_i_DBG_new_line
  PORT i_MPMC_Done_Init = DDR_SDRAM_MPMC_InitDone
+ PORT o_new_frame = video_to_ram_0_o_new_frame_0
+ PORT o_line_cnt = video_to_ram_0_o_line_cnt
+ PORT o_new_line = video_to_ram_0_o_new_line
+ PORT o_luma_data_valid = video_to_ram_0_o_luma_data_valid
+ PORT o_luma_data = video_to_ram_0_o_luma_data_0
 END
 
 # ################# Bus ###############################
@@ -323,6 +328,11 @@ BEGIN gcbp
  PORT o_bram_array_write_addr = gcbp_0_o_bram_array_write_addr
  PORT i_clk = sys_clk_s
  PORT i_resetn = sys_periph_reset
+ PORT i_new_frame = video_to_ram_0_o_new_frame_0
+ PORT i_line_cnt = video_to_ram_0_o_line_cnt
+ PORT i_new_line = video_to_ram_0_o_new_line
+ PORT i_luma_data_valid = video_to_ram_0_o_luma_data_valid
+ PORT i_luma_data = video_to_ram_0_o_luma_data_0
 END
 
 BEGIN bram_array
@@ -332,5 +342,6 @@ BEGIN bram_array
  PORT bram_write_data = gcbp_0_o_bram_array_write_data
  PORT bram_write_enable = gcbp_0_o_bram_array_write_enable
  PORT clk_write = sys_clk_s
+ PORT clk_read = sys_clk_s
 END
 

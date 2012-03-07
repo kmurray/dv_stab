@@ -125,7 +125,12 @@ module gcbp_tb;
     begin
         #107150 i_line_cnt = i_line_cnt + 1;
     end
-    
+   
+    always
+    begin
+        #57600000 i_line_cnt = 0;
+        
+    end
       
 endmodule
 

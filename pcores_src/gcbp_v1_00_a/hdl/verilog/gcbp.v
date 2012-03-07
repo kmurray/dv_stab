@@ -62,7 +62,7 @@ module gcbp (
     localparam C_VERT_SUBIMAGE_TO_SUBIMAGE      = 44;
 
     //Bits needed to count lines in a frame
-    localparam C_LINES_PER_FRAME_CNT_BITS		= 9; //2^9 = 512  CLogB2(C_LINES_PER_FRAME);
+    localparam C_LINES_PER_FRAME_CNT_BITS		= 10; //2^9 = 512  CLogB2(C_LINES_PER_FRAME);
 
 
     //Bits needed to count sub images in a line
@@ -80,7 +80,7 @@ module gcbp (
     input  [  8:0] i_luma_data;
     input          i_new_line;
     input          i_luma_data_valid;
-    input  [  8:0] i_line_cnt;
+    input  [  9:0] i_line_cnt;
     input          i_new_frame;
 
     //Write address for BRAM array
