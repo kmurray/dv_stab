@@ -3,6 +3,14 @@ if {( $argc != 2 )} {
     abort
 }
 
+cp ../../pcores/bram_array_v1_00_a/hdl/verilog/bram.mif bram.mif
+
+#Fix missing library refs
+alias s   "vsim -novopt -t ps -L XilinxCoreLib -L XilinxCoreLib_ver -L secureip -L unisims_ver system_tb glbl; set xcmds 1"
+
+
+
+
 # Add the ddr dim
 echo "Adding dim"
 do ../ddr_dimm/add_dimm.do
