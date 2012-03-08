@@ -20,10 +20,9 @@ module gcbp (
     i_clk,
     i_resetn,
     i_luma_data,
-    i_new_line,
     i_luma_data_valid,
     i_line_cnt,
-    i_new_frame,
+    i_field_0,
 
     o_bram_array_write_addr,
     o_bram_array_write_data,
@@ -78,10 +77,9 @@ module gcbp (
     input          i_clk;
     input          i_resetn;
     input  [  8:0] i_luma_data;
-    input          i_new_line;
     input          i_luma_data_valid;
     input  [  9:0] i_line_cnt;
-    input          i_new_frame;
+    input          i_field_0;
 
     //Write address for BRAM array
     output [  8:0]  o_bram_array_write_addr;
@@ -118,6 +116,12 @@ module gcbp (
 
     //Data from GCBP_LINE_GEN
     wire w_gcbp_subimage_line;
+    
+    //Indicates the start of a new frame
+    wire w_new_frame;
+
+    //Indicates the start of a new line
+    wire w_new_line;
 
     /***********************************************************
     *
@@ -138,7 +142,7 @@ module gcbp (
                     .i_clk                  (i_clk),
                     .i_resetn               (i_resetn),
                     .i_luma_data            (i_luma_data),
-                    .i_new_line             (i_new_line),
+                    .i_new_line             (w_new_line),
                     .i_luma_data_valid      (i_luma_data_valid),
 
                     .o_gcbp_line            (o_bram_array_write_data),
@@ -167,8 +171,8 @@ module gcbp (
                             .i_clk                  (i_clk),
                             .i_resetn               (i_resetn),
                             .i_valid_subimage_line  (w_valid_subimage_line),
-                            .i_new_line             (i_new_line),
-                            .i_new_frame            (i_new_frame),
+                            .i_new_line             (w_new_line),
+                            .i_new_frame            (w_new_frame),
 
                             .o_curr_frame_loc       (o_curr_frame_loc),
                             .o_prev_frame_loc       (o_prev_frame_loc),
@@ -177,6 +181,26 @@ module gcbp (
                             .o_bram_array_write_addr(o_bram_array_write_addr)
                           );
 
+    /*
+        Detect new frames based on the field indicator
+    */
+    GCBP_FRAME_DETECT GCBP_FRAME_DETECT_inst(
+                            .i_clk                  (i_clk),
+                            .i_resetn               (i_resetn),
+                            .i_field_0              (i_field_0),
+
+                            .o_new_frame            (w_new_frame)
+                          );
+    /*
+        Detect new lines based on a change in the line count
+    */
+    GCBP_LINE_DETECT GCBP_LINE_DETCT_inst(
+                            .i_clk                  (i_clk),
+                            .i_resetn               (i_resetn),
+                            .i_line_cnt             (i_line_cnt),
+
+                            .o_new_line             (w_new_line)
+                          );
 
 
     /***********************************************************

@@ -11,10 +11,9 @@ add wave -noupdate -divider {}
 add wave -noupdate -divider {GCBP - Inputs}
 add wave -noupdate -radix hexadecimal -label i_clk /gcbp_tb/uut/i_clk
 add wave -noupdate -radix hexadecimal -label i_resetn /gcbp_tb/uut/i_resetn
-add wave -noupdate -radix binary -label i_new_line /gcbp_tb/uut/i_new_line
 add wave -noupdate -radix binary -label i_luma_data_valid /gcbp_tb/uut/i_luma_data_valid
 add wave -noupdate -radix unsigned -label i_line_cnt /gcbp_tb/uut/i_line_cnt
-add wave -noupdate -radix binary -label i_new_frame /gcbp_tb/uut/i_new_frame
+add wave -noupdate -radix binary -label i_field_0 /gcbp_tb/uut/i_field_0
 
 add wave -noupdate -divider {GCBP - Counters and State}
 add wave -noupdate -radix unsigned -label c_vert_subimage_cnt /gcbp_tb/uut/c_vert_subimage_cnt
@@ -56,6 +55,20 @@ add wave -noupdate -radix unsigned -label o_curr_frame_loc /gcbp_tb/uut/GCBP_BRA
 add wave -noupdate -radix unsigned -label o_prev_frame_loc /gcbp_tb/uut/GCBP_BRAM_ADDR_DEC_inst/o_prev_frame_loc
 add wave -noupdate -radix unsigned -label o_bram_array_write_addr /gcbp_tb/uut/GCBP_BRAM_ADDR_DEC_inst/o_bram_array_write_addr
 
+########################
+# GCBP_FRAME_DETECT
+########################
+add wave -noupdate -divider {}
+add wave -noupdate -divider {GCBP_FRAME_DETECT - Inputs}
+add wave -noupdate -radix hexadecimal -label i_clk /gcbp_tb/uut/GCBP_FRAME_DETECT_inst/i_clk
+add wave -noupdate -radix hexadecimal -label i_resetn /gcbp_tb/uut/GCBP_FRAME_DETECT_inst/i_resetn
+add wave -noupdate -radix hexadecimal -label i_field_0 /gcbp_tb/uut/GCBP_FRAME_DETECT_inst/i_field_0
+
+
+add wave -noupdate -divider {GCBP_FRAME_DETECT - Counters and State}
+add wave -noupdate -radix hexadecimal -label o_new_frame /gcbp_tb/uut/GCBP_FRAME_DETECT_inst/o_new_frame
+
+add wave -noupdate -divider {GCBP_FRAME_DETECT - Outputs}
 
 
 ########################

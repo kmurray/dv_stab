@@ -72,7 +72,7 @@ module video_to_ram
     o_luma_data_valid,
     o_new_line,
     o_line_cnt,
-    o_new_frame
+    o_field_0
 
 );
 	////////////////////////////////////////////////////////////
@@ -196,7 +196,7 @@ module video_to_ram
     output                                  o_luma_data_valid;
     output                                  o_new_line;
     output  [9:0]                           o_line_cnt;
-    output                                  o_new_frame;
+    output                                  o_field_0;
 
 	////////////////////////////////////////////////////////////
 	////////////////////////// DECLARATIONS ////////////////////
@@ -329,8 +329,8 @@ module video_to_ram
     assign o_new_line               = r_line_ready;
     //Which line of the frame are we on?
     assign o_line_cnt               = r_Line_num_from_buffer;
-    //Indicates a new line has started, w_V_444 is the vertical blank signal... corresponds to a new frame
-    assign o_new_frame              = w_V_444;
+    //Indicate which field of the frame we are working on
+    assign o_field_0                = w_F_444;
     //This indicates that we are currently bursting out data, with new data every clock edge
     assign o_luma_data_valid        = ( (r_cs == S_WRITE)	&& (i_Sl_wrComp == 1'b0) );
 

@@ -78,6 +78,8 @@ LIBSCLEAN_TARGETS = ub_libsclean
 PROGRAMCLEAN_TARGETS = TestApp_Peripheral_programclean 
 
 CORE_STATE_DEVELOPMENT_FILES = /home/kevin/ece532/dv_stab/proj/pcores/bram_array_v1_00_a/netlist/bram.ngc \
+/home/kevin/ece532/dv_stab/proj/pcores/gcbp_v1_00_a/hdl/verilog/gcbp_line_detect.v \
+/home/kevin/ece532/dv_stab/proj/pcores/gcbp_v1_00_a/hdl/verilog/gcbp_frame_detect.v \
 /home/kevin/ece532/dv_stab/proj/pcores/gcbp_v1_00_a/hdl/verilog/gcbp_bram_addr_dec.v \
 /home/kevin/ece532/dv_stab/proj/pcores/gcbp_v1_00_a/hdl/verilog/gcbp_bram_write_enable_dec.v \
 /home/kevin/ece532/dv_stab/proj/pcores/gcbp_v1_00_a/hdl/verilog/gcbp_line_gen.v \

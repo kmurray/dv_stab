@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-
+//Which BRAM should we be writting?
 module GCBP_BRAM_WRITE_ENABLE_DEC(
     input i_gcbp_line_ready,
     input i_valid_subimage_line,

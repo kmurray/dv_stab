@@ -312,7 +312,7 @@ module GCBP_LINE_GEN (
     always@(posedge i_clk)
     begin
        //Reset on reset or a new line
-        if(!i_resetn || i_new_line)
+        if(i_resetn || i_new_line)
             r_hori_pixel_cnt <= 0;
         else
         begin
@@ -347,7 +347,7 @@ module GCBP_LINE_GEN (
     */
     always@(posedge i_clk)
     begin
-        if (!i_resetn)
+        if (i_resetn)
             r_gcbp_line_shift_reg <= 128'b0;
         else
         begin

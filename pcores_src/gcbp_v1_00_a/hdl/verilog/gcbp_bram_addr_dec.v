@@ -179,28 +179,28 @@ module GCBP_BRAM_ADDR_DEC(
         case (r_curr_state)
         S_WRITE_LOC_0:
         begin
-            o_next_frame_loc = 0;
-            o_curr_frame_loc = 2;
-            o_prev_frame_loc = 1;
+            o_next_frame_loc <= 0;
+            o_curr_frame_loc <= 2;
+            o_prev_frame_loc <= 1;
         end
         S_WRITE_LOC_1:
         begin
-            o_next_frame_loc = 1;
-            o_curr_frame_loc = 0;
-            o_prev_frame_loc = 2;
+            o_next_frame_loc <= 1;
+            o_curr_frame_loc <= 0;
+            o_prev_frame_loc <= 2;
         end
         S_WRITE_LOC_2:
         begin
-            o_next_frame_loc = 2;
-            o_curr_frame_loc = 1;
-            o_prev_frame_loc = 0;
+            o_next_frame_loc <= 2;
+            o_curr_frame_loc <= 1;
+            o_prev_frame_loc <= 0;
         end
         default:
         begin
             //S_WRITE_LOC_0
-            o_next_frame_loc = 0;
-            o_curr_frame_loc = 1;
-            o_prev_frame_loc = 2;
+            o_next_frame_loc <= 0;
+            o_curr_frame_loc <= 1;
+            o_prev_frame_loc <= 2;
         end
         endcase
     end
@@ -262,7 +262,7 @@ module GCBP_BRAM_ADDR_DEC(
     //FSM state update
     always@(posedge i_clk)
     begin
-        if(!i_resetn)
+        if(i_resetn)
             r_curr_state <= S_WRITE_LOC_0;
         else
             r_curr_state <= c_next_state;
@@ -270,7 +270,7 @@ module GCBP_BRAM_ADDR_DEC(
 
     always@(posedge i_clk)
     begin
-        if(!i_resetn)
+        if(i_resetn)
             r_subimage_line_cnt <= 0;
         else if (i_valid_subimage_line && i_new_line)
             r_subimage_line_cnt <= r_subimage_line_cnt + 1;

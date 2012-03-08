@@ -28,10 +28,9 @@ module gcbp_tb;
 	reg i_clk;
 	reg i_resetn;
 	reg [8:0] i_luma_data;
-	reg i_new_line;
 	reg i_luma_data_valid;
-	reg [8:0] i_line_cnt;
-	reg i_new_frame;
+	reg [9:0] i_line_cnt;
+	reg i_field_0;
 
 	// Outputs
 	wire [8:0] o_bram_array_write_addr;
@@ -46,10 +45,9 @@ module gcbp_tb;
 		.i_clk(i_clk), 
 		.i_resetn(i_resetn), 
 		.i_luma_data(i_luma_data), 
-		.i_new_line(i_new_line), 
 		.i_luma_data_valid(i_luma_data_valid), 
 		.i_line_cnt(i_line_cnt), 
-		.i_new_frame(i_new_frame), 
+		.i_field_0(i_field_0), 
 		.o_bram_array_write_addr(o_bram_array_write_addr), 
 		.o_bram_array_write_data(o_bram_array_write_data), 
 		.o_bram_array_write_enable(o_bram_array_write_enable), 
@@ -63,10 +61,9 @@ module gcbp_tb;
 		i_clk = 0;
 		i_resetn = 0;
 		i_luma_data = 0;
-		i_new_line = 0;
 		i_luma_data_valid = 0;
 		i_line_cnt = 0;
-		i_new_frame = 0;
+		i_field_0 = 1;
 
 		// Wait 100 ns for global reset to finish
 		#100;
@@ -75,12 +72,6 @@ module gcbp_tb;
         i_resetn = 1;
         i_luma_data = 8'b00010000;
         //Initial stimuli
-        #3;
-        i_new_line = 1;
-        i_new_frame = 1;
-        #8;
-        i_new_line = 0;
-        i_new_frame = 0;
 
     end
 
@@ -106,18 +97,18 @@ module gcbp_tb;
     end
 */
 
+/*
     //Indicate the start of a new line of the frame
     always
     begin
         #107150 i_new_line = 1;
         #10 i_new_line = 0;
     end
-
+*/
     //Start of a new frame
     always
     begin
-        #57600000 i_new_frame = 1;
-        #10 i_new_frame = 0;
+        #57600000 i_field_0 = !i_field_0;
     end
 
     //Line counter

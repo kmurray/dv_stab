@@ -4,6 +4,8 @@
 ## Date:              Sat Mar  3 22:25:17 2012 (by Create and Import Peripheral Wizard)
 ##############################################################################
 
+lib gcbp_v1_00_a gcbp_line_detect verilog
+lib gcbp_v1_00_a gcbp_frame_detect verilog
 lib gcbp_v1_00_a gcbp_bram_addr_dec verilog
 lib gcbp_v1_00_a gcbp_bram_write_enable_dec verilog
 lib gcbp_v1_00_a gcbp_line_gen verilog
