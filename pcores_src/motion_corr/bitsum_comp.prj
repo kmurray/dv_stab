@@ -1,6 +1,0 @@
-verilog work "sum_of_3bit_pair.v"
-verilog work "six_three_comp.v"
-verilog work "twelve_four_comp.v"
-verilog work "ternary_add.v"
-verilog work "sum_of_64.v"
-verilog work "bitsum_comp.v"

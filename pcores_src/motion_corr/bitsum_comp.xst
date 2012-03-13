@@ -1,4 +1,0 @@
-set -tmpdir "./xst/projnav.tmp"
-elaborate
--ifn bitsum_comp.prj
--ifmt mixed
