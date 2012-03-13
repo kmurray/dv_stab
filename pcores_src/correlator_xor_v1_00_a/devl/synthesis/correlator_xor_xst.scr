@@ -1,0 +1,12 @@
+run
+-opt_level 2
+-opt_mode speed
+-ifmt mixed
+-ifn "C:\Dropbox\ece532\PROJECT_TEST\correlator\correlator_proj\motion_corr_plb\pcores\correlator_xor_v1_00_a\devl\synthesis\correlator_xor_xst.prj"
+-top correlator_xor
+-p virtex5
+-ofn "C:\Dropbox\ece532\PROJECT_TEST\correlator\correlator_proj\motion_corr_plb\pcores\correlator_xor_v1_00_a\devl\synthesis\correlator_xor_xst.ngc"
+-iobuf NO
+-rtlview YES
+-hierarchy_separator /
+-work_lib correlator_xor_v1_00_a

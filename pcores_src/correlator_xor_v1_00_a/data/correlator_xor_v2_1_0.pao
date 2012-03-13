@@ -1,0 +1,29 @@
+##############################################################################
+## Filename:          C:/Dropbox/ece532/PROJECT_TEST/correlator/correlator_proj/motion_corr_plb/pcores/correlator_xor_v1_00_a/data/correlator_xor_v2_1_0.pao
+## Description:       Peripheral Analysis Order
+## Date:              Tue Mar 06 17:41:29 2012 (by Create and Import Peripheral Wizard)
+##############################################################################
+
+lib proc_common_v2_00_a proc_common_pkg vhdl
+lib proc_common_v2_00_a ipif_pkg vhdl
+lib proc_common_v2_00_a or_muxcy vhdl
+lib proc_common_v2_00_a or_gate128 vhdl
+lib proc_common_v2_00_a family_support vhdl
+lib proc_common_v2_00_a pselect_f vhdl
+lib proc_common_v2_00_a counter_f vhdl
+lib plbv46_slave_single_v1_00_a plb_address_decoder vhdl
+lib plbv46_slave_single_v1_00_a plb_slave_attachment vhdl
+lib plbv46_slave_single_v1_00_a plbv46_slave_single vhdl
+lib proc_common_v2_00_a soft_reset vhdl
+lib interrupt_control_v2_00_a interrupt_control vhdl
+lib correlator_xor_v1_00_a user_logic verilog
+lib correlator_xor_v1_00_a correlator_xor vhdl
+
+lib correlator_xor_v1_00_a bitsum_comp verilog
+lib correlator_xor_v1_00_a correlator_core verilog
+lib correlator_xor_v1_00_a params.v verilog
+lib correlator_xor_v1_00_a six_three_comp verilog
+lib correlator_xor_v1_00_a sum_of_3bit_pair verilog
+lib correlator_xor_v1_00_a sum_of_64 verilog
+lib correlator_xor_v1_00_a ternary_add verilog
+lib correlator_xor_v1_00_a twelve_four_comp verilog
