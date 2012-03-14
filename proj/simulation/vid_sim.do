@@ -1,5 +1,5 @@
 if {( $argc != 2 )} {
-    echo "Error: must provide run time and time unit (e.g. '1 ms')"
+    echo "Error: must provide initial followed by logging run time"
     abort
 }
 
@@ -7,6 +7,7 @@ if {( $argc != 2 )} {
 cp ../../pcores/bram_array_v1_00_a/hdl/verilog/bram.mif bram.mif
 
 #Fix missing library refs
+#alias s   "vsim -novopt -t ps -L XilinxCoreLib -L XilinxCoreLib_ver -L secureip -L unisims_ver system_tb glbl; set xcmds 1"
 alias s   "vsim -novopt -t ps -L XilinxCoreLib -L XilinxCoreLib_ver -L secureip -L unisims_ver system_tb glbl; set xcmds 1"
 
 
@@ -29,15 +30,17 @@ echo "Config wave window"
 w
 
 # Log all signals, will slow down sim and use more memory but enables access to all signals
-log -r /dut/video_to_ram_0/*
-log -r /dut/gcbp_0/*
-log -r /dut/bram_array_0/*
+nolog -all
 
+run $1
 
-echo "Running sim for $1 $2"
+#log -r /dut/video_to_ram_0/*
+#log -r /dut/gcbp_0/*
+#log -r /dut/bram_array_0/*
+log -r /*
+
 # $1 should be time time to run
-# $2 should be the unit of time
-run $1 $2
+run $2
 
 echo "Grabbing processed image"
 do ../imagesim/saveimagedata.do
