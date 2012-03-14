@@ -22,7 +22,7 @@ module GCBP_LINE_DETECT(
     ***********************************************************/
     //Previous cycle's line count
     reg [9:0]               r_prev_line_cnt;
-    reg                     c_new_line;
+    reg                     r_new_line;
 
     /***********************************************************
     *
@@ -30,7 +30,7 @@ module GCBP_LINE_DETECT(
     *
     ***********************************************************/
     //Output new frame status
-    assign o_new_line = c_new_line;
+    assign o_new_line = r_new_line;
 
 
     /***********************************************************
@@ -50,10 +50,18 @@ module GCBP_LINE_DETECT(
     always@(posedge i_clk)
     begin
         if(i_resetn)
-            r_prev_line_cnt = 0;
+            r_prev_line_cnt <= 0;
         else
-            c_new_line = (r_prev_line_cnt != i_line_cnt);
-            r_prev_line_cnt = i_line_cnt;
+            r_prev_line_cnt <= i_line_cnt;
+    end
+
+    //180 degree phase shift to negedge of clk
+    always@(negedge i_clk)
+    begin
+        if(i_resetn)
+            r_new_line <= 0;
+        else
+            r_new_line <= (r_prev_line_cnt != i_line_cnt);
     end
 
 endmodule

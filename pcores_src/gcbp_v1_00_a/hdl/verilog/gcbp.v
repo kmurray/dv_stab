@@ -106,6 +106,7 @@ module gcbp (
 
     //The current vertical row of sub images being worked on
     reg  [C_SUBIMAGES_PER_LINE_CNT_BITS-1:0]    c_vert_subimage_cnt;
+    reg  [C_LINES_PER_FRAME_CNT_BITS:0]         c_subimage_start_row_cnt;
     reg  [C_LINES_PER_FRAME_CNT_BITS:0]         c_subimage_done_row_cnt;
 
     //The current subimage in a row being worked on
@@ -171,6 +172,9 @@ module gcbp (
                             .i_clk                  (i_clk),
                             .i_resetn               (i_resetn),
                             .i_valid_subimage_line  (w_valid_subimage_line),
+                            .i_line_cnt             (i_line_cnt),
+                            .i_subimage_start_line_num(c_subimage_start_row_cnt),
+
                             .i_new_line             (w_new_line),
                             .i_new_frame            (w_new_frame),
 
@@ -249,26 +253,31 @@ module gcbp (
         case (r_curr_state)
         S_SUBIMAGE_ROW_0:
         begin
+            c_subimage_start_row_cnt = C_VERT_FRAME_EDGE_TO_SUBIMAGE;
             c_subimage_done_row_cnt = C_VERT_FRAME_EDGE_TO_SUBIMAGE + C_SUBIMAGE_HEIGHT;
             c_vert_subimage_cnt = 0;
         end
         S_SUBIMAGE_ROW_1:
         begin
+            c_subimage_start_row_cnt = C_VERT_FRAME_EDGE_TO_SUBIMAGE + C_VERT_SUBIMAGE_TO_SUBIMAGE + C_SUBIMAGE_HEIGHT;
             c_subimage_done_row_cnt = C_VERT_FRAME_EDGE_TO_SUBIMAGE + C_VERT_SUBIMAGE_TO_SUBIMAGE + 2*C_SUBIMAGE_HEIGHT;
             c_vert_subimage_cnt = 1;
         end
         S_SUBIMAGE_ROW_2:
         begin
+            c_subimage_start_row_cnt = C_VERT_FRAME_EDGE_TO_SUBIMAGE + C_VERT_SUBIMAGE_TO_SUBIMAGE + 2*C_SUBIMAGE_HEIGHT;
             c_subimage_done_row_cnt = C_VERT_FRAME_EDGE_TO_SUBIMAGE + 2*C_VERT_SUBIMAGE_TO_SUBIMAGE + 3*C_SUBIMAGE_HEIGHT;
             c_vert_subimage_cnt = 2;
         end
         S_SUBIMAGE_ROW_3:
         begin
+            c_subimage_start_row_cnt = C_VERT_FRAME_EDGE_TO_SUBIMAGE + C_VERT_SUBIMAGE_TO_SUBIMAGE + 3*C_SUBIMAGE_HEIGHT;
             c_subimage_done_row_cnt = C_VERT_FRAME_EDGE_TO_SUBIMAGE + 3*C_VERT_SUBIMAGE_TO_SUBIMAGE + 4*C_SUBIMAGE_HEIGHT;
             c_vert_subimage_cnt = 3;
         end
         default:
         begin
+            c_subimage_start_row_cnt = 0;
             c_subimage_done_row_cnt = 0;
             c_vert_subimage_cnt = 0;
         end
@@ -347,7 +356,7 @@ module gcbp (
     //FSM state update
     always@(posedge i_clk)
     begin
-        if(!i_resetn)
+        if(i_resetn)
             r_curr_state <= S_SUBIMAGE_ROW_0;
         else
             r_curr_state <= c_next_state;

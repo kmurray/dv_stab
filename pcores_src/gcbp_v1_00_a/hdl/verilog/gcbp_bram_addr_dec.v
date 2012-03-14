@@ -5,6 +5,8 @@ module GCBP_BRAM_ADDR_DEC(
         i_clk,
         i_resetn,
         i_valid_subimage_line,
+        i_line_cnt,
+        i_subimage_start_line_num,
         i_new_line,
         i_new_frame,
 
@@ -51,6 +53,10 @@ module GCBP_BRAM_ADDR_DEC(
     //Is the line part of a valid subimage (vertically)
     input           i_valid_subimage_line;
 
+    input [9:0]     i_line_cnt;
+    input [9:0]     i_subimage_start_line_num;
+
+
     //Indicates the start of a new line
     input           i_new_line;
 
@@ -76,7 +82,7 @@ module GCBP_BRAM_ADDR_DEC(
     reg  [C_STATE_BITS-1:0] c_next_state;
 
     //The line of the subimage being worked on (64 total lines per sub image)
-    reg  [5:0] r_subimage_line_cnt;
+    reg  [5:0] r_subimage_line_offset;
 
     /***********************************************************
     *
@@ -163,9 +169,9 @@ module GCBP_BRAM_ADDR_DEC(
 
     /* 
         The GCBP module is writting the 'next' frame to BRAMs,
-        r_subimage_line_cnt represents the current line of the sub image
+        r_subimage_line_offset represents the current line of the sub image
     */
-    assign o_bram_array_write_addr = o_next_frame_loc*C_SUBIMAGE_OFFSET_IN_BRAM + r_subimage_line_cnt;
+    assign o_bram_array_write_addr = o_next_frame_loc*C_SUBIMAGE_OFFSET_IN_BRAM + r_subimage_line_offset;
 
     /***********************************************************
     *
@@ -271,11 +277,12 @@ module GCBP_BRAM_ADDR_DEC(
     always@(posedge i_clk)
     begin
         if(i_resetn)
-            r_subimage_line_cnt <= 0;
+            r_subimage_line_offset <= 0;
         else if (i_valid_subimage_line && i_new_line)
-            r_subimage_line_cnt <= r_subimage_line_cnt + 1;
+            // Offset is given by line count relative to sub image start
+            r_subimage_line_offset <= i_line_cnt - i_subimage_start_line_num;
         else
-            r_subimage_line_cnt <= r_subimage_line_cnt;
+            r_subimage_line_offset <= r_subimage_line_offset;
     end
 
 endmodule

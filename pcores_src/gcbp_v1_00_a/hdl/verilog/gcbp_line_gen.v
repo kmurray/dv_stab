@@ -35,15 +35,14 @@ module GCBP_LINE_GEN (
     ***********************************************************/
 
     //FSM states
-  	localparam						C_STATE_BITS 			= 3;
-	localparam	[C_STATE_BITS-1:0]	S_INIT 			        = 0,
-									S_SUBIMAGE_0			= 1,
-									S_SUBIMAGE_1  			= 2,
-									S_SUBIMAGE_2			= 3,	
-									S_SUBIMAGE_3        	= 4;
+  	localparam						C_STATE_BITS 			= 2;
+	localparam	[C_STATE_BITS-1:0]	S_SUBIMAGE_0            = 0,
+									S_SUBIMAGE_1			= 1,
+									S_SUBIMAGE_2  			= 2,
+									S_SUBIMAGE_3			= 3;	
 
     //Which bit do we select from the luma data?
-    localparam C_BIT_PLANE_NUM                  = 4;
+    localparam C_BIT_PLANE_NUM                  = 5;
 
     parameter BRAM_DATA_WIDTH                   = 128;
 
@@ -155,11 +154,6 @@ module GCBP_LINE_GEN (
     always@(*)
     begin
         case (r_curr_state)
-        S_INIT:
-        begin
-            c_subimage_done_cnt = 0;
-            o_hori_subimage_cnt = 0;
-        end
         S_SUBIMAGE_0:
         begin
             c_subimage_done_cnt = C_HORI_FRAME_EDGE_TO_SUBIMAGE + C_SUBIMAGE_WIDTH;
@@ -196,18 +190,6 @@ module GCBP_LINE_GEN (
 	always @ (*)
 	begin
 		case(r_curr_state)
-		S_INIT:
-		begin
-            //Initial state, wait for line buffer to indicate ready
-			if ( i_new_line == 1'b1 )
-			begin
-				c_next_state <= S_SUBIMAGE_0;
-			end
-			else
-			begin
-				c_next_state <= S_INIT;
-			end
-		end
 		S_SUBIMAGE_0:
 		begin
             //First sub image
@@ -249,7 +231,7 @@ module GCBP_LINE_GEN (
             //4th sub image (final)
             if ( r_hori_pixel_cnt == c_subimage_done_cnt)
             begin
-                c_next_state <= S_INIT;
+                c_next_state <= S_SUBIMAGE_0;
             end
             else
             begin
@@ -259,7 +241,7 @@ module GCBP_LINE_GEN (
         //Init for default
 		default:
 		begin
-			c_next_state <= S_INIT;
+			c_next_state <= S_SUBIMAGE_0;
 		end
 		endcase
 	end
@@ -301,8 +283,8 @@ module GCBP_LINE_GEN (
     //FSM state update
     always@(posedge i_clk)
     begin
-        if(!i_resetn)
-            r_curr_state <= S_INIT;
+        if(i_resetn)
+            r_curr_state <= S_SUBIMAGE_0;
         else
             r_curr_state <= c_next_state;
     end
