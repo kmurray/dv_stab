@@ -85,7 +85,29 @@ CORE_STATE_DEVELOPMENT_FILES = /home/kevin/ece532/dv_stab/proj/pcores/bram_array
 /home/kevin/ece532/dv_stab/proj/pcores/gcbp_v1_00_a/hdl/verilog/gcbp_line_gen.v \
 /home/kevin/ece532/dv_stab/proj/pcores/gcbp_v1_00_a/hdl/verilog/gcbp.v \
 /home/kevin/ece532/dv_stab/proj/pcores/bram_array_v1_00_a/hdl/verilog/bram_array.v \
-/home/kevin/ece532/dv_stab/proj/pcores/bram_array_v1_00_a/hdl/verilog/bram.v
+/home/kevin/ece532/dv_stab/proj/pcores/bram_array_v1_00_a/hdl/verilog/bram.v \
+/home/kevin/CAD/Xilinx/10.1/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v2_00_a/hdl/vhdl/proc_common_pkg.vhd \
+/home/kevin/CAD/Xilinx/10.1/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v2_00_a/hdl/vhdl/ipif_pkg.vhd \
+/home/kevin/CAD/Xilinx/10.1/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v2_00_a/hdl/vhdl/or_muxcy.vhd \
+/home/kevin/CAD/Xilinx/10.1/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v2_00_a/hdl/vhdl/or_gate128.vhd \
+/home/kevin/CAD/Xilinx/10.1/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v2_00_a/hdl/vhdl/family_support.vhd \
+/home/kevin/CAD/Xilinx/10.1/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v2_00_a/hdl/vhdl/pselect_f.vhd \
+/home/kevin/CAD/Xilinx/10.1/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v2_00_a/hdl/vhdl/counter_f.vhd \
+/home/kevin/CAD/Xilinx/10.1/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v2_00_a/hdl/vhdl/soft_reset.vhd \
+/home/kevin/CAD/Xilinx/10.1/EDK/hw/XilinxProcessorIPLib/pcores/plbv46_slave_single_v1_00_a/hdl/vhdl/plb_address_decoder.vhd \
+/home/kevin/CAD/Xilinx/10.1/EDK/hw/XilinxProcessorIPLib/pcores/plbv46_slave_single_v1_00_a/hdl/vhdl/plb_slave_attachment.vhd \
+/home/kevin/CAD/Xilinx/10.1/EDK/hw/XilinxProcessorIPLib/pcores/plbv46_slave_single_v1_00_a/hdl/vhdl/plbv46_slave_single.vhd \
+/home/kevin/CAD/Xilinx/10.1/EDK/hw/XilinxProcessorIPLib/pcores/interrupt_control_v2_00_a/hdl/vhdl/interrupt_control.vhd \
+/home/kevin/ece532/dv_stab/proj/pcores/correlator_xor_v1_00_a/hdl/verilog/user_logic.v \
+/home/kevin/ece532/dv_stab/proj/pcores/correlator_xor_v1_00_a/hdl/vhdl/correlator_xor.vhd \
+/home/kevin/ece532/dv_stab/proj/pcores/correlator_xor_v1_00_a/hdl/verilog/bitsum_comp.v \
+/home/kevin/ece532/dv_stab/proj/pcores/correlator_xor_v1_00_a/hdl/verilog/correlator_core.v \
+/home/kevin/ece532/dv_stab/proj/pcores/correlator_xor_v1_00_a/hdl/verilog/params.v \
+/home/kevin/ece532/dv_stab/proj/pcores/correlator_xor_v1_00_a/hdl/verilog/six_three_comp.v \
+/home/kevin/ece532/dv_stab/proj/pcores/correlator_xor_v1_00_a/hdl/verilog/sum_of_3bit_pair.v \
+/home/kevin/ece532/dv_stab/proj/pcores/correlator_xor_v1_00_a/hdl/verilog/sum_of_64.v \
+/home/kevin/ece532/dv_stab/proj/pcores/correlator_xor_v1_00_a/hdl/verilog/ternary_add.v \
+/home/kevin/ece532/dv_stab/proj/pcores/correlator_xor_v1_00_a/hdl/verilog/twelve_four_comp.v
 
 WRAPPER_NGC_FILES = implementation/ub_wrapper.ngc \
 implementation/ilmb_wrapper.ngc \
@@ -104,7 +126,8 @@ implementation/ddr_sdram_wrapper.ngc \
 implementation/clock_generator_0_wrapper.ngc \
 implementation/debug_module_wrapper.ngc \
 implementation/gcbp_0_wrapper.ngc \
-implementation/bram_array_0_wrapper.ngc
+implementation/bram_array_0_wrapper.ngc \
+implementation/correlator_xor_0_wrapper.ngc
 
 POSTSYN_NETLIST = implementation/$(SYSTEM).ngc
 

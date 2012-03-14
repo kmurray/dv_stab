@@ -341,5 +341,14 @@ BEGIN bram_array
  PORT bram_write_enable = gcbp_0_o_bram_array_write_enable
  PORT clk_write = sys_clk_s
  PORT clk_read = sys_clk_s
+ PORT bram_read_addr = correlator_xor_0_bram_read_addr
+ PORT bram_read_data_0 = bram_array_0_bram_read_data_0
+END
+
+BEGIN correlator_xor
+ PARAMETER INSTANCE = correlator_xor_0
+ PARAMETER HW_VER = 1.00.a
+ PORT bram_read_addr = correlator_xor_0_bram_read_addr
+ PORT bram_read_data_0 = bram_array_0_bram_read_data_0
 END
 
