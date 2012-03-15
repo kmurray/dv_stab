@@ -88,6 +88,7 @@ PORT o_DBG_general_purpose              = "",               DIR = O,            
 ## CUSTOM OUTPUTS
 PORT o_luma_data                        = "",               DIR = O,                            VEC = [7:0]
 PORT o_luma_data_valid                  = "",               DIR = O,                            
+PORT o_new_line                         = "",               DIR = O,                            
 PORT o_line_cnt                         = "",               DIR = O,                            VEC = [9:0]
 PORT o_field_0                          = "",               DIR = O,                            
 

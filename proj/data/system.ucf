@@ -78,20 +78,10 @@ NET "VGA_OUT_BLUE_pin[*]"       IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 6;
 
 
 ########################## LEDs ####################
-Net LED_pin<0> LOC=AC4;
-Net LED_pin<1> LOC=AC3;
-Net LED_pin<2> LOC=AA6;
-Net LED_pin<3> LOC=AA5;
-Net LED_pin<*> IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 12;
 
 
 ########################## DIP SWITCHES ############
 
-Net DIP_SW_pin<0> LOC=AC11;
-Net DIP_SW_pin<1> LOC=AD11;
-Net DIP_SW_pin<2> LOC=AF8;
-Net DIP_SW_pin<3> LOC=AF9;
-Net DIP_SW_pin<*> IOSTANDARD = LVCMOS25;
 
 #### Module DDR_SDRAM constraints
 

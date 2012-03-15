@@ -30,7 +30,7 @@ module gcbp (
 
     o_next_frame_loc,
     o_curr_frame_loc,
-    o_prev_frame_loc,
+    o_prev_frame_loc
 
     );
 

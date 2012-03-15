@@ -174,6 +174,7 @@ BEGIN video_to_ram
  PORT o_luma_data_valid = video_to_ram_0_o_luma_data_valid
  PORT o_luma_data = video_to_ram_0_o_luma_data_0
  PORT o_field_0 = video_to_ram_0_o_field_0
+ PORT o_new_line = video_to_ram_0_o_new_line
 END
 
 # ################# Bus ###############################
@@ -331,6 +332,8 @@ BEGIN gcbp
  PORT i_luma_data_valid = video_to_ram_0_o_luma_data_valid
  PORT i_luma_data = video_to_ram_0_o_luma_data_0
  PORT i_field_0 = video_to_ram_0_o_field_0
+ PORT o_curr_frame_loc = gcbp_0_o_curr_frame_loc
+ PORT o_prev_frame_loc = gcbp_0_o_prev_frame_loc
 END
 
 BEGIN bram_array
@@ -343,6 +346,21 @@ BEGIN bram_array
  PORT clk_read = sys_clk_s
  PORT bram_read_addr = correlator_xor_0_bram_read_addr
  PORT bram_read_data_0 = bram_array_0_bram_read_data_0
+ PORT bram_read_data_1 = bram_array_0_bram_read_data_1
+ PORT bram_read_data_2 = bram_array_0_bram_read_data_2
+ PORT bram_read_data_3 = bram_array_0_bram_read_data_3
+ PORT bram_read_data_4 = bram_array_0_bram_read_data_4
+ PORT bram_read_data_5 = bram_array_0_bram_read_data_5
+ PORT bram_read_data_6 = bram_array_0_bram_read_data_6
+ PORT bram_read_data_7 = bram_array_0_bram_read_data_7
+ PORT bram_read_data_8 = bram_array_0_bram_read_data_8
+ PORT bram_read_data_9 = bram_array_0_bram_read_data_9
+ PORT bram_read_data_10 = bram_array_0_bram_read_data_10
+ PORT bram_read_data_11 = bram_array_0_bram_read_data_11
+ PORT bram_read_data_12 = bram_array_0_bram_read_data_12
+ PORT bram_read_data_13 = bram_array_0_bram_read_data_13
+ PORT bram_read_data_14 = bram_array_0_bram_read_data_14
+ PORT bram_read_data_15 = bram_array_0_bram_read_data_15
 END
 
 BEGIN correlator_xor
@@ -350,5 +368,22 @@ BEGIN correlator_xor
  PARAMETER HW_VER = 1.00.a
  PORT bram_read_addr = correlator_xor_0_bram_read_addr
  PORT bram_read_data_0 = bram_array_0_bram_read_data_0
+ PORT bram_read_data_1 = bram_array_0_bram_read_data_1
+ PORT bram_read_data_2 = bram_array_0_bram_read_data_2
+ PORT bram_read_data_3 = bram_array_0_bram_read_data_3
+ PORT bram_read_data_4 = bram_array_0_bram_read_data_4
+ PORT bram_read_data_5 = bram_array_0_bram_read_data_5
+ PORT bram_read_data_6 = bram_array_0_bram_read_data_6
+ PORT bram_read_data_7 = bram_array_0_bram_read_data_7
+ PORT prev_frame_bram_offset = gcbp_0_o_prev_frame_loc
+ PORT curr_frame_bram_offset = gcbp_0_o_curr_frame_loc
+ PORT bram_read_data_8 = bram_array_0_bram_read_data_8
+ PORT bram_read_data_9 = bram_array_0_bram_read_data_9
+ PORT bram_read_data_10 = bram_array_0_bram_read_data_10
+ PORT bram_read_data_11 = bram_array_0_bram_read_data_11
+ PORT bram_read_data_12 = bram_array_0_bram_read_data_12
+ PORT bram_read_data_13 = bram_array_0_bram_read_data_13
+ PORT bram_read_data_14 = bram_array_0_bram_read_data_14
+ PORT bram_read_data_15 = bram_array_0_bram_read_data_15
 END
 
