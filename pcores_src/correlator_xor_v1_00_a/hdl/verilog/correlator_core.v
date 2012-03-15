@@ -14,7 +14,8 @@ module correlator_core (
     input [`MAX_OFFSET_WIDTH-1:0] y_offset, //unsigned
 
     //current frame bram offset, 0 or 1
-    input curr_frame_bram_offset_sel,
+    input [1:0] curr_frame_bram_offset,
+    input [1:0] prev_frame_bram_offset,
 
     //final correlation sum
     output reg [`FRAME_BITSUM_WIDTH-1:0] corr_sum,
@@ -66,7 +67,7 @@ wire [`SEARCH_AREA_W-1:0] frame_line_xor;
 //TODO: Hard coded values
 assign frame_line_xor = pframe_line_reg[`SEARCH_AREA_W-1:0] ^ cframe_line_reg[`BRAM_DATA_WIDTH-1:32];
 
-//bitwise sum module; TODO
+//bitwise sum module; 
 bitsum_comp bitsum (.clk(clk), .resetn(resetn), .data(frame_line_xor), .sum(frame_line_xor_sum));
 
 //summing the entire frame
@@ -102,8 +103,8 @@ end
 
 //bram address offset computation
 wire [`BRAM_FRAME_ADDR_OFFSET_WIDTH-1:0] cframe_bram_offset, pframe_bram_offset;
-assign cframe_bram_offset = curr_frame_bram_offset_sel ? `BRAM_FRAME_ADDR_OFFSET : 0;
-assign pframe_bram_offset = curr_frame_bram_offset_sel ? 0 : `BRAM_FRAME_ADDR_OFFSET;
+assign cframe_bram_offset = curr_frame_bram_offset << `BRAM_FRAME_ADDR_OFFSET_SHIFT;
+assign pframe_bram_offset = prev_frame_bram_offset << `BRAM_FRAME_ADDR_OFFSET_SHIFT;
 
 
 //address decoder, select between current frame addr and prev frame addr
@@ -162,7 +163,8 @@ begin
         LINE_SUM:   if (y_count < `SEARCH_AREA_H - 1) next_state = PREV_ADDR; //use -1 to stop one cycle earlier
                     else next_state = DONE;
 
-        DONE:       next_state = RESET;
+        DONE:       if (!go) next_state = RESET; //NOTE: assumes software resets "go" to ack that corr_sum is read
+                    else next_state = DONE;
 
         default:    next_state = 4'bxxxx;
 

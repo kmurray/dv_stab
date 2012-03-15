@@ -72,7 +72,8 @@ module user_logic
   bram_read_data_14,
   bram_read_data_15,
   bram_read_addr,
-
+  curr_frame_bram_offset,
+  prev_frame_bram_offset,
   // -- ADD USER PORTS ABOVE THIS LINE ---------------
 
   // -- DO NOT EDIT BELOW THIS LINE ------------------
@@ -122,7 +123,8 @@ input [`BRAM_DATA_WIDTH-1:0] bram_read_data_13;
 input [`BRAM_DATA_WIDTH-1:0] bram_read_data_14;
 input [`BRAM_DATA_WIDTH-1:0] bram_read_data_15;
 output [`BRAM_ADDR_WIDTH-1:0] bram_read_addr;
-   
+input [1:0] curr_frame_bram_offset;
+input [1:0] prev_frame_bram_offset;
 
 // -- ADD USER PORTS ABOVE THIS LINE -----------------
 
@@ -151,8 +153,8 @@ output     [0 : C_NUM_INTR-1]             IP2Bus_IntrEvent;
   reg        [0 : C_SLV_DWIDTH-1]           slv_reg0;
   reg        [0 : C_SLV_DWIDTH-1]           slv_reg1;
   reg        [0 : C_SLV_DWIDTH-1]           slv_reg2;
-  wire        [0 : C_SLV_DWIDTH-1]           slv_reg3;
-  wire        [0 : C_SLV_DWIDTH-1]           slv_reg4;
+  reg        [0 : C_SLV_DWIDTH-1]           slv_reg3;
+  reg        [0 : C_SLV_DWIDTH-1]           slv_reg4;
   reg        [0 : C_SLV_DWIDTH-1]           slv_reg5;
   reg        [0 : C_SLV_DWIDTH-1]           slv_reg6;
   reg        [0 : C_SLV_DWIDTH-1]           slv_reg7;
@@ -307,7 +309,7 @@ output     [0 : C_NUM_INTR-1]             IP2Bus_IntrEvent;
   assign
     slv_reg_write_sel = Bus2IP_WrCE[0:127],
     slv_reg_read_sel  = Bus2IP_RdCE[0:127],
-    slv_write_ack     = Bus2IP_WrCE[0] || Bus2IP_WrCE[1] || Bus2IP_WrCE[2] || /*Bus2IP_WrCE[3] || Bus2IP_WrCE[4] ||*/ Bus2IP_WrCE[5] || Bus2IP_WrCE[6] || Bus2IP_WrCE[7] || Bus2IP_WrCE[8] || Bus2IP_WrCE[9] || Bus2IP_WrCE[10] || Bus2IP_WrCE[11] || Bus2IP_WrCE[12] || Bus2IP_WrCE[13] || Bus2IP_WrCE[14] || Bus2IP_WrCE[15] || Bus2IP_WrCE[16] || Bus2IP_WrCE[17] || Bus2IP_WrCE[18] || Bus2IP_WrCE[19] || Bus2IP_WrCE[20] || Bus2IP_WrCE[21] || Bus2IP_WrCE[22] || Bus2IP_WrCE[23] || Bus2IP_WrCE[24] || Bus2IP_WrCE[25] || Bus2IP_WrCE[26] || Bus2IP_WrCE[27] || Bus2IP_WrCE[28] || Bus2IP_WrCE[29] || Bus2IP_WrCE[30] || Bus2IP_WrCE[31] || Bus2IP_WrCE[32] || Bus2IP_WrCE[33] || Bus2IP_WrCE[34] || Bus2IP_WrCE[35] || Bus2IP_WrCE[36] || Bus2IP_WrCE[37] || Bus2IP_WrCE[38] || Bus2IP_WrCE[39] || Bus2IP_WrCE[40] || Bus2IP_WrCE[41] || Bus2IP_WrCE[42] || Bus2IP_WrCE[43] || Bus2IP_WrCE[44] || Bus2IP_WrCE[45] || Bus2IP_WrCE[46] || Bus2IP_WrCE[47] || Bus2IP_WrCE[48] || Bus2IP_WrCE[49] || Bus2IP_WrCE[50] || Bus2IP_WrCE[51] || Bus2IP_WrCE[52] || Bus2IP_WrCE[53] || Bus2IP_WrCE[54] || Bus2IP_WrCE[55] || Bus2IP_WrCE[56] || Bus2IP_WrCE[57] || Bus2IP_WrCE[58] || Bus2IP_WrCE[59] || Bus2IP_WrCE[60] || Bus2IP_WrCE[61] || Bus2IP_WrCE[62] || Bus2IP_WrCE[63] || Bus2IP_WrCE[64] || Bus2IP_WrCE[65] || Bus2IP_WrCE[66] || Bus2IP_WrCE[67] || Bus2IP_WrCE[68] || Bus2IP_WrCE[69] || Bus2IP_WrCE[70] || Bus2IP_WrCE[71] || Bus2IP_WrCE[72] || Bus2IP_WrCE[73] || Bus2IP_WrCE[74] || Bus2IP_WrCE[75] || Bus2IP_WrCE[76] || Bus2IP_WrCE[77] || Bus2IP_WrCE[78] || Bus2IP_WrCE[79] || Bus2IP_WrCE[80] || Bus2IP_WrCE[81] || Bus2IP_WrCE[82] || Bus2IP_WrCE[83] || Bus2IP_WrCE[84] || Bus2IP_WrCE[85] || Bus2IP_WrCE[86] || Bus2IP_WrCE[87] || Bus2IP_WrCE[88] || Bus2IP_WrCE[89] || Bus2IP_WrCE[90] || Bus2IP_WrCE[91] || Bus2IP_WrCE[92] || Bus2IP_WrCE[93] || Bus2IP_WrCE[94] || Bus2IP_WrCE[95] || Bus2IP_WrCE[96] || Bus2IP_WrCE[97] || Bus2IP_WrCE[98] || Bus2IP_WrCE[99] || Bus2IP_WrCE[100] || Bus2IP_WrCE[101] || Bus2IP_WrCE[102] || Bus2IP_WrCE[103] || Bus2IP_WrCE[104] || Bus2IP_WrCE[105] || Bus2IP_WrCE[106] || Bus2IP_WrCE[107] || Bus2IP_WrCE[108] || Bus2IP_WrCE[109] || Bus2IP_WrCE[110] || Bus2IP_WrCE[111] || Bus2IP_WrCE[112] || Bus2IP_WrCE[113] || Bus2IP_WrCE[114] || Bus2IP_WrCE[115] || Bus2IP_WrCE[116] || Bus2IP_WrCE[117] || Bus2IP_WrCE[118] || Bus2IP_WrCE[119] || Bus2IP_WrCE[120] || Bus2IP_WrCE[121] || Bus2IP_WrCE[122] || Bus2IP_WrCE[123] || Bus2IP_WrCE[124] || Bus2IP_WrCE[125] || Bus2IP_WrCE[126] || Bus2IP_WrCE[127],
+    slv_write_ack     = Bus2IP_WrCE[0] || Bus2IP_WrCE[1] || Bus2IP_WrCE[2] || /*Bus2IP_WrCE[3] || Bus2IP_WrCE[4] || Bus2IP_WrCE[5] || Bus2IP_WrCE[6] || Bus2IP_WrCE[7] || Bus2IP_WrCE[8] || Bus2IP_WrCE[9] || Bus2IP_WrCE[10] || Bus2IP_WrCE[11] || */ Bus2IP_WrCE[12] || Bus2IP_WrCE[13] || Bus2IP_WrCE[14] || Bus2IP_WrCE[15] || Bus2IP_WrCE[16] || Bus2IP_WrCE[17] || Bus2IP_WrCE[18] || Bus2IP_WrCE[19] || Bus2IP_WrCE[20] || Bus2IP_WrCE[21] || Bus2IP_WrCE[22] || Bus2IP_WrCE[23] || Bus2IP_WrCE[24] || Bus2IP_WrCE[25] || Bus2IP_WrCE[26] || Bus2IP_WrCE[27] || Bus2IP_WrCE[28] || Bus2IP_WrCE[29] || Bus2IP_WrCE[30] || Bus2IP_WrCE[31] || Bus2IP_WrCE[32] || Bus2IP_WrCE[33] || Bus2IP_WrCE[34] || Bus2IP_WrCE[35] || Bus2IP_WrCE[36] || Bus2IP_WrCE[37] || Bus2IP_WrCE[38] || Bus2IP_WrCE[39] || Bus2IP_WrCE[40] || Bus2IP_WrCE[41] || Bus2IP_WrCE[42] || Bus2IP_WrCE[43] || Bus2IP_WrCE[44] || Bus2IP_WrCE[45] || Bus2IP_WrCE[46] || Bus2IP_WrCE[47] || Bus2IP_WrCE[48] || Bus2IP_WrCE[49] || Bus2IP_WrCE[50] || Bus2IP_WrCE[51] || Bus2IP_WrCE[52] || Bus2IP_WrCE[53] || Bus2IP_WrCE[54] || Bus2IP_WrCE[55] || Bus2IP_WrCE[56] || Bus2IP_WrCE[57] || Bus2IP_WrCE[58] || Bus2IP_WrCE[59] || Bus2IP_WrCE[60] || Bus2IP_WrCE[61] || Bus2IP_WrCE[62] || Bus2IP_WrCE[63] || Bus2IP_WrCE[64] || Bus2IP_WrCE[65] || Bus2IP_WrCE[66] || Bus2IP_WrCE[67] || Bus2IP_WrCE[68] || Bus2IP_WrCE[69] || Bus2IP_WrCE[70] || Bus2IP_WrCE[71] || Bus2IP_WrCE[72] || Bus2IP_WrCE[73] || Bus2IP_WrCE[74] || Bus2IP_WrCE[75] || Bus2IP_WrCE[76] || Bus2IP_WrCE[77] || Bus2IP_WrCE[78] || Bus2IP_WrCE[79] || Bus2IP_WrCE[80] || Bus2IP_WrCE[81] || Bus2IP_WrCE[82] || Bus2IP_WrCE[83] || Bus2IP_WrCE[84] || Bus2IP_WrCE[85] || Bus2IP_WrCE[86] || Bus2IP_WrCE[87] || Bus2IP_WrCE[88] || Bus2IP_WrCE[89] || Bus2IP_WrCE[90] || Bus2IP_WrCE[91] || Bus2IP_WrCE[92] || Bus2IP_WrCE[93] || Bus2IP_WrCE[94] || Bus2IP_WrCE[95] || Bus2IP_WrCE[96] || Bus2IP_WrCE[97] || Bus2IP_WrCE[98] || Bus2IP_WrCE[99] || Bus2IP_WrCE[100] || Bus2IP_WrCE[101] || Bus2IP_WrCE[102] || Bus2IP_WrCE[103] || Bus2IP_WrCE[104] || Bus2IP_WrCE[105] || Bus2IP_WrCE[106] || Bus2IP_WrCE[107] || Bus2IP_WrCE[108] || Bus2IP_WrCE[109] || Bus2IP_WrCE[110] || Bus2IP_WrCE[111] || Bus2IP_WrCE[112] || Bus2IP_WrCE[113] || Bus2IP_WrCE[114] || Bus2IP_WrCE[115] || Bus2IP_WrCE[116] || Bus2IP_WrCE[117] || Bus2IP_WrCE[118] || Bus2IP_WrCE[119] || Bus2IP_WrCE[120] || Bus2IP_WrCE[121] || Bus2IP_WrCE[122] || Bus2IP_WrCE[123] || Bus2IP_WrCE[124] || Bus2IP_WrCE[125] || Bus2IP_WrCE[126] || Bus2IP_WrCE[127],
     slv_read_ack      = Bus2IP_RdCE[0] || Bus2IP_RdCE[1] || Bus2IP_RdCE[2] || Bus2IP_RdCE[3] || Bus2IP_RdCE[4] || Bus2IP_RdCE[5] || Bus2IP_RdCE[6] || Bus2IP_RdCE[7] || Bus2IP_RdCE[8] || Bus2IP_RdCE[9] || Bus2IP_RdCE[10] || Bus2IP_RdCE[11] || Bus2IP_RdCE[12] || Bus2IP_RdCE[13] || Bus2IP_RdCE[14] || Bus2IP_RdCE[15] || Bus2IP_RdCE[16] || Bus2IP_RdCE[17] || Bus2IP_RdCE[18] || Bus2IP_RdCE[19] || Bus2IP_RdCE[20] || Bus2IP_RdCE[21] || Bus2IP_RdCE[22] || Bus2IP_RdCE[23] || Bus2IP_RdCE[24] || Bus2IP_RdCE[25] || Bus2IP_RdCE[26] || Bus2IP_RdCE[27] || Bus2IP_RdCE[28] || Bus2IP_RdCE[29] || Bus2IP_RdCE[30] || Bus2IP_RdCE[31] || Bus2IP_RdCE[32] || Bus2IP_RdCE[33] || Bus2IP_RdCE[34] || Bus2IP_RdCE[35] || Bus2IP_RdCE[36] || Bus2IP_RdCE[37] || Bus2IP_RdCE[38] || Bus2IP_RdCE[39] || Bus2IP_RdCE[40] || Bus2IP_RdCE[41] || Bus2IP_RdCE[42] || Bus2IP_RdCE[43] || Bus2IP_RdCE[44] || Bus2IP_RdCE[45] || Bus2IP_RdCE[46] || Bus2IP_RdCE[47] || Bus2IP_RdCE[48] || Bus2IP_RdCE[49] || Bus2IP_RdCE[50] || Bus2IP_RdCE[51] || Bus2IP_RdCE[52] || Bus2IP_RdCE[53] || Bus2IP_RdCE[54] || Bus2IP_RdCE[55] || Bus2IP_RdCE[56] || Bus2IP_RdCE[57] || Bus2IP_RdCE[58] || Bus2IP_RdCE[59] || Bus2IP_RdCE[60] || Bus2IP_RdCE[61] || Bus2IP_RdCE[62] || Bus2IP_RdCE[63] || Bus2IP_RdCE[64] || Bus2IP_RdCE[65] || Bus2IP_RdCE[66] || Bus2IP_RdCE[67] || Bus2IP_RdCE[68] || Bus2IP_RdCE[69] || Bus2IP_RdCE[70] || Bus2IP_RdCE[71] || Bus2IP_RdCE[72] || Bus2IP_RdCE[73] || Bus2IP_RdCE[74] || Bus2IP_RdCE[75] || Bus2IP_RdCE[76] || Bus2IP_RdCE[77] || Bus2IP_RdCE[78] || Bus2IP_RdCE[79] || Bus2IP_RdCE[80] || Bus2IP_RdCE[81] || Bus2IP_RdCE[82] || Bus2IP_RdCE[83] || Bus2IP_RdCE[84] || Bus2IP_RdCE[85] || Bus2IP_RdCE[86] || Bus2IP_RdCE[87] || Bus2IP_RdCE[88] || Bus2IP_RdCE[89] || Bus2IP_RdCE[90] || Bus2IP_RdCE[91] || Bus2IP_RdCE[92] || Bus2IP_RdCE[93] || Bus2IP_RdCE[94] || Bus2IP_RdCE[95] || Bus2IP_RdCE[96] || Bus2IP_RdCE[97] || Bus2IP_RdCE[98] || Bus2IP_RdCE[99] || Bus2IP_RdCE[100] || Bus2IP_RdCE[101] || Bus2IP_RdCE[102] || Bus2IP_RdCE[103] || Bus2IP_RdCE[104] || Bus2IP_RdCE[105] || Bus2IP_RdCE[106] || Bus2IP_RdCE[107] || Bus2IP_RdCE[108] || Bus2IP_RdCE[109] || Bus2IP_RdCE[110] || Bus2IP_RdCE[111] || Bus2IP_RdCE[112] || Bus2IP_RdCE[113] || Bus2IP_RdCE[114] || Bus2IP_RdCE[115] || Bus2IP_RdCE[116] || Bus2IP_RdCE[117] || Bus2IP_RdCE[118] || Bus2IP_RdCE[119] || Bus2IP_RdCE[120] || Bus2IP_RdCE[121] || Bus2IP_RdCE[122] || Bus2IP_RdCE[123] || Bus2IP_RdCE[124] || Bus2IP_RdCE[125] || Bus2IP_RdCE[126] || Bus2IP_RdCE[127];
 
   // implement slave model register(s)
@@ -321,13 +323,13 @@ output     [0 : C_NUM_INTR-1]             IP2Bus_IntrEvent;
           slv_reg2 <= 0;
           //slv_reg3 <= 0;
           //slv_reg4 <= 0;
-          slv_reg5 <= 0;
-          slv_reg6 <= 0;
-          slv_reg7 <= 0;
-          slv_reg8 <= 0;
-          slv_reg9 <= 0;
-          slv_reg10 <= 0;
-          slv_reg11 <= 0;
+         //slv_reg5 <= 0;
+         //slv_reg6 <= 0;
+         //slv_reg7 <= 0;
+         //slv_reg8 <= 0;
+         //slv_reg9 <= 0;
+         //slv_reg10 <= 0;
+         //slv_reg11 <= 0;
           slv_reg12 <= 0;
           slv_reg13 <= 0;
           slv_reg14 <= 0;
@@ -472,41 +474,41 @@ output     [0 : C_NUM_INTR-1]             IP2Bus_IntrEvent;
 //             if ( Bus2IP_BE[byte_index] == 1 )
 //               for ( bit_index = byte_index*8; bit_index <= byte_index*8+7; bit_index = bit_index+1 )
 //                 slv_reg4[bit_index] <= Bus2IP_Data[bit_index];
-          128'b00000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000 :
-            for ( byte_index = 0; byte_index <= (C_SLV_DWIDTH/8)-1; byte_index = byte_index+1 )
-              if ( Bus2IP_BE[byte_index] == 1 )
-                for ( bit_index = byte_index*8; bit_index <= byte_index*8+7; bit_index = bit_index+1 )
-                  slv_reg5[bit_index] <= Bus2IP_Data[bit_index];
-          128'b00000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000 :
-            for ( byte_index = 0; byte_index <= (C_SLV_DWIDTH/8)-1; byte_index = byte_index+1 )
-              if ( Bus2IP_BE[byte_index] == 1 )
-                for ( bit_index = byte_index*8; bit_index <= byte_index*8+7; bit_index = bit_index+1 )
-                  slv_reg6[bit_index] <= Bus2IP_Data[bit_index];
-          128'b00000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000 :
-            for ( byte_index = 0; byte_index <= (C_SLV_DWIDTH/8)-1; byte_index = byte_index+1 )
-              if ( Bus2IP_BE[byte_index] == 1 )
-                for ( bit_index = byte_index*8; bit_index <= byte_index*8+7; bit_index = bit_index+1 )
-                  slv_reg7[bit_index] <= Bus2IP_Data[bit_index];
-          128'b00000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000 :
-            for ( byte_index = 0; byte_index <= (C_SLV_DWIDTH/8)-1; byte_index = byte_index+1 )
-              if ( Bus2IP_BE[byte_index] == 1 )
-                for ( bit_index = byte_index*8; bit_index <= byte_index*8+7; bit_index = bit_index+1 )
-                  slv_reg8[bit_index] <= Bus2IP_Data[bit_index];
-          128'b00000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000 :
-            for ( byte_index = 0; byte_index <= (C_SLV_DWIDTH/8)-1; byte_index = byte_index+1 )
-              if ( Bus2IP_BE[byte_index] == 1 )
-                for ( bit_index = byte_index*8; bit_index <= byte_index*8+7; bit_index = bit_index+1 )
-                  slv_reg9[bit_index] <= Bus2IP_Data[bit_index];
-          128'b00000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000 :
-            for ( byte_index = 0; byte_index <= (C_SLV_DWIDTH/8)-1; byte_index = byte_index+1 )
-              if ( Bus2IP_BE[byte_index] == 1 )
-                for ( bit_index = byte_index*8; bit_index <= byte_index*8+7; bit_index = bit_index+1 )
-                  slv_reg10[bit_index] <= Bus2IP_Data[bit_index];
-          128'b00000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000 :
-            for ( byte_index = 0; byte_index <= (C_SLV_DWIDTH/8)-1; byte_index = byte_index+1 )
-              if ( Bus2IP_BE[byte_index] == 1 )
-                for ( bit_index = byte_index*8; bit_index <= byte_index*8+7; bit_index = bit_index+1 )
-                  slv_reg11[bit_index] <= Bus2IP_Data[bit_index];
+//         128'b00000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000 :
+//           for ( byte_index = 0; byte_index <= (C_SLV_DWIDTH/8)-1; byte_index = byte_index+1 )
+//             if ( Bus2IP_BE[byte_index] == 1 )
+//               for ( bit_index = byte_index*8; bit_index <= byte_index*8+7; bit_index = bit_index+1 )
+//                 slv_reg5[bit_index] <= Bus2IP_Data[bit_index];
+//         128'b00000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000 :
+//           for ( byte_index = 0; byte_index <= (C_SLV_DWIDTH/8)-1; byte_index = byte_index+1 )
+//             if ( Bus2IP_BE[byte_index] == 1 )
+//               for ( bit_index = byte_index*8; bit_index <= byte_index*8+7; bit_index = bit_index+1 )
+//                 slv_reg6[bit_index] <= Bus2IP_Data[bit_index];
+//         128'b00000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000 :
+//           for ( byte_index = 0; byte_index <= (C_SLV_DWIDTH/8)-1; byte_index = byte_index+1 )
+//             if ( Bus2IP_BE[byte_index] == 1 )
+//               for ( bit_index = byte_index*8; bit_index <= byte_index*8+7; bit_index = bit_index+1 )
+//                 slv_reg7[bit_index] <= Bus2IP_Data[bit_index];
+//         128'b00000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000 :
+//           for ( byte_index = 0; byte_index <= (C_SLV_DWIDTH/8)-1; byte_index = byte_index+1 )
+//             if ( Bus2IP_BE[byte_index] == 1 )
+//               for ( bit_index = byte_index*8; bit_index <= byte_index*8+7; bit_index = bit_index+1 )
+//                 slv_reg8[bit_index] <= Bus2IP_Data[bit_index];
+//         128'b00000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000 :
+//           for ( byte_index = 0; byte_index <= (C_SLV_DWIDTH/8)-1; byte_index = byte_index+1 )
+//             if ( Bus2IP_BE[byte_index] == 1 )
+//               for ( bit_index = byte_index*8; bit_index <= byte_index*8+7; bit_index = bit_index+1 )
+//                 slv_reg9[bit_index] <= Bus2IP_Data[bit_index];
+//         128'b00000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000 :
+//           for ( byte_index = 0; byte_index <= (C_SLV_DWIDTH/8)-1; byte_index = byte_index+1 )
+//             if ( Bus2IP_BE[byte_index] == 1 )
+//               for ( bit_index = byte_index*8; bit_index <= byte_index*8+7; bit_index = bit_index+1 )
+//                 slv_reg10[bit_index] <= Bus2IP_Data[bit_index];
+//         128'b00000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000 :
+//           for ( byte_index = 0; byte_index <= (C_SLV_DWIDTH/8)-1; byte_index = byte_index+1 )
+//             if ( Bus2IP_BE[byte_index] == 1 )
+//               for ( bit_index = byte_index*8; bit_index <= byte_index*8+7; bit_index = bit_index+1 )
+//                 slv_reg11[bit_index] <= Bus2IP_Data[bit_index];
           128'b00000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000 :
             for ( byte_index = 0; byte_index <= (C_SLV_DWIDTH/8)-1; byte_index = byte_index+1 )
               if ( Bus2IP_BE[byte_index] == 1 )
@@ -1240,27 +1242,207 @@ output     [0 : C_NUM_INTR-1]             IP2Bus_IntrEvent;
   assign IP2Bus_Error   = 0;
 
 
+//NOTE: SLV_REG bits are reversed
+wire [`FRAME_BITSUM_WIDTH-1:0] corr_0_corr_sum, corr_1_corr_sum, corr_2_corr_sum, corr_3_corr_sum, corr_4_corr_sum, corr_5_corr_sum, corr_6_corr_sum, corr_7_corr_sum;
+wire corr_0_done, corr_1_done, corr_2_done, corr_3_done, corr_4_done, corr_5_done, corr_6_done, corr_7_done;
 
 correlator_core corr_0(
     .clk(Bus2IP_Clk),
     .resetn(~Bus2IP_Reset), 
-
-    .go(slv_reg0[0:0]),
+    .go(slv_reg0[C_SLV_DWIDTH-1]),
     //bram data and address
     .bram_data(bram_read_data_0),
     .bram_addr(bram_read_addr),
 
     //x & y offsets
-    .x_offset(slv_reg1[0:`MAX_OFFSET_WIDTH-1]),
-    .y_offset(slv_reg2[0:`MAX_OFFSET_WIDTH-1]),
+    .x_offset(slv_reg1[C_SLV_DWIDTH-`MAX_OFFSET_WIDTH:C_SLV_DWIDTH-1]),
+    .y_offset(slv_reg2[C_SLV_DWIDTH-`MAX_OFFSET_WIDTH:C_SLV_DWIDTH-1]),
 
-    //current frame bram offset, 0 or 1
-    .curr_frame_bram_offset_sel(slv_reg0[1:1]),
+    //bram addr offsets
+    .curr_frame_bram_offset(curr_frame_bram_offset),
+    .prev_frame_bram_offset(prev_frame_bram_offset),
 
     //final correlation sum
-    .corr_sum(slv_reg3[0:`FRAME_BITSUM_WIDTH-1]),
-    .done(slv_reg4[0:0])
+    .corr_sum(corr_0_corr_sum),
+    .done(corr_0_done)
     );
 
+correlator_core corr_1(
+    .clk(Bus2IP_Clk),
+    .resetn(~Bus2IP_Reset), 
+    .go(slv_reg0[C_SLV_DWIDTH-1]),
+    //bram data and address
+    .bram_data(bram_read_data_1),
+    .bram_addr(),
+
+    //x & y offsets
+    .x_offset(slv_reg1[C_SLV_DWIDTH-`MAX_OFFSET_WIDTH:C_SLV_DWIDTH-1]),
+    .y_offset(slv_reg2[C_SLV_DWIDTH-`MAX_OFFSET_WIDTH:C_SLV_DWIDTH-1]),
+
+    //bram addr offsets
+    .curr_frame_bram_offset(curr_frame_bram_offset),
+    .prev_frame_bram_offset(prev_frame_bram_offset),
+
+    //final correlation sum
+    .corr_sum(corr_1_corr_sum),
+    .done(corr_1_done)
+    );
+
+
+correlator_core corr_2(
+    .clk(Bus2IP_Clk),
+    .resetn(~Bus2IP_Reset), 
+    .go(slv_reg0[C_SLV_DWIDTH-1]),
+    //bram data and address
+    .bram_data(bram_read_data_2),
+    .bram_addr(),
+
+    //x & y offsets
+    .x_offset(slv_reg1[C_SLV_DWIDTH-`MAX_OFFSET_WIDTH:C_SLV_DWIDTH-1]),
+    .y_offset(slv_reg2[C_SLV_DWIDTH-`MAX_OFFSET_WIDTH:C_SLV_DWIDTH-1]),
+
+    //bram addr offsets
+    .curr_frame_bram_offset(curr_frame_bram_offset),
+    .prev_frame_bram_offset(prev_frame_bram_offset),
+
+    //final correlation sum
+    .corr_sum(corr_2_corr_sum),
+    .done(corr_2_done)
+    );
+
+correlator_core corr_3(
+    .clk(Bus2IP_Clk),
+    .resetn(~Bus2IP_Reset), 
+    .go(slv_reg0[C_SLV_DWIDTH-1]),
+    //bram data and address
+    .bram_data(bram_read_data_3),
+    .bram_addr(),
+
+    //x & y offsets
+    .x_offset(slv_reg1[C_SLV_DWIDTH-`MAX_OFFSET_WIDTH:C_SLV_DWIDTH-1]),
+    .y_offset(slv_reg2[C_SLV_DWIDTH-`MAX_OFFSET_WIDTH:C_SLV_DWIDTH-1]),
+
+    //bram addr offsets
+    .curr_frame_bram_offset(curr_frame_bram_offset),
+    .prev_frame_bram_offset(prev_frame_bram_offset),
+
+    //final correlation sum
+    .corr_sum(corr_3_corr_sum),
+    .done(corr_3_done)
+    );
+
+correlator_core corr_4(
+    .clk(Bus2IP_Clk),
+    .resetn(~Bus2IP_Reset), 
+    .go(slv_reg0[C_SLV_DWIDTH-1]),
+    //bram data and address
+    .bram_data(bram_read_data_4),
+    .bram_addr(),
+
+    //x & y offsets
+    .x_offset(slv_reg1[C_SLV_DWIDTH-`MAX_OFFSET_WIDTH:C_SLV_DWIDTH-1]),
+    .y_offset(slv_reg2[C_SLV_DWIDTH-`MAX_OFFSET_WIDTH:C_SLV_DWIDTH-1]),
+
+    //bram addr offsets
+    .curr_frame_bram_offset(curr_frame_bram_offset),
+    .prev_frame_bram_offset(prev_frame_bram_offset),
+
+    //final correlation sum
+    .corr_sum(corr_4_corr_sum),
+    .done(corr_4_done)
+    );
+
+correlator_core corr_5(
+    .clk(Bus2IP_Clk),
+    .resetn(~Bus2IP_Reset), 
+    .go(slv_reg0[C_SLV_DWIDTH-1]),
+    //bram data and address
+    .bram_data(bram_read_data_5),
+    .bram_addr(),
+
+    //x & y offsets
+    .x_offset(slv_reg1[C_SLV_DWIDTH-`MAX_OFFSET_WIDTH:C_SLV_DWIDTH-1]),
+    .y_offset(slv_reg2[C_SLV_DWIDTH-`MAX_OFFSET_WIDTH:C_SLV_DWIDTH-1]),
+
+    //bram addr offsets
+    .curr_frame_bram_offset(curr_frame_bram_offset),
+    .prev_frame_bram_offset(prev_frame_bram_offset),
+
+    //final correlation sum
+    .corr_sum(corr_5_corr_sum),
+    .done(corr_5_done)
+    );
+
+correlator_core corr_6(
+    .clk(Bus2IP_Clk),
+    .resetn(~Bus2IP_Reset), 
+    .go(slv_reg0[C_SLV_DWIDTH-1]),
+    //bram data and address
+    .bram_data(bram_read_data_6),
+    .bram_addr(),
+
+    //x & y offsets
+    .x_offset(slv_reg1[C_SLV_DWIDTH-`MAX_OFFSET_WIDTH:C_SLV_DWIDTH-1]),
+    .y_offset(slv_reg2[C_SLV_DWIDTH-`MAX_OFFSET_WIDTH:C_SLV_DWIDTH-1]),
+
+    //bram addr offsets
+    .curr_frame_bram_offset(curr_frame_bram_offset),
+    .prev_frame_bram_offset(prev_frame_bram_offset),
+
+    //final correlation sum
+    .corr_sum(corr_6_corr_sum),
+    .done(corr_6_done)
+    );
+
+correlator_core corr_7(
+    .clk(Bus2IP_Clk),
+    .resetn(~Bus2IP_Reset), 
+    .go(slv_reg0[C_SLV_DWIDTH-1]),
+    //bram data and address
+    .bram_data(bram_read_data_7),
+    .bram_addr(),
+
+    //x & y offsets
+    .x_offset(slv_reg1[C_SLV_DWIDTH-`MAX_OFFSET_WIDTH:C_SLV_DWIDTH-1]),
+    .y_offset(slv_reg2[C_SLV_DWIDTH-`MAX_OFFSET_WIDTH:C_SLV_DWIDTH-1]),
+
+    //bram addr offsets
+    .curr_frame_bram_offset(curr_frame_bram_offset),
+    .prev_frame_bram_offset(prev_frame_bram_offset),
+
+    //final correlation sum
+    .corr_sum(corr_7_corr_sum),
+    .done(corr_7_done)
+    );
+
+
+
+
+always @(posedge Bus2IP_Clk) begin
+    if ( Bus2IP_Reset == 1 )
+    begin
+        slv_reg3 <= 0;
+        slv_reg4 <= 0;
+        slv_reg5 <= 0;
+        slv_reg6 <= 0;
+        slv_reg7 <= 0;
+        slv_reg8 <= 0;
+        slv_reg9 <= 0;
+        slv_reg10 <= 0;
+        slv_reg11 <= 0;
+    end
+    else
+    begin
+        slv_reg3 <= {31'h0, corr_0_done}; //all done signals assert at the same time
+        slv_reg4 <= {17'h0, corr_0_corr_sum};
+        slv_reg5 <= {17'h0, corr_1_corr_sum};
+        slv_reg6 <= {17'h0, corr_2_corr_sum};
+        slv_reg7 <= {17'h0, corr_3_corr_sum};
+        slv_reg8 <= {17'h0, corr_4_corr_sum};
+        slv_reg9 <= {17'h0, corr_5_corr_sum};
+        slv_reg10 <= {17'h0, corr_6_corr_sum};
+        slv_reg11 <= {17'h0, corr_7_corr_sum};
+    end
+end
 
 endmodule

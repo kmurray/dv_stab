@@ -182,6 +182,8 @@ entity correlator_xor is
       bram_read_data_14             : in std_logic_vector (127 downto 0);
       bram_read_data_15             : in std_logic_vector (127 downto 0);
       bram_read_addr                : out std_logic_vector (8 downto 0);
+      curr_frame_bram_offset        : in std_logic_vector (1 downto 0);
+      prev_frame_bram_offset        : in std_logic_vector (1 downto 0);
     -- ADD USER PORTS ABOVE THIS LINE ------------------
 
     -- DO NOT EDIT BELOW THIS LINE ---------------------
@@ -419,7 +421,8 @@ architecture IMP of correlator_xor is
       bram_read_data_14             : in std_logic_vector (127 downto 0);
       bram_read_data_15             : in std_logic_vector (127 downto 0);
       bram_read_addr                : out std_logic_vector (8 downto 0);
-
+      curr_frame_bram_offset        : in std_logic_vector (1 downto 0);
+      prev_frame_bram_offset        : in std_logic_vector (1 downto 0);
       -- ADD USER PORTS ABOVE THIS LINE ------------------
 
       -- DO NOT EDIT BELOW THIS LINE ---------------------
@@ -616,7 +619,8 @@ begin
       bram_read_data_14             => bram_read_data_14 ,
       bram_read_data_15             => bram_read_data_15 ,
       bram_read_addr                => bram_read_addr    ,
-
+      curr_frame_bram_offset        => curr_frame_bram_offset ,
+      prev_frame_bram_offset        => prev_frame_bram_offset ,
       -- MAP USER PORTS ABOVE THIS LINE ------------------
 
       Bus2IP_Clk                     => ipif_Bus2IP_Clk,

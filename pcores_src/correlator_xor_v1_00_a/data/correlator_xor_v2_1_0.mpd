@@ -98,7 +98,7 @@ PORT bram_read_data_13 = "", DIR = I, VEC = [127:0]
 PORT bram_read_data_14 = "", DIR = I, VEC = [127:0]
 PORT bram_read_data_15 = "", DIR = I, VEC = [127:0]
 PORT bram_read_addr = "", DIR = O, VEC = [8:0]
-
-
+PORT curr_frame_bram_offset = "", DIR = I, VEC = [1:0]
+PORT prev_frame_bram_offset = "", DIR = I, VEC = [1:0]
 
 END
