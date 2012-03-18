@@ -366,8 +366,13 @@ END
 BEGIN correlator_xor
  PARAMETER INSTANCE = correlator_xor_0
  PARAMETER HW_VER = 1.00.a
+ PARAMETER C_BASEADDR = 0x87000000
+ PARAMETER C_HIGHADDR = 0x8700FFFF
+ BUS_INTERFACE SPLB = plb_uB
  PORT bram_read_addr = correlator_xor_0_bram_read_addr
  PORT bram_read_data_0 = bram_array_0_bram_read_data_0
+ PORT prev_frame_bram_offset = gcbp_0_o_prev_frame_loc
+ PORT curr_frame_bram_offset = gcbp_0_o_curr_frame_loc
  PORT bram_read_data_1 = bram_array_0_bram_read_data_1
  PORT bram_read_data_2 = bram_array_0_bram_read_data_2
  PORT bram_read_data_3 = bram_array_0_bram_read_data_3
@@ -375,8 +380,6 @@ BEGIN correlator_xor
  PORT bram_read_data_5 = bram_array_0_bram_read_data_5
  PORT bram_read_data_6 = bram_array_0_bram_read_data_6
  PORT bram_read_data_7 = bram_array_0_bram_read_data_7
- PORT prev_frame_bram_offset = gcbp_0_o_prev_frame_loc
- PORT curr_frame_bram_offset = gcbp_0_o_curr_frame_loc
  PORT bram_read_data_8 = bram_array_0_bram_read_data_8
  PORT bram_read_data_9 = bram_array_0_bram_read_data_9
  PORT bram_read_data_10 = bram_array_0_bram_read_data_10

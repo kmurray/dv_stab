@@ -39,6 +39,11 @@ run $1
 #log -r /dut/bram_array_0/*
 log -r /*
 
+
+#Force the correlators to start on the partial frame, when the proc gets there
+force sim:/system_tb/dut/correlator_xor_0/curr_frame_bram_offset 1
+force sim:/system_tb/dut/correlator_xor_0/prev_frame_bram_offset 1
+
 # $1 should be time time to run
 run $2
 

@@ -29,13 +29,13 @@ EnableResetOptimization: 0
 ShowLicenseDialog: 1
 Processor: uB
 BootLoop: 0
-XmdStub: 0
+XmdStub: 1
 SwProj: TestApp_Peripheral
 Processor: uB
 Executable: sw/exec.elf
 Source: sw/video_setup.c
 DefaultInit: EXECUTABLE
-InitBram: 1
+InitBram: 0
 Active: 1
 CompilerOptLevel: 2
 GlobPtrOpt: 0
