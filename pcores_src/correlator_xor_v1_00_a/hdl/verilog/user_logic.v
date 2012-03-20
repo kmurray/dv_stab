@@ -793,7 +793,8 @@ always @(posedge Bus2IP_Clk) begin
     end
     else
     begin
-        status_reg3 <= {31'h0, corr_0_done}; //all done signals assert at the same time
+        //TODO: check endianess of bram offests
+        status_reg3 <= {12'h000, curr_frame_bram_offset, prev_frame_bram_offset, 2'b00, 12'h000, corr_0_done}; //all done signals assert at the same time
         corr_value_0_reg4 <= {17'h0, corr_0_corr_sum};
         corr_value_1_reg5 <= {17'h0, corr_1_corr_sum};
         corr_value_2_reg6 <= {17'h0, corr_2_corr_sum};
