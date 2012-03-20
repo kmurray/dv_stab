@@ -1,8 +1,8 @@
 `timescale 1ns/1ps
 
 
-// A parameterized, inferable, true dual-port, dual-clock block RAM in Verilog.
-// From:  http://danstrother.com/2010/09/11/inferring-rams-in-fpgas/
+// A parameterized, inferable, simple dual-port, dual-clock block RAM in Verilog.
+// Based on:  http://danstrother.com/2010/09/11/inferring-rams-in-fpgas/
 module bram #(
     parameter DATA = 128,
     parameter ADDR = 9
