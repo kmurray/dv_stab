@@ -30,11 +30,21 @@ ShowLicenseDialog: 1
 Processor: uB
 BootLoop: 0
 XmdStub: 1
-SwProj: TestApp_Peripheral
+SwProj: dv_stab
 Processor: uB
-Executable: sw/exec.elf
-Source: sw/video_setup.c
-DefaultInit: EXECUTABLE
+Executable: dv_stab/executable.elf
+Source: /home/kevin/ece532/dv_stab/sw_src/init_hw.c
+Source: /home/kevin/ece532/dv_stab/sw_src/main.c
+Source: /home/kevin/ece532/dv_stab/sw_src/video_decoder_driver/video_dec_driver.c
+Source: /home/kevin/ece532/dv_stab/sw_src/correlator_driver_xor/correlator_driver.c
+Source: /home/kevin/ece532/dv_stab/sw_src/calcMotionVector.c
+Header: /home/kevin/ece532/dv_stab/sw_src/video_decoder_driver/video_dec_driver.h
+Header: /home/kevin/ece532/dv_stab/sw_src/init_hw.h
+Header: /home/kevin/ece532/dv_stab/sw_src/main.h
+Header: /home/kevin/ece532/dv_stab/sw_src/data_structs.h
+Header: /home/kevin/ece532/dv_stab/sw_src/correlator_driver_xor/correlator_driver.h
+Header: /home/kevin/ece532/dv_stab/sw_src/calcMotionVector.h
+DefaultInit: XMDSTUB
 InitBram: 0
 Active: 1
 CompilerOptLevel: 2
@@ -44,7 +54,7 @@ ProfileFlag: 0
 ProgStart: 
 StackSize: 
 HeapSize: 
-LinkerScript: sw/linker.ld
-ProgCCFlags: 
+LinkerScript: 
+ProgCCFlags: -std=c99 -pedantic -Wall -Wshadow -Wpointer-arith -Wcast-qual -Wstrict-prototypes -Wmissing-prototypes
 CompileInXps: 1
 NonXpsApp: 0

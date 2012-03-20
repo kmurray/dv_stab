@@ -37,8 +37,8 @@ MANAGE_FASTRT_OPTIONS = -reduce_fanout no
 
 OBSERVE_PAR_OPTIONS = -error yes
 
-TESTAPP_PERIPHERAL_OUTPUT_DIR = sw
-TESTAPP_PERIPHERAL_OUTPUT = $(TESTAPP_PERIPHERAL_OUTPUT_DIR)/exec.elf
+DV_STAB_OUTPUT_DIR = dv_stab
+DV_STAB_OUTPUT = $(DV_STAB_OUTPUT_DIR)/executable.elf
 
 MICROBLAZE_BOOTLOOP = $(XILINX_EDK_DIR)/sw/lib/microblaze/mb_bootloop.elf
 PPC405_BOOTLOOP = $(XILINX_EDK_DIR)/sw/lib/ppc405/ppc_bootloop.elf
@@ -51,7 +51,7 @@ UB_XMDSTUB = ub/code/xmdstub.elf
 BRAMINIT_ELF_FILES =   $(UB_XMDSTUB) 
 BRAMINIT_ELF_FILE_ARGS =   -pe uB  $(UB_XMDSTUB) 
 
-ALL_USER_ELF_FILES = $(TESTAPP_PERIPHERAL_OUTPUT) 
+ALL_USER_ELF_FILES = $(DV_STAB_OUTPUT) 
 
 SIM_CMD = vsim
 
@@ -65,7 +65,7 @@ DEFAULT_SIM_SCRIPT = $(BEHAVIORAL_SIM_SCRIPT)
 
 MIX_LANG_SIM_OPT = -mixed yes
 
-SIMGEN_OPTIONS = -p $(DEVICE) -lang $(LANGUAGE) $(SEARCHPATHOPT) $(BRAMINIT_ELF_FILE_ARGS) $(MIX_LANG_SIM_OPT)  -s mti -tb -X /home/kevin/CAD/Xilinx/10.1/simlibs/ISE_Lib/ -E /home/kevin/CAD/Xilinx/10.1/simlibs/EDK_Lib/
+SIMGEN_OPTIONS = -p $(DEVICE) -lang $(LANGUAGE) $(SEARCHPATHOPT) $(BRAMINIT_ELF_FILE_ARGS) $(MIX_LANG_SIM_OPT)  -s mti -tb
 
 UB_XMDSTUB = ub/code/xmdstub.elf
 
@@ -75,7 +75,7 @@ VPEXEC = virtualplatform/vpexec
 
 LIBSCLEAN_TARGETS = ub_libsclean 
 
-PROGRAMCLEAN_TARGETS = TestApp_Peripheral_programclean 
+PROGRAMCLEAN_TARGETS = dv_stab_programclean 
 
 CORE_STATE_DEVELOPMENT_FILES = /home/kevin/ece532/dv_stab/proj/pcores/bram_array_v1_00_a/netlist/bram.ngc \
 /home/kevin/ece532/dv_stab/proj/pcores/gcbp_v1_00_a/hdl/verilog/gcbp_line_detect.v \
@@ -152,33 +152,33 @@ XPLORER_OPTIONS = -p $(DEVICE) -uc $(SYSTEM).ucf -bm $(SYSTEM).bmm -max_runs 7
 FPGA_IMP_DEPENDENCY = $(BMM_FILE) $(POSTSYN_NETLIST) $(UCF_FILE) $(XFLOW_DEPENDENCY)
 
 #################################################################
-# SOFTWARE APPLICATION TESTAPP_PERIPHERAL
+# SOFTWARE APPLICATION DV_STAB
 #################################################################
 
-TESTAPP_PERIPHERAL_SOURCES = sw/video_setup.c 
+DV_STAB_SOURCES = /home/kevin/ece532/dv_stab/sw_src/init_hw.c /home/kevin/ece532/dv_stab/sw_src/main.c /home/kevin/ece532/dv_stab/sw_src/video_decoder_driver/video_dec_driver.c /home/kevin/ece532/dv_stab/sw_src/correlator_driver_xor/correlator_driver.c /home/kevin/ece532/dv_stab/sw_src/calcMotionVector.c 
 
-TESTAPP_PERIPHERAL_HEADERS = 
+DV_STAB_HEADERS = /home/kevin/ece532/dv_stab/sw_src/video_decoder_driver/video_dec_driver.h /home/kevin/ece532/dv_stab/sw_src/init_hw.h /home/kevin/ece532/dv_stab/sw_src/main.h /home/kevin/ece532/dv_stab/sw_src/data_structs.h /home/kevin/ece532/dv_stab/sw_src/correlator_driver_xor/correlator_driver.h /home/kevin/ece532/dv_stab/sw_src/calcMotionVector.h 
 
-TESTAPP_PERIPHERAL_CC = mb-gcc
-TESTAPP_PERIPHERAL_CC_SIZE = mb-size
-TESTAPP_PERIPHERAL_CC_OPT = -O2
-TESTAPP_PERIPHERAL_CFLAGS = 
-TESTAPP_PERIPHERAL_CC_SEARCH = # -B
-TESTAPP_PERIPHERAL_LIBPATH = -L./ub/lib/ # -L
-TESTAPP_PERIPHERAL_INCLUDES = -I./ub/include/ # -I
-TESTAPP_PERIPHERAL_LFLAGS = # -l
-TESTAPP_PERIPHERAL_LINKER_SCRIPT = sw/linker.ld
-TESTAPP_PERIPHERAL_LINKER_SCRIPT_FLAG = -Wl,-T -Wl,$(TESTAPP_PERIPHERAL_LINKER_SCRIPT) 
-TESTAPP_PERIPHERAL_CC_DEBUG_FLAG =  -g 
-TESTAPP_PERIPHERAL_CC_PROFILE_FLAG = # -pg
-TESTAPP_PERIPHERAL_CC_GLOBPTR_FLAG= # -mxl-gp-opt
-TESTAPP_PERIPHERAL_MODE = executable
-TESTAPP_PERIPHERAL_LIBG_OPT = -$(TESTAPP_PERIPHERAL_MODE) ub
-TESTAPP_PERIPHERAL_CC_INFERRED_FLAGS= -mxl-soft-mul -mxl-pattern-compare -mcpu=v7.10.d 
-TESTAPP_PERIPHERAL_CC_START_ADDR_FLAG=  #  # -Wl,-defsym -Wl,_TEXT_START_ADDR=
-TESTAPP_PERIPHERAL_CC_STACK_SIZE_FLAG=  #  # -Wl,-defsym -Wl,_STACK_SIZE=
-TESTAPP_PERIPHERAL_CC_HEAP_SIZE_FLAG=  #  # -Wl,-defsym -Wl,_HEAP_SIZE=
-TESTAPP_PERIPHERAL_OTHER_CC_FLAGS= $(TESTAPP_PERIPHERAL_CC_GLOBPTR_FLAG)  \
-                  $(TESTAPP_PERIPHERAL_CC_START_ADDR_FLAG) $(TESTAPP_PERIPHERAL_CC_STACK_SIZE_FLAG) $(TESTAPP_PERIPHERAL_CC_HEAP_SIZE_FLAG)  \
-                  $(TESTAPP_PERIPHERAL_CC_INFERRED_FLAGS)  \
-                  $(TESTAPP_PERIPHERAL_LINKER_SCRIPT_FLAG) $(TESTAPP_PERIPHERAL_CC_DEBUG_FLAG) $(TESTAPP_PERIPHERAL_CC_PROFILE_FLAG) 
+DV_STAB_CC = mb-gcc
+DV_STAB_CC_SIZE = mb-size
+DV_STAB_CC_OPT = -O2
+DV_STAB_CFLAGS = -std=c99 -pedantic -Wall -Wshadow -Wpointer-arith -Wcast-qual -Wstrict-prototypes -Wmissing-prototypes
+DV_STAB_CC_SEARCH = # -B
+DV_STAB_LIBPATH = -L./ub/lib/ # -L
+DV_STAB_INCLUDES = -I./ub/include/  -I/home/kevin/ece532/dv_stab/sw_src/video_decoder_driver/ -I/home/kevin/ece532/dv_stab/sw_src/ -I/home/kevin/ece532/dv_stab/sw_src/correlator_driver_xor/ # -I
+DV_STAB_LFLAGS = # -l
+DV_STAB_LINKER_SCRIPT = 
+DV_STAB_LINKER_SCRIPT_FLAG = #-Wl,-T -Wl,$(DV_STAB_LINKER_SCRIPT) 
+DV_STAB_CC_DEBUG_FLAG =  -g 
+DV_STAB_CC_PROFILE_FLAG = # -pg
+DV_STAB_CC_GLOBPTR_FLAG= # -mxl-gp-opt
+DV_STAB_MODE = xmdstub
+DV_STAB_LIBG_OPT = -$(DV_STAB_MODE) ub
+DV_STAB_CC_INFERRED_FLAGS= -mxl-soft-mul -mxl-pattern-compare -mcpu=v7.10.d 
+DV_STAB_CC_START_ADDR_FLAG=  # -Wl,-defsym -Wl,_TEXT_START_ADDR=
+DV_STAB_CC_STACK_SIZE_FLAG=  # -Wl,-defsym -Wl,_STACK_SIZE=
+DV_STAB_CC_HEAP_SIZE_FLAG=  # -Wl,-defsym -Wl,_HEAP_SIZE=
+DV_STAB_OTHER_CC_FLAGS= $(DV_STAB_CC_GLOBPTR_FLAG)  \
+                  $(DV_STAB_CC_START_ADDR_FLAG) $(DV_STAB_CC_STACK_SIZE_FLAG) $(DV_STAB_CC_HEAP_SIZE_FLAG)  \
+                  $(DV_STAB_CC_INFERRED_FLAGS)  \
+                  $(DV_STAB_LINKER_SCRIPT_FLAG) $(DV_STAB_CC_DEBUG_FLAG) $(DV_STAB_CC_PROFILE_FLAG) 

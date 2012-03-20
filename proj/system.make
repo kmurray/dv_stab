@@ -147,22 +147,23 @@ ub_libsclean:
 $(UB_XMDSTUB): $(LIBRARIES)
 
 #################################################################
-# SOFTWARE APPLICATION TESTAPP_PERIPHERAL
+# SOFTWARE APPLICATION DV_STAB
 #################################################################
 
-TestApp_Peripheral_program: $(TESTAPP_PERIPHERAL_OUTPUT) 
+dv_stab_program: $(DV_STAB_OUTPUT) 
 
-$(TESTAPP_PERIPHERAL_OUTPUT) : $(TESTAPP_PERIPHERAL_SOURCES) $(TESTAPP_PERIPHERAL_HEADERS) $(TESTAPP_PERIPHERAL_LINKER_SCRIPT) \
-                    $(LIBRARIES) __xps/testapp_peripheral_compiler.opt
-	@mkdir -p $(TESTAPP_PERIPHERAL_OUTPUT_DIR) 
-	$(TESTAPP_PERIPHERAL_CC) $(TESTAPP_PERIPHERAL_CC_OPT) $(TESTAPP_PERIPHERAL_SOURCES) -o $(TESTAPP_PERIPHERAL_OUTPUT) \
-	$(TESTAPP_PERIPHERAL_OTHER_CC_FLAGS) $(TESTAPP_PERIPHERAL_INCLUDES) $(TESTAPP_PERIPHERAL_LIBPATH) \
-	$(TESTAPP_PERIPHERAL_CFLAGS) $(TESTAPP_PERIPHERAL_LFLAGS) 
-	$(TESTAPP_PERIPHERAL_CC_SIZE) $(TESTAPP_PERIPHERAL_OUTPUT) 
+$(DV_STAB_OUTPUT) : $(DV_STAB_SOURCES) $(DV_STAB_HEADERS) $(DV_STAB_LINKER_SCRIPT) \
+                    $(LIBRARIES) __xps/dv_stab_compiler.opt
+	@mkdir -p $(DV_STAB_OUTPUT_DIR) 
+	$(DV_STAB_CC) $(DV_STAB_CC_OPT) $(DV_STAB_SOURCES) -o $(DV_STAB_OUTPUT) \
+	$(DV_STAB_OTHER_CC_FLAGS) $(DV_STAB_INCLUDES) $(DV_STAB_LIBPATH) \
+	-xl-mode-$(DV_STAB_MODE)  \
+	$(DV_STAB_CFLAGS) $(DV_STAB_LFLAGS) 
+	$(DV_STAB_CC_SIZE) $(DV_STAB_OUTPUT) 
 	@echo ""
 
-TestApp_Peripheral_programclean:
-	rm -f $(TESTAPP_PERIPHERAL_OUTPUT) 
+dv_stab_programclean:
+	rm -f $(DV_STAB_OUTPUT) 
 
 #################################################################
 # BOOTLOOP ELF FILES
