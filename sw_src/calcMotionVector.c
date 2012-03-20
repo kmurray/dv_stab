@@ -1,172 +1,201 @@
-#define NEIGHBORHOOD_X 5
-#define NEIGHBORHOOD_Y 5
+#include <xbasic_types.h>
+#include <data_structs.h>
+#include <correlator_driver.h>
+#include <calcMotionVector.h>
+
 #define NUM_SUBIMAGES 16
-
-#define MAX_TRIES 2
-#define T_MAX 0.7
-#define T_MIN 0.01
-#define T_DECAY_RATE 0.09
-
-//For the exp() f'n
-#include <math.h>
-
-//Stores a potential solution
-typedef struct Solution {
-    int x;
-    int y;
-    int correlationValue = NULL;
-} Solution;
+#define MAX_X_OFFSET 32
+#define MAX_Y_OFFSET 32
 
 
-void* calcMotionVectorSA () {
-    //Where each of the 16 sub images are currently searching
-    Solution currentSolns[NUM_SUBIMAGES];
-    //The best solution found for each of the sub images
-    Solution bestSolns[NUM_SUBIMAGES];
-    //Number of outer algorithm iterations
-    int tries;
 
-    for (tries = 0; tries < MAX_TRIES; tries++) {
+/*
+    Calculate the motion vector of the current frame
+*/
+Solution calcMotionVector(CorrelatorModule* correlator_ptr) {
     
-        //Random starting positions
-        int subImageNum;
-        for(subImageNum = 0; subImageNum < NUM_SUBIMAGES; subImageNum++) {
-            //TODO: use a single rand int if this is too slow
-            currentSolns[subImageNum].x = randi(SUBIMAGE_WIDTH);
-            currentSolns[subImageNum].y = randi(SUBIMAGE_HEIGHT);
-        }
-        
-        //Evaluate solutions
-        evalSolns(currentSolns, NUM_SUBIMAGES);
+    //printf("Starting motion vector correlation\r\n");
 
-        //If this is the first (or a better) solution accept it as best
-        for(subImageNum = 0; subImageNum < NUM_SUBIMAGES; subImageNum++) {
-            if ( (currentSolns[subImageNum].correlationValue == NULL) ||
-                 (currentSolns[subImageNum].correlationValue < bestSolns[subImageNum].correlationValue) ) {
+    //The array of local motion vectors
+    Solution LocalMotionVec[NUM_SUBIMAGES];
+    int subimage_cnt;
+    //Initialize
+    for(subimage_cnt = 0; subimage_cnt < NUM_SUBIMAGES; subimage_cnt++) {
+        LocalMotionVec[subimage_cnt].correl_val = -1;
+    }
 
-                bestSolns[subImageNum] = currentSolns[subImageNum];
-            }
-        }
+    //Generate the local motion vectors (brute force search + correlator block evaluation)
+    calcLocalMotionVectors(LocalMotionVec, correlator_ptr);
 
-        //Init temperature
-        float t = T_MAX;
-        //Init cooling counter
-        int j = 0;
+    //The frame/global motion vector is the median of all the local motion vectors
+    Solution globalMotionVector = median(LocalMotionVec, NUM_SUBIMAGES);
 
-        //Cool unitl T_MIN
-        while (t > T_MIN) {
-            
-            //Cool
-            t = tMax*exp(-j*tDecayRate);
-
-            //Generate new solutions in the neighborhood of the current solutions
-            neighborSoln = getNeighbor(currentSolns, NEIGHBORHOOD_X, NEIGHBORHOOD_Y)
-
-            //Evaluate
-            evalSolns(&neighborSoln, NUM_SUBIMAGES);
-
-            for(subImageNum = 0; subImageNum < NUM_SUBIMAGES; subImageNum++) {
-                
-                //Keep the best solution
-                if(neighborSoln[subImageNum].correlationValue < bestSoln[subImageNum].correlationValue) {
-                    bestSolns[subImageNum] = neighborSoln[subImageNum];
-                }
-
-                //probabilistically accept the neighbor solution as the currentPosition
-                if ( porbabilisticAccept(currentsoln[subImageNum].correlationValue, neighborSoln[subImageNum].correlationValue, t) ) {
-                    currentSoln[subImageNum] = neighborSoln[subImageNum];
-                }
-            }
-            
-            //Cooling increment
-            j = j + 1;
-
-        } //temperature
-
-    } //tries
-
-
-    //Take the median of the motion vectors
-    Solution motionVector = median(bestSolns, NUM_SUBIMAGES);
-
-
-    return motionVector;
+    return globalMotionVector;
+ 
 }
 
-int median(Solution solns[], int size) {
-    
+#define DEBUG_PRINT(x, ...) if(x) { printf( __VA_ARGS__ ); }
 
+/*
+    Calculate the motion vectors of each sub image
+
+    This function loops through the various x,y offset combinations using
+    the correlator block to perform the heavy computaion to get the 
+    correlation values.
+
+    It returns the solutions for each sub image through the array passed
+    as an argument.
+*/
+void calcLocalMotionVectors(Solution BestSolns[], CorrelatorModule* correlator_ptr) {
+
+    int x_offset, y_offset;
+    int print_verbose = FALSE;
+
+    //Search 32 pixels in each direction
+    for (x_offset = 0; x_offset < MAX_X_OFFSET; x_offset++){
+        for (y_offset = 0; y_offset < MAX_Y_OFFSET; y_offset++){
+            
+            //The offset
+            Position offset;
+            offset.x = x_offset;
+            offset.y = y_offset;
+            
+            DEBUG_PRINT(print_verbose, "Setting offset.x: %d, offset.y: %d\r\n", offset.x, offset.y); 
+
+            //The correlaiton results
+            int correl_vals[NUM_SUBIMAGES];
+
+            //Set the search co-ords for the correlator
+            correlator_set_offset(offset, correlator_ptr);
+
+            //Start the correlator
+            correlator_start(correlator_ptr);
+
+            //Busy wait until finished
+            while(!correlator_finished(correlator_ptr)) {
+                //nop
+            }
+            
+            //Grab the results
+            correlator_get_results(correl_vals, correlator_ptr);
+            
+
+            int subimage_num;
+
+            //Check each sub image
+            for (subimage_num = 0; subimage_num < NUM_SUBIMAGES; subimage_num++) {
+                DEBUG_PRINT(print_verbose, "Correlator %d result: %d\r\n", subimage_num, correl_vals[subimage_num]); 
+                //Keep the lowest correlation value for each subimage, the offest 
+                //that generates this is the local motion vector for the sub image
+                // -1 is the initialized solution value
+                if ((BestSolns[subimage_num].correl_val == -1 ) || \
+                    (BestSolns[subimage_num].correl_val > correl_vals[subimage_num])) {
+                    
+                    BestSolns[subimage_num].mv = offset;
+                    BestSolns[subimage_num].correl_val = correl_vals[subimage_num];
+                }
+            } //sub images
+        } //y offsets
+    } // x offsets
+}
+
+/*
+    Returns the median of the array
+*/
+Solution median(Solution solns[], int size) {
+
+    //Sort the solutions
+    selectionSort(solns, size); 
+
+    Solution medianSoln;
+    /* 
+        Calculate the median
+        
+        Median is defined as the (n+1)/2 item
+            For odd 'size' this works out to be an integer
+
+            For even 'size' we need to calculate it as the average
+            between the n/2 and n/2 + 1 items
+     */
+    if (size % 2 == 0) {
+        //Even
+
+        /* 
+            XXX: This uses integer not floating point division
+
+            TODO: Make this use floating point division and round to integers,
+                  if it isn't too slow on microblaze....
+         */
+        medianSoln.correl_val = 0.5*(solns[size/2].correl_val + solns[size/2 +1].correl_val);
+
+        medianSoln.mv.x =  0.5*(solns[size/2].mv.x + solns[size/2 +1].mv.x);
+        medianSoln.mv.y =  0.5*(solns[size/2].mv.y + solns[size/2 +1].mv.y);
+
+        
+    } else {
+        //Odd
+        medianSoln = solns[(size+1)/2];
+    }
 
     return medianSoln;
 }
 
 /*
-    Accept the neighbor solution, randomly, but biased towards accepting
-    better solutions by the correlation value difference and temperature
+    Selection sort is nice since it sorts in place
+
+    TODO: fix this crappy O(n^2) sort, it only works because our list is small
  */
-int probabilisticAccept(currentCorrelationValue, neighborCorrelationValue, temperature) {
-    int accept;
+void selectionSort(Solution solns[], int size) {
 
-    /*
-        Semi-random acceptance rate, a significantly better solution is
-        much more likely to be accepted than one that is worse.  As the 
-        temparture decreases this emphasis is increased
-     */
+    //current position we are sorting based on
+    int pos;
 
-    //Random value between 0 and 1
-    // FIXME: not a good implimentation...
-    float randValue = (float) rand()/RAND_MAX;
+    //The minimum value we are comparing to
+    int pos_min;
 
-    //Acceptance threshold
-    float acceptanceValue = exp((currentCorrelationValue - neighborCorrelationValue)/t);
+    //Inner loop counter
+    int i;
 
-    //Evaluate
-    accept = (randValue < acceptacneValue);
+    //Through all the elments
+    for(pos = 0; pos < size; pos++) {
+        //Find the smallest element in the unsorted remainder solns[pos .. size-1]
 
-    return accept;
+        //Assume first element is min
+        pos_min = pos;
+
+        //check all the other elements after pos
+        for(i = pos+1; i < size; i++) {
+            //If a latter element is smaller it should be the new min
+            if(solns[i].correl_val < solns[pos_min].correl_val) {
+                //New minimum - save its position
+                pos_min = i;
+            }
+        }
+
+        //If the first element wasn't the smallest, swap it with the smallest
+        if (pos_min != pos) {
+            swap(solns, pos, pos_min);
+        }
+
+    }
 }
 
-/*
-    Given a list of solution structs, load the co-ordinates
-    into the correlator registers, wait for the result
-    and finally retireve the correlationvalues
+/* 
+    Swap two elements in the array
 
-    TODO: use real functions...
- */
-void evalSolns (Solution soln[], int size) {
-    //Build correlator co-ordinates struct
-    searchCoordsStruct = CorrelatorGenCoordsStruct(size);
-   
-    int subImageNum;
-    for(subImageNum = 0; subImageNum < size; subImageNum++) {
-        searchCoords[subImageNum].x = soln[subImageNum].x
-        searchCoords[subImageNum].y = soln[subImageNum].y
-    }
+    Assumes pos and pos_min are valid, does no error checking
+*/
+void swap(Solution solns[], int pos, int pos_min) {
+    //Temp var
+    Solution temp;
+    
+    //Save pos
+    temp = solns[pos];
 
-    /* 
-        Store coords and start correlator
+    //Move pos_min to pos
+    solns[pos] = solns[pos_min];
 
-        The correlator hardware block processes all 16 subimages in parrallel
-     */
-    CorrelatorStart(searchCoords);
+    //Move saved pos to pos_min
+    solns[pos_min] = temp;
 
-    while(!CorrelatorFinished()){
-    //Poll for status
-    }
-
-    //Load results
-    correlationResults = CorrelatorGetResults();
-
-    //Add correlation values to soln
-    for(subImageNum = 0; subImageNum < size; subImageNum++) {
-        soln[subImageNum].correlationValue = correlationResults[subImageNum];
-    }
-
-}
-
-/*
-    Generate a random integer from 0 to range
- */
-int randi(int range) {
-    return rand() % range;
 }
