@@ -1,0 +1,4 @@
+verilog work "../../../hdl/verilog/v_addr_gen.v"
+verilog work "../../../hdl/verilog/line_buffer_video.v"
+verilog work "../../../hdl/verilog/h_addr_gen.v"
+verilog work "../../../hdl/verilog/user_logic.v"

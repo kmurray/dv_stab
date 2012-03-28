@@ -29,7 +29,7 @@ EnableResetOptimization: 0
 ShowLicenseDialog: 1
 Processor: uB
 BootLoop: 0
-XmdStub: 1
+XmdStub: 0
 SwProj: dv_stab
 Processor: uB
 Executable: dv_stab/executable.elf
@@ -38,14 +38,16 @@ Source: /home/kevin/ece532/dv_stab/sw_src/main.c
 Source: /home/kevin/ece532/dv_stab/sw_src/video_decoder_driver/video_dec_driver.c
 Source: /home/kevin/ece532/dv_stab/sw_src/correlator_driver_xor/correlator_driver.c
 Source: /home/kevin/ece532/dv_stab/sw_src/calcMotionVector.c
+Source: /home/kevin/ece532/dv_stab/sw_src/video_out_driver/video_out.c
 Header: /home/kevin/ece532/dv_stab/sw_src/video_decoder_driver/video_dec_driver.h
 Header: /home/kevin/ece532/dv_stab/sw_src/init_hw.h
 Header: /home/kevin/ece532/dv_stab/sw_src/main.h
 Header: /home/kevin/ece532/dv_stab/sw_src/data_structs.h
 Header: /home/kevin/ece532/dv_stab/sw_src/correlator_driver_xor/correlator_driver.h
 Header: /home/kevin/ece532/dv_stab/sw_src/calcMotionVector.h
+Header: /home/kevin/ece532/dv_stab/sw_src/video_out_driver/video_out.h
 DefaultInit: XMDSTUB
-InitBram: 0
+InitBram: 1
 Active: 1
 CompilerOptLevel: 2
 GlobPtrOpt: 0

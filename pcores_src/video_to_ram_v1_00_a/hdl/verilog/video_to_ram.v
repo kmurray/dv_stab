@@ -67,7 +67,8 @@ module video_to_ram
     i_DBG_new_line,
 
 
-    //custom outputs
+    //custom input/outputs
+    i_next_frame_loc,
     o_luma_data,
     o_luma_data_valid,
     o_new_line,
@@ -106,6 +107,7 @@ module video_to_ram
 	parameter						C_BYTES_PER_LINE		= 4096;
 
 	// Local
+    localparam                      C_VIDEO_RAM_BUF_OFFSET  = 32'h00400000; //4MB offest
 	localparam  					C_BE_BITS           	= (C_PLBV46_DWIDTH / 8);
 	
 	localparam						C_BURST_LENGTH			= 16;	// Always write 16 times per request (maximum per burst)
@@ -191,7 +193,8 @@ module video_to_ram
     output  [3:0]                           o_DBG_fsm_cs;
     output  [3:0]                           o_DBG_general_purpose;
     
-    //Custom outputs
+    //Custom outputs/outputs
+    input   [1:0]                           i_next_frame_loc;
     output  [7:0]                           o_luma_data;
     output                                  o_luma_data_valid;
     output                                  o_new_line;
@@ -616,6 +619,7 @@ module video_to_ram
 	begin
 		if ( r_cs == S_START_LINE  )
 		begin
+			//r_M_ABus <= C_VIDEO_RAM_BASEADDR + C_VIDEO_RAM_BUF_OFFSET*i_next_frame_loc + C_BYTES_PER_LINE * w_vga_timing_line_count;
 			r_M_ABus <= C_VIDEO_RAM_BASEADDR + C_BYTES_PER_LINE * w_vga_timing_line_count;
 		end
 		else if ( r_cs == S_WRITE_COMPLETE )

@@ -48,8 +48,8 @@ BOOTLOOP_DIR = bootloops
 UB_BOOTLOOP = $(BOOTLOOP_DIR)/ub.elf
 UB_XMDSTUB = ub/code/xmdstub.elf
 
-BRAMINIT_ELF_FILES =   $(UB_XMDSTUB) 
-BRAMINIT_ELF_FILE_ARGS =   -pe uB  $(UB_XMDSTUB) 
+BRAMINIT_ELF_FILES =  $(DV_STAB_OUTPUT) 
+BRAMINIT_ELF_FILE_ARGS =   -pe uB $(DV_STAB_OUTPUT) 
 
 ALL_USER_ELF_FILES = $(DV_STAB_OUTPUT) 
 
@@ -65,7 +65,7 @@ DEFAULT_SIM_SCRIPT = $(BEHAVIORAL_SIM_SCRIPT)
 
 MIX_LANG_SIM_OPT = -mixed yes
 
-SIMGEN_OPTIONS = -p $(DEVICE) -lang $(LANGUAGE) $(SEARCHPATHOPT) $(BRAMINIT_ELF_FILE_ARGS) $(MIX_LANG_SIM_OPT)  -s mti -tb
+SIMGEN_OPTIONS = -p $(DEVICE) -lang $(LANGUAGE) $(SEARCHPATHOPT) $(BRAMINIT_ELF_FILE_ARGS) $(MIX_LANG_SIM_OPT)  -s mti -tb -X /home/kevin/CAD/Xilinx/10.1/simlibs/ISE_Lib/ -E /home/kevin/CAD/Xilinx/10.1/simlibs/EDK_Lib/
 
 UB_XMDSTUB = ub/code/xmdstub.elf
 
@@ -94,6 +94,12 @@ CORE_STATE_DEVELOPMENT_FILES = /home/kevin/ece532/dv_stab/proj/pcores/bram_array
 /home/kevin/CAD/Xilinx/10.1/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v2_00_a/hdl/vhdl/pselect_f.vhd \
 /home/kevin/CAD/Xilinx/10.1/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v2_00_a/hdl/vhdl/counter_f.vhd \
 /home/kevin/CAD/Xilinx/10.1/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v2_00_a/hdl/vhdl/soft_reset.vhd \
+/home/kevin/CAD/Xilinx/10.1/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v2_00_a/hdl/vhdl/family.vhd \
+/home/kevin/CAD/Xilinx/10.1/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v2_00_a/hdl/vhdl/cntr_incr_decr_addn_f.vhd \
+/home/kevin/CAD/Xilinx/10.1/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v2_00_a/hdl/vhdl/muxf_struct_f.vhd \
+/home/kevin/CAD/Xilinx/10.1/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v2_00_a/hdl/vhdl/dynshreg_f.vhd \
+/home/kevin/CAD/Xilinx/10.1/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v2_00_a/hdl/vhdl/srl_fifo_rbu_f.vhd \
+/home/kevin/CAD/Xilinx/10.1/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v2_00_a/hdl/vhdl/srl_fifo_f.vhd \
 /home/kevin/CAD/Xilinx/10.1/EDK/hw/XilinxProcessorIPLib/pcores/plbv46_slave_single_v1_00_a/hdl/vhdl/plb_address_decoder.vhd \
 /home/kevin/CAD/Xilinx/10.1/EDK/hw/XilinxProcessorIPLib/pcores/plbv46_slave_single_v1_00_a/hdl/vhdl/plb_slave_attachment.vhd \
 /home/kevin/CAD/Xilinx/10.1/EDK/hw/XilinxProcessorIPLib/pcores/plbv46_slave_single_v1_00_a/hdl/vhdl/plbv46_slave_single.vhd \
@@ -107,7 +113,24 @@ CORE_STATE_DEVELOPMENT_FILES = /home/kevin/ece532/dv_stab/proj/pcores/bram_array
 /home/kevin/ece532/dv_stab/proj/pcores/correlator_xor_v1_00_a/hdl/verilog/sum_of_3bit_pair.v \
 /home/kevin/ece532/dv_stab/proj/pcores/correlator_xor_v1_00_a/hdl/verilog/sum_of_64.v \
 /home/kevin/ece532/dv_stab/proj/pcores/correlator_xor_v1_00_a/hdl/verilog/ternary_add.v \
-/home/kevin/ece532/dv_stab/proj/pcores/correlator_xor_v1_00_a/hdl/verilog/twelve_four_comp.v
+/home/kevin/ece532/dv_stab/proj/pcores/correlator_xor_v1_00_a/hdl/verilog/twelve_four_comp.v \
+/home/kevin/CAD/Xilinx/10.1/EDK/hw/XilinxProcessorIPLib/pcores/plbv46_master_burst_v1_00_a/hdl/vhdl/plb_mstr_addr_gen.vhd \
+/home/kevin/CAD/Xilinx/10.1/EDK/hw/XilinxProcessorIPLib/pcores/plbv46_master_burst_v1_00_a/hdl/vhdl/rd_wr_calc_burst.vhd \
+/home/kevin/CAD/Xilinx/10.1/EDK/hw/XilinxProcessorIPLib/pcores/plbv46_master_burst_v1_00_a/hdl/vhdl/rd_wr_controller.vhd \
+/home/kevin/CAD/Xilinx/10.1/EDK/hw/XilinxProcessorIPLib/pcores/plbv46_master_burst_v1_00_a/hdl/vhdl/llink_rd_backend_no_fifo.vhd \
+/home/kevin/CAD/Xilinx/10.1/EDK/hw/XilinxProcessorIPLib/pcores/plbv46_master_burst_v1_00_a/hdl/vhdl/llink_wr_backend_no_fifo.vhd \
+/home/kevin/CAD/Xilinx/10.1/EDK/hw/XilinxProcessorIPLib/pcores/plbv46_master_burst_v1_00_a/hdl/vhdl/data_width_adapter.vhd \
+/home/kevin/CAD/Xilinx/10.1/EDK/hw/XilinxProcessorIPLib/pcores/plbv46_master_burst_v1_00_a/hdl/vhdl/data_mirror_128.vhd \
+/home/kevin/CAD/Xilinx/10.1/EDK/hw/XilinxProcessorIPLib/pcores/plbv46_master_burst_v1_00_a/hdl/vhdl/cc_brst_exp_adptr.vhd \
+/home/kevin/CAD/Xilinx/10.1/EDK/hw/XilinxProcessorIPLib/pcores/plbv46_master_burst_v1_00_a/hdl/vhdl/plbv46_master_burst.vhd \
+/home/kevin/ece532/dv_stab/proj/pcores/split_compensate_v1_01_a/hdl/verilog/user_logic.v \
+/home/kevin/ece532/dv_stab/proj/pcores/split_compensate_v1_01_a/hdl/vhdl/split_compensate.vhd \
+/home/kevin/ece532/dv_stab/proj/pcores/split_compensate_v1_01_a/hdl/verilog/line_buffer_mod.v \
+/home/kevin/ece532/dv_stab/proj/pcores/split_compensate_v1_01_a/hdl/verilog/line_buffer_video.v \
+/home/kevin/ece532/dv_stab/proj/pcores/split_compensate_v1_01_a/hdl/verilog/h_addr_gen.v \
+/home/kevin/ece532/dv_stab/proj/pcores/split_compensate_v1_01_a/hdl/verilog/v_addr_gen.v \
+/home/kevin/ece532/dv_stab/proj/pcores/split_compensate_v1_01_a/hdl/verilog/v_sync.v \
+/home/kevin/ece532/dv_stab/proj/pcores/split_compensate_v1_01_a/hdl/verilog/h_sync.v
 
 WRAPPER_NGC_FILES = implementation/ub_wrapper.ngc \
 implementation/ilmb_wrapper.ngc \
@@ -127,7 +150,9 @@ implementation/clock_generator_0_wrapper.ngc \
 implementation/debug_module_wrapper.ngc \
 implementation/gcbp_0_wrapper.ngc \
 implementation/bram_array_0_wrapper.ngc \
-implementation/correlator_xor_0_wrapper.ngc
+implementation/correlator_xor_0_wrapper.ngc \
+implementation/split_compensate_1_wrapper.ngc \
+implementation/plb_split_comp_wrapper.ngc
 
 POSTSYN_NETLIST = implementation/$(SYSTEM).ngc
 
@@ -155,9 +180,9 @@ FPGA_IMP_DEPENDENCY = $(BMM_FILE) $(POSTSYN_NETLIST) $(UCF_FILE) $(XFLOW_DEPENDE
 # SOFTWARE APPLICATION DV_STAB
 #################################################################
 
-DV_STAB_SOURCES = /home/kevin/ece532/dv_stab/sw_src/init_hw.c /home/kevin/ece532/dv_stab/sw_src/main.c /home/kevin/ece532/dv_stab/sw_src/video_decoder_driver/video_dec_driver.c /home/kevin/ece532/dv_stab/sw_src/correlator_driver_xor/correlator_driver.c /home/kevin/ece532/dv_stab/sw_src/calcMotionVector.c 
+DV_STAB_SOURCES = /home/kevin/ece532/dv_stab/sw_src/init_hw.c /home/kevin/ece532/dv_stab/sw_src/main.c /home/kevin/ece532/dv_stab/sw_src/video_decoder_driver/video_dec_driver.c /home/kevin/ece532/dv_stab/sw_src/correlator_driver_xor/correlator_driver.c /home/kevin/ece532/dv_stab/sw_src/calcMotionVector.c /home/kevin/ece532/dv_stab/sw_src/video_out_driver/video_out.c 
 
-DV_STAB_HEADERS = /home/kevin/ece532/dv_stab/sw_src/video_decoder_driver/video_dec_driver.h /home/kevin/ece532/dv_stab/sw_src/init_hw.h /home/kevin/ece532/dv_stab/sw_src/main.h /home/kevin/ece532/dv_stab/sw_src/data_structs.h /home/kevin/ece532/dv_stab/sw_src/correlator_driver_xor/correlator_driver.h /home/kevin/ece532/dv_stab/sw_src/calcMotionVector.h 
+DV_STAB_HEADERS = /home/kevin/ece532/dv_stab/sw_src/video_decoder_driver/video_dec_driver.h /home/kevin/ece532/dv_stab/sw_src/init_hw.h /home/kevin/ece532/dv_stab/sw_src/main.h /home/kevin/ece532/dv_stab/sw_src/data_structs.h /home/kevin/ece532/dv_stab/sw_src/correlator_driver_xor/correlator_driver.h /home/kevin/ece532/dv_stab/sw_src/calcMotionVector.h /home/kevin/ece532/dv_stab/sw_src/video_out_driver/video_out.h 
 
 DV_STAB_CC = mb-gcc
 DV_STAB_CC_SIZE = mb-size
@@ -165,7 +190,7 @@ DV_STAB_CC_OPT = -O2
 DV_STAB_CFLAGS = -std=c99 -pedantic -Wall -Wshadow -Wpointer-arith -Wcast-qual -Wstrict-prototypes -Wmissing-prototypes
 DV_STAB_CC_SEARCH = # -B
 DV_STAB_LIBPATH = -L./ub/lib/ # -L
-DV_STAB_INCLUDES = -I./ub/include/  -I/home/kevin/ece532/dv_stab/sw_src/video_decoder_driver/ -I/home/kevin/ece532/dv_stab/sw_src/ -I/home/kevin/ece532/dv_stab/sw_src/correlator_driver_xor/ # -I
+DV_STAB_INCLUDES = -I./ub/include/  -I/home/kevin/ece532/dv_stab/sw_src/video_decoder_driver/ -I/home/kevin/ece532/dv_stab/sw_src/ -I/home/kevin/ece532/dv_stab/sw_src/correlator_driver_xor/ -I/home/kevin/ece532/dv_stab/sw_src/video_out_driver/ # -I
 DV_STAB_LFLAGS = # -l
 DV_STAB_LINKER_SCRIPT = 
 DV_STAB_LINKER_SCRIPT_FLAG = #-Wl,-T -Wl,$(DV_STAB_LINKER_SCRIPT) 

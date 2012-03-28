@@ -3,6 +3,7 @@
 #include <data_structs.h>
 #include <correlator_driver.h>
 #include <calcMotionVector.h>
+#include <video_out.h>
 #include <main.h>
 #include <init_hw.h>
  
@@ -37,6 +38,9 @@ int main() {
         //Synchronize so we only start calculations when we have a new frame
         synchronize_new_frame(correlator_ptr);
 
+        //Swap output buffer
+
+
         //Save the old motionvector
         prevGlobalMotionVector = globalMotionVector;
 
@@ -53,7 +57,10 @@ int main() {
 
         //Send final motion vector to split/crop block
         //compensateFrame(compensationVector);
-        
+       
+        //Swap the output buffers
+        //setOutputBuffer();
+
         Fr_num++;
     }
 

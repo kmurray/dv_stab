@@ -1,0 +1,12 @@
+run
+-opt_level 2
+-opt_mode speed
+-ifmt mixed
+-ifn "/home/gq777/ece532/system/Video_To_RAM_System_256MB/pcores/split_compensate_v1_01_a/devl/synthesis/split_compensate_xst.prj"
+-top split_compensate
+-p virtex5
+-ofn "/home/gq777/ece532/system/Video_To_RAM_System_256MB/pcores/split_compensate_v1_01_a/devl/synthesis/split_compensate_xst.ngc"
+-iobuf NO
+-rtlview YES
+-hierarchy_separator /
+-work_lib split_compensate_v1_01_a

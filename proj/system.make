@@ -214,6 +214,7 @@ $(DOWNLOAD_BIT): $(SYSTEM_BIT) $(BRAMINIT_ELF_FILES) __xps/bitinit.opt
 	@echo "*********************************************"
 	@echo "Initializing BRAM contents of the bitstream"
 	@echo "*********************************************"
+	@echo "Processor uB has XMDSTUB-mode applications, but xmdstub.elf is not marked for download"
 	bitinit $(MHSFILE) $(SEARCHPATHOPT) $(BRAMINIT_ELF_FILE_ARGS) \
 	-bt $(SYSTEM_BIT) -o $(DOWNLOAD_BIT)
 	@rm -f $(SYSTEM)_bd.bmm
