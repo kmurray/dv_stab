@@ -562,7 +562,7 @@ input                                     Bus2IP_MstWr_dst_dsc_n;
 	y_line_cnt <= y_line_cnt + 1;
 	done_frame <= 1;
       end
-      else if (done_line == 1)
+      else if (done_line == 1 && curr_state_1 != SR_WR_REQUEST)
       begin
 	y_line_cnt <= y_line_cnt + 1;
       end
