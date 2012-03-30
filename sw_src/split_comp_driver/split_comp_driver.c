@@ -26,11 +26,11 @@ void split_comp_setup(Position offset, Xuint32 fr_src_addr, Xuint32 fr_dest_addr
     
     //convert the xy offsets into positive values + direction
     if (offset.x < 0) { //left
-        split_comp->x_offset = -offset.x;
+        split_comp->x_offset = -offset.x*4;
         split_comp->x_offset_dir = 0; 
     }
     else{ //right
-        split_comp->x_offset = offset.x;
+        split_comp->x_offset = offset.x*4;
         split_comp->x_offset_dir = 1; 
     }
 
