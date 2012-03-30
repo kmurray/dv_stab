@@ -1,3 +1,4 @@
+#include "stdio.h"
 #include <xbasic_types.h>
 #include <data_structs.h>
 #include <correlator_driver.h>
@@ -126,15 +127,15 @@ Solution median(Solution solns[], int size) {
             TODO: Make this use floating point division and round to integers,
                   if it isn't too slow on microblaze....
          */
-        medianSoln.correl_val = 0.5*(solns[size/2].correl_val + solns[size/2 +1].correl_val);
+        medianSoln.correl_val = 0.5*(solns[(size-1)/2].correl_val + solns[(size-1)/2 +1].correl_val);
 
-        medianSoln.mv.x =  0.5*(solns[size/2].mv.x + solns[size/2 +1].mv.x);
-        medianSoln.mv.y =  0.5*(solns[size/2].mv.y + solns[size/2 +1].mv.y);
+        medianSoln.mv.x =  0.5*(solns[(size-1)/2].mv.x + solns[(size-1)/2 +1].mv.x);
+        medianSoln.mv.y =  0.5*(solns[(size-1)/2].mv.y + solns[(size-1)/2 +1].mv.y);
 
         
     } else {
-        //Odd
-        medianSoln = solns[(size+1)/2];
+        //Odd, should not happen?
+        medianSoln = solns[(size)/2];
     }
 
     return medianSoln;
