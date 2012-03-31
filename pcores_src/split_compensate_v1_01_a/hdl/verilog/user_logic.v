@@ -523,7 +523,7 @@ input                                     Bus2IP_MstWr_dst_dsc_n;
 	    x_pixel_cnt <= 0;
 	    done_line <= 0;
       end
-      else if (curr_state_1 == S_WR_REQUEST)
+      else if (curr_state_1 == S_WR_REQUEST && x_pixel_cnt != 640)
       begin
         done_line <= 0;
       end
@@ -536,7 +536,7 @@ input                                     Bus2IP_MstWr_dst_dsc_n;
       begin
 	    x_pixel_cnt <= x_pixel_cnt + 1;
       end
-      else if (x_pixel_cnt == 640)
+      else if (x_pixel_cnt == 640 && curr_state_1 != S_WR_REQUEST)
       begin
 	    done_line <= 1;
       end
@@ -562,7 +562,8 @@ input                                     Bus2IP_MstWr_dst_dsc_n;
 	y_line_cnt <= y_line_cnt + 1;
 	done_frame <= 1;
       end
-      else if (done_line == 1 && curr_state_1 != SR_WR_REQUEST)
+      //else if (done_line == 1 && curr_state_1 != S_WR_REQUEST)
+      else if (x_pixel_cnt == 640 && next_state_1 == S_BURST_LINE_RD_COMPLETE)
       begin
 	y_line_cnt <= y_line_cnt + 1;
       end
@@ -659,11 +660,12 @@ input                                     Bus2IP_MstWr_dst_dsc_n;
     end
     else if (curr_state_1 == S_BURST_LINE_RD_COMPLETE)
     begin
-      if (line_burst_rd_cnt == 0)
+      if (line_burst_wr_cnt == 0 && next_state_1 == S_WR_REQUEST)
+      // this is new
       begin
         // 1536 bytes = 384 pixels
         // 64 bytes = 16 pixels
-        //bypass <= burst_addr + 21'd64 + 21'd1536;
+	burst_addr <= new_y_addr + 20'd4096;
       end
       else if (line_burst_rd_cnt != 0 && line_burst_rd_cnt < 11'd40)
       begin
@@ -671,6 +673,7 @@ input                                     Bus2IP_MstWr_dst_dsc_n;
         burst_addr <= burst_addr + 21'd64;
       end
     end
+/*
     else if (curr_state_1 == S_WR_REQUEST)
     begin
       if (line_burst_wr_cnt == 0)
@@ -678,6 +681,7 @@ input                                     Bus2IP_MstWr_dst_dsc_n;
 	burst_addr <= new_y_addr;
       end
     end
+*/
     else if (curr_state_1 == S_BURST_LINE_WR_COMPLETE)
     begin
       if (line_burst_wr_cnt == 0)
@@ -1046,9 +1050,9 @@ end
           fr_addr_src_reg <= 0;
           fr_addr_dest_reg <= 0;
 //Charles hardcoded these 4 values for testing
-          xoff_reg <= 2'b10;
-          yoff_reg <= 2'b10;
-          x_dir_reg <= 1'b1;
+          xoff_reg <= 4'b1111;
+          yoff_reg <= 3'b100;
+          x_dir_reg <= 1'b0;
           y_dir_reg <= 1'b0;
           slv_reg9 <= 0;
         end
