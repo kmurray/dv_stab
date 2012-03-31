@@ -113,7 +113,7 @@ localparam [C_STATE_BITS_FSM_1-1:0]	S_IDLE = 0,		    //
 // -------------------- PLB BURST MODE DEFINITIONS 
 
 // Inherited From MPD file
-parameter C_VIDEO_RAM_BASEADDR	= 32'h3FFEA000;//32'h3FFF9000; 32'h40000000; 32'h3FFF0000;
+parameter C_VIDEO_RAM_BASEADDR	= 32'h41000000; //32'h3FFEA000;//32'h3FFF9000; 32'h40000000; 32'h3FFF0000;
 parameter C_BYTES_PER_LINE	= 2560;
 parameter C_PLBV46_DWIDTH	= 64;
 
@@ -379,8 +379,7 @@ input                                     Bus2IP_MstWr_dst_dsc_n;
       case(curr_state_1)
 	S_IDLE:
 	begin
-	  new_frame_in <= 1;
-	  if (new_frame_in == 1)
+	  if (on_off_reg == 1)
 	  begin
 	    next_state_1 <= S_START_FRAME;
 	  end
@@ -504,7 +503,7 @@ input                                     Bus2IP_MstWr_dst_dsc_n;
       end
       else if (bypass == 10'd100)
       begin
-	    bypass <= C_VIDEO_RAM_BASEADDR;
+	    bypass <= fr_addr_src_reg;
       end
       else if ((curr_state_1 == S_BURST_LINE_RD_COMPLETE) && (line_burst_rd_cnt == 0))
       begin
@@ -562,7 +561,7 @@ input                                     Bus2IP_MstWr_dst_dsc_n;
 	y_line_cnt <= y_line_cnt + 1;
 	done_frame <= 1;
       end
-      else if (done_line == 1 && curr_state_1 != SR_WR_REQUEST)
+      else if (done_line == 1 && curr_state_1 != S_WR_REQUEST)
       begin
 	y_line_cnt <= y_line_cnt + 1;
       end
@@ -645,13 +644,13 @@ input                                     Bus2IP_MstWr_dst_dsc_n;
   begin
     if (Bus2IP_Reset)
     begin
-      burst_addr <= C_VIDEO_RAM_BASEADDR;
+      burst_addr <= fr_addr_src_reg;
       //lb_wr_addr0 <= 0;
       //lb_rd_addr1 <= 0;
     end
     else if (burst_addr == 0)
     begin
-      burst_addr <= C_VIDEO_RAM_BASEADDR;
+      burst_addr <= fr_addr_src_reg;
     end
     else if (curr_state_1 == S_START_FRAME && burst_addr != 0)
     begin
@@ -956,7 +955,7 @@ end
     .i_clk	(Bus2IP_Clk),
     .i_rst	(Bus2IP_Reset),
     .i_y_enable	(y_enable),
-    .i_old_addr (lb_wr_addr0),
+    .i_new_frame_base_addr (fr_addr_dest_reg),
     .i_y_off	(yoff_reg),
     .i_dir	(y_dir_reg),
     .i_x_cnt	(x_pixel_cnt),
@@ -1043,9 +1042,9 @@ end
           on_off_reg <= 0;
           status_reg <= 0;
           control_reg <= 0;
-          fr_addr_src_reg <= 0;
-          fr_addr_dest_reg <= 0;
-//Charles hardcoded these 4 values for testing
+//Charles hardcoded these 6 values for testing
+          fr_addr_src_reg <= C_VIDEO_RAM_BASEADDR;
+          fr_addr_dest_reg <= C_VIDEO_RAM_BASEADDR;
           xoff_reg <= 2'b10;
           yoff_reg <= 2'b10;
           x_dir_reg <= 1'b1;

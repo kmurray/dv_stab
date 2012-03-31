@@ -6,7 +6,7 @@ module V_ADDR_GEN (
     i_clk,
     i_rst,
     i_y_enable,
-    i_old_addr,
+    i_new_frame_base_addr,
     i_y_off,
     i_dir,
     i_x_cnt,
@@ -28,7 +28,7 @@ module V_ADDR_GEN (
     input		  i_clk;
     input		  i_rst;
     input		  i_y_enable;
-    input   	  [10:0]  i_old_addr;
+    input   	  [31:0]  i_new_frame_base_addr;
     input   	  [31:0]  i_y_off;
     input	  [31:0]  i_dir;
     input	  [9:0]   i_x_cnt;
@@ -92,11 +92,11 @@ module V_ADDR_GEN (
 	  // each line has 1024 pixels
 	  if (i_dir == 0)
 	  begin
-	    o_new_addr <= (VIDEO_BASE_ADDR + 4096*((i_y_cnt-1) - i_y_off));
+	    o_new_addr <= (i_new_frame_base_addr + 4096*((i_y_cnt-1) - i_y_off));
 	  end
 	  else 
 	  begin
-	    o_new_addr <= (VIDEO_BASE_ADDR + 4096*((i_y_cnt-1) + i_y_off));
+	    o_new_addr <= (i_new_frame_base_addr + 4096*((i_y_cnt-1) + i_y_off));
 	  end
 	end
 	DONE:
