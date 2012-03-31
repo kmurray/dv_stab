@@ -7,10 +7,17 @@
 #define NUM_SUBIMAGES 16
 #define MAX_X_OFFSET 32
 #define MAX_Y_OFFSET 32
+#define CENTER_X_OFFSET 16
+#define CENTER_Y_OFFSET 16
+
+#define DECAY_FACTOR 0.9
+#define MAX_X_COMPENSATION 31 //+/-31
+#define MAX_Y_COMPENSATION 31 //+/-31
+
 
 typedef struct Position {
-    Xuint32 x;
-    Xuint32 y;
+    Xint32 x;
+    Xint32 y;
 } Position;
 
 //Stores a potential solution

@@ -1,8 +1,10 @@
+#include "stdio.h"
 #include <xbasic_types.h>
 #include <xparameters.h>
 #include <data_structs.h>
 #include <correlator_driver.h>
 #include <calcMotionVector.h>
+#include <calcCompensationVector.h>
 #include <video_out.h>
 #include <main.h>
 #include <init_hw.h>
@@ -22,7 +24,11 @@ int main() {
     //Some per interation declarations
     Solution globalMotionVector;
     Solution prevGlobalMotionVector;
-    //Solution compensationVector;
+    Solution compensationVector, prevCompensationVector; 
+
+    //initialize the compensationVector
+    compensationVector.mv.x = 0;
+    compensationVector.mv.y = 0;
 
     int Fr_num = 0;
 
@@ -47,13 +53,9 @@ int main() {
         //Find motionvector - uses the correlator module
         globalMotionVector = calcMotionVector(correlator_ptr);
 
-
-
-        if ((prevGlobalMotionVector.mv.x !=  globalMotionVector.mv.x) && (prevGlobalMotionVector.mv.y !=  globalMotionVector.mv.y)) {
-            printf("\tFr: %d Motion Vector: (%d, %d)\t Correl_val: %d\r\n", Fr_num, globalMotionVector.mv.x, globalMotionVector.mv.y, globalMotionVector.correl_val);
-        }
         //Calculate the compensation vector
-        //compensationVector = calcCompensationVector();
+        prevCompensationVector = compensationVector;
+        compensationVector = calcCompensationVector(globalMotionVector, prevCompensationVector);
 
         //Send final motion vector to split/crop block
         //compensateFrame(compensationVector);
@@ -61,6 +63,11 @@ int main() {
         //Swap the output buffers
         //setOutputBuffer();
 
+
+        if ((prevCompensationVector.mv.x != compensationVector.mv.x) || (prevCompensationVector.mv.y !=  compensationVector.mv.y)) {
+            //printf("\tFr: %d Motion Vector: (%d, %d)\t Correl_val: %d\t Compensation Vectors: (%d, %d)\r\n", Fr_num, globalMotionVector.mv.x, globalMotionVector.mv.y, globalMotionVector.correl_val, compensationVector.mv.x, compensationVector.mv.y);
+            printf("Fr: %d MV: (%d, %d) \t Corr: %d \t CV: (%d, %d)\r\n", Fr_num, globalMotionVector.mv.x-CENTER_X_OFFSET, globalMotionVector.mv.y-CENTER_Y_OFFSET, globalMotionVector.correl_val, compensationVector.mv.x, compensationVector.mv.y);
+        }
         Fr_num++;
     }
 
