@@ -45,6 +45,19 @@ module H_ADDR_GEN (
     reg  [C_STATE_BITS-1:0] curr_state;
     reg  [C_STATE_BITS-1:0] next_state;
 
+    //Addr generation is just combinational logic
+    always@(*)
+    begin
+        if (i_dir == 0)
+        begin
+            o_new_addr <= (i_x_cnt - i_x_off);
+        end
+        else
+        begin
+            o_new_addr <= (i_x_cnt + i_x_off);
+        end
+    end
+
 // fsm next state logic
 
     always @ (*)
@@ -84,45 +97,40 @@ module H_ADDR_GEN (
     always @ (*)
     begin
       case (curr_state)
-	INITIAL:
-	begin
-	  o_x_done <= 0;
-	end
-	H_ADDR_GEN:
-	begin
-	  if (i_dir == 0)
-	  begin
-	    o_new_addr <= (i_x_cnt - i_x_off);
-	  end
-	  else
-	  begin
-	    o_new_addr <= (i_x_cnt + i_x_off);
-	  end
-	end
-	DONE:
-	begin
-	  o_x_done <= 1;
-	end
-	default:
-	begin
-	  o_x_done <= 0;
-	end
+        INITIAL:
+        begin
+            o_x_done <= 0;
+        end
+        H_ADDR_GEN:
+        begin
+            o_x_done <= 0;
+        end
+        DONE:
+        begin
+            o_x_done <= 1;
+        end
+        default:
+        begin
+            o_x_done <= 0;
+        end
       endcase
     end
+
+
 
 // fsm state update
 
     always @ (posedge i_clk)
-      begin
-	if (i_rst)
-	begin
-	  curr_state <= INITIAL;
-	end
-	else
-	begin
-	  curr_state <= next_state;
-	end
-      end
+    begin
+        if (i_rst)
+        begin
+            curr_state <= INITIAL;
+        end
+        else
+        begin
+            curr_state <= next_state;
+        end
+    end
 
 
 endmodule

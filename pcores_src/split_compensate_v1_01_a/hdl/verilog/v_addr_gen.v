@@ -42,6 +42,25 @@ module V_ADDR_GEN (
     reg  [C_STATE_BITS-1:0] curr_state;
     reg  [C_STATE_BITS-1:0] next_state;
 
+
+    //Address generation can be done using just combinational logic
+
+    always@(*)
+    begin
+      // multiple by 1024 * 4 because video memory in MPMC is byte addressable
+	  // each pixel is 32 bits (or 4 bytes)
+	  // each line has 1024 pixels
+	  if (i_dir == 0)
+	  begin
+	    o_new_addr <= (i_new_frame_base_addr + 4096*((i_y_cnt-1) - i_y_off));
+	  end
+	  else 
+	  begin
+	    o_new_addr <= (i_new_frame_base_addr + 4096*((i_y_cnt-1) + i_y_off));
+	  end
+    end
+
+
 // fsm next state logic
 
     always @ (*)
@@ -81,32 +100,22 @@ module V_ADDR_GEN (
     always @ (*)
     begin
       case (curr_state)
-	INITIAL:
-	begin
-	  o_y_done <= 0;
-	end
-	V_ADDR_GEN:
-	begin
-	  // multiple by 1024 * 4 because video memory in MPMC is byte addressable
-	  // each pixel is 32 bits (or 4 bytes)
-	  // each line has 1024 pixels
-	  if (i_dir == 0)
-	  begin
-	    o_new_addr <= (i_new_frame_base_addr + 4096*((i_y_cnt-1) - i_y_off));
-	  end
-	  else 
-	  begin
-	    o_new_addr <= (i_new_frame_base_addr + 4096*((i_y_cnt-1) + i_y_off));
-	  end
-	end
-	DONE:
-	begin
-	  o_y_done <= 1;
-	end
-	default:
-	begin
-	  o_y_done <= 0;
-	end
+        INITIAL:
+        begin
+          o_y_done <= 0;
+        end
+        V_ADDR_GEN:
+        begin
+          o_y_done <= 0;        
+        end
+        DONE:
+        begin
+          o_y_done <= 1;
+        end
+        default:
+        begin
+          o_y_done <= 0;
+        end
       endcase
     end
 

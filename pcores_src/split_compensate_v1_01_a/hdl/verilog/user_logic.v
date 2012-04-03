@@ -90,25 +90,35 @@ module user_logic
 
 // -------------------- FUNCTION FSM0 DEFINITIONS 
 
+/* //Subsumed by FSM1
 localparam      C_STATE_BITS                          = 2;
 localparam      [C_STATE_BITS-1:0]      INITIAL	      = 0,  					  
 					H_ADDR_GEN    = 1,
 					V_ADDR_GEN    = 2,
-                                        DONE          = 3;
+                                      DONE          = 3;
+*/
+
 
 // -------------------- FUNCTION FSM1 DEFINITIONS
 
 localparam C_STATE_BITS_FSM_1 = 4;
 localparam [C_STATE_BITS_FSM_1-1:0]	S_IDLE = 0,		    // 
-					S_START_FRAME = 1,	    // lock, start burst
-					S_RD_REQUEST = 2,	    // Set MstAddr, Rd_Req; Wait for CmdAck
-					S_RD_TRANSFER = 3,	    // Wait for MstCmplt
-					S_BURST_LINE_RD_COMPLETE = 4,
-					S_WR_REQUEST = 5,	    // Set MstAddr, Wr_Req; Wait for CmdAck
-					S_WR_TRANSFER = 6,	    // Wait for MstCmplt
-					S_BURST_LINE_WR_COMPLETE = 7,
-					S_BURST_FRAME_COMPLETE = 8, // Add burst address, restart if not finished
-					S_DONE = 9;		    // set line_done signals
+					S_START_FRAME               = 1,	// lock, start burst
+					S_RD_REQUEST                = 2,	// Set MstAddr, Rd_Req; Wait for CmdAck
+					S_RD_TRANSFER               = 3,	// Wait for MstCmplt
+					S_BURST_LINE_RD_COMPLETE    = 4,
+
+                    //Old FSM0
+                    S_SHIFT_INITIAL             = 5,
+                    S_SHIFT_H_ADDR_GEN          = 6,
+                    S_SHIFT_V_ADDR_GEN          = 7,
+                    S_SHIFT_DONE                = 8,
+
+					S_WR_REQUEST                = 9,	// Set MstAddr, Wr_Req; Wait for CmdAck
+					S_WR_TRANSFER               = 10,	// Wait for MstCmplt
+					S_BURST_LINE_WR_COMPLETE    = 11,
+					S_BURST_FRAME_COMPLETE      = 12,    // Add burst address, restart if not finished
+					S_DONE                      = 13;	// set line_done signals
 
 // -------------------- PLB BURST MODE DEFINITIONS 
 
@@ -263,10 +273,10 @@ input                                     Bus2IP_MstWr_dst_dsc_n;
 
   reg	  [3:0]			  wr_sof_eof_cnt;
 //FSM0
-    
+/*    
   reg	  [C_STATE_BITS-1:0] curr_state;
   reg	  [C_STATE_BITS-1:0] next_state;
-
+*/
 //FSM1
 
   reg	  [C_STATE_BITS_FSM_1-1:0] curr_state_1;
@@ -306,7 +316,7 @@ input                                     Bus2IP_MstWr_dst_dsc_n;
 // ----- START OF FUNCTION LOGIC ----------------
 
 // FSM0 next state logic
-
+/*
     always @ (*)
     begin
       case(curr_state)
@@ -371,118 +381,177 @@ input                                     Bus2IP_MstWr_dst_dsc_n;
         end
       endcase
     end
+*/
+
 
 // FSM1 Next State Logic
 
     always @ (*)
     begin
-      case(curr_state_1)
-	S_IDLE:
-	begin
-	  if (on_off_reg == 1)
-	  begin
-	    next_state_1 <= S_START_FRAME;
-	  end
-	  else
-	  begin
-	    next_state_1 <= S_IDLE;
-	  end
-	end
-	S_START_FRAME:
-	begin
-	  next_state_1 <= S_RD_REQUEST;
-	end
-	S_RD_REQUEST:
-	begin
-	  if (Bus2IP_Mst_CmdAck)
-	  begin
-	    next_state_1 <= S_RD_TRANSFER; 
-	  end
-	  else
-	  begin
-	    next_state_1 <= S_RD_REQUEST;
-	  end
-	end
-	S_RD_TRANSFER:
-	begin
-	  if(Bus2IP_Mst_Cmplt)
-	  begin
-	    next_state_1 <= S_BURST_LINE_RD_COMPLETE;
-	  end
-	  else
-	  begin
-	    next_state_1 <= S_RD_TRANSFER;
-	  end
-	end
-	S_BURST_LINE_RD_COMPLETE:
-	begin
-	  if ((line_burst_rd_cnt == 0 || line_burst_rd_cnt == 40) && done_line == 0)
-	  begin
-	    next_state_1 <= S_BURST_LINE_RD_COMPLETE;
-	  end
-	  else if (line_burst_rd_cnt == 0 && done_line == 1)
-	  begin
-	    next_state_1 <= S_WR_REQUEST;
-	  end
-	  else
-	  begin
-	    next_state_1 <= S_RD_REQUEST;
-	  end
-	end
-	S_WR_REQUEST:
-	begin
-	  if (Bus2IP_Mst_CmdAck)
-	  begin
-	    next_state_1 <= S_WR_TRANSFER;
-	  end
-	  else
-	  begin
-	    next_state_1 <= S_WR_REQUEST;
-	  end
-	end
-	S_WR_TRANSFER:
-	begin
-	  if(Bus2IP_Mst_Cmplt)
-	  begin
-	    next_state_1 <= S_BURST_LINE_WR_COMPLETE;
-	  end
-	  else
-	  begin
-	    next_state_1 <= S_WR_TRANSFER;
-	  end
-	end
-	S_BURST_LINE_WR_COMPLETE:
-	begin
-	  if(line_burst_wr_cnt == 0)
-	  begin
-	    next_state_1 <= S_BURST_FRAME_COMPLETE;
-	  end
-	  else
-	  begin
-	    next_state_1 <= S_WR_REQUEST;
-	  end
-	end
-	S_BURST_FRAME_COMPLETE:
-	begin
-	  if(frame_burst_cnt == 0)
-	  begin
-	    next_state_1 <= S_DONE;
-	  end
-	  else
-	  begin
-	    next_state_1 <= S_START_FRAME;
-	  end
-	end
-	S_DONE:
-	begin
-	    next_state_1 <= S_IDLE;
-	end
-	default:
-	begin
-	  next_state_1 <= S_IDLE;
-	end
-      endcase
+    case(curr_state_1)
+    S_IDLE:
+    begin
+      if (on_off_reg == 1)
+      begin
+        next_state_1 <= S_START_FRAME;
+      end
+      else
+      begin
+        next_state_1 <= S_IDLE;
+      end
     end
+    S_START_FRAME:
+    begin
+      next_state_1 <= S_RD_REQUEST;
+    end
+    S_RD_REQUEST:
+    begin
+      if (Bus2IP_Mst_CmdAck)
+      begin
+        next_state_1 <= S_RD_TRANSFER; 
+      end
+      else
+      begin
+        next_state_1 <= S_RD_REQUEST;
+      end
+    end
+    S_RD_TRANSFER:
+    begin
+      if(Bus2IP_Mst_Cmplt)
+      begin
+        next_state_1 <= S_BURST_LINE_RD_COMPLETE;
+      end
+      else
+      begin
+        next_state_1 <= S_RD_TRANSFER;
+      end
+    end
+    S_BURST_LINE_RD_COMPLETE:
+    begin
+      if ((line_burst_rd_cnt == 0 || line_burst_rd_cnt == 40) && done_line == 0)
+      begin
+        next_state_1 <= S_SHIFT_INITIAL;
+      end
+      else
+      begin
+        next_state_1 <= S_RD_REQUEST;
+      end
+    end
+
+    // OLD FSM0
+    S_SHIFT_INITIAL:
+    begin
+        // must wait for line buffer finished loading until start FSM0
+        if (line_burst_done == 1 && x_pixel_cnt != 640)
+        begin
+            next_state_1 <= S_SHIFT_H_ADDR_GEN;
+        end
+        else if (x_pixel_cnt == 640)
+        begin
+            next_state_1 <= S_SHIFT_DONE;
+        end
+        else
+        begin
+            next_state_1 <= S_SHIFT_INITIAL;
+        end
+        end
+    S_SHIFT_H_ADDR_GEN:
+    begin
+        if (x_done == 1 && x_pixel_cnt == 639)
+        begin
+            next_state_1 <= S_SHIFT_V_ADDR_GEN;
+        end
+        else if (x_done == 1 && x_pixel_cnt != 639)
+        begin
+            next_state_1 <= S_SHIFT_DONE;
+        end
+        else
+        begin
+            next_state_1 <= S_SHIFT_H_ADDR_GEN;
+        end
+    end 
+    S_SHIFT_V_ADDR_GEN:
+    begin
+        if (y_done == 1)
+        begin
+            next_state_1 <= S_SHIFT_DONE;
+        end
+        else
+        begin
+            next_state_1 <= S_SHIFT_V_ADDR_GEN;
+        end
+    end
+    S_SHIFT_DONE:
+    begin
+        if (line_burst_rd_cnt == 0 && done_line == 1)
+        begin
+            next_state_1 <= S_WR_REQUEST;
+        end
+        else if ((x_done || y_done) == 1)
+        begin 
+            next_state_1 <= S_SHIFT_INITIAL;
+        end
+        else 
+        begin
+            next_state_1 <= S_SHIFT_INITIAL;
+        end
+    end
+
+    //Resume old FSM1
+    S_WR_REQUEST:
+    begin
+      if (Bus2IP_Mst_CmdAck)
+      begin
+        next_state_1 <= S_WR_TRANSFER;
+      end
+      else
+      begin
+        next_state_1 <= S_WR_REQUEST;
+      end
+    end
+    S_WR_TRANSFER:
+    begin
+      if(Bus2IP_Mst_Cmplt)
+      begin
+        next_state_1 <= S_BURST_LINE_WR_COMPLETE;
+      end
+      else
+      begin
+        next_state_1 <= S_WR_TRANSFER;
+      end
+    end
+    S_BURST_LINE_WR_COMPLETE:
+    begin
+      if(line_burst_wr_cnt == 0)
+      begin
+        next_state_1 <= S_BURST_FRAME_COMPLETE;
+      end
+      else
+      begin
+        next_state_1 <= S_WR_REQUEST;
+      end
+    end
+    S_BURST_FRAME_COMPLETE:
+    begin
+      if(frame_burst_cnt == 0)
+      begin
+        next_state_1 <= S_DONE;
+      end
+      else
+      begin
+        next_state_1 <= S_START_FRAME;
+      end
+    end
+    S_DONE:
+    begin
+        next_state_1 <= S_IDLE;
+    end
+    default:
+    begin
+      next_state_1 <= S_IDLE;
+    end
+      endcase
+end
 
 
 // bypass
@@ -736,7 +805,7 @@ end
 // -------------------- COMBINATIONAL OUTPUTS FUNCTIONL FSM0 and FSM1
 
 // FSM0 state update
-
+/*
     always @ (posedge Bus2IP_Clk)
     begin
       if (Bus2IP_Reset)
@@ -748,6 +817,7 @@ end
         curr_state <= next_state;
       end
     end
+*/
 
 // FSM1 state update
 
@@ -768,45 +838,8 @@ end
 // FSM0
     always @ (*)
     begin
-      case (curr_state)
-	INITIAL:
-	begin
-	 // lb_wr_addr0 <= 11'h000;
-	  lb_wr_e0 <= 0;
-	  lb_rd_e0 <= 0;
-	  lb_rd_e1 <= 0;
-	  lb_wr_e1 <= 0;
-	end
-	H_ADDR_GEN:
-	begin
-	// set first line buffer to read from 
-	  lb_wr_e0 <= 0;
-	  lb_rd_e0 <= 1;
+    case(curr_state_1)
 
-	// set second line buffer to write to
-	  lb_rd_e1 <= 0;
-	  lb_wr_e1 <= 1;
-	end
-	V_ADDR_GEN:
-	begin
-	  lb_wr_e0 <= 0;
-	  lb_rd_e0 <= 0;
-	  lb_rd_e1 <= 0;
-	  lb_wr_e1 <= 0;
-	// write to second line buffer from first line buffer
-	// read from the original unshifted x address
-	// write to the shifted x address
-	end
-	default:
-	begin
-	  lb_wr_e0 <= 0;
-	  lb_rd_e0 <= 0;
-	  lb_rd_e1 <= 0;
-	  lb_wr_e1 <= 0;
-	end
-      endcase
-
-      case(curr_state_1)
 	S_RD_TRANSFER:
 	begin
 	  lb_rd_e0 <= 0;
@@ -830,6 +863,52 @@ end
 	    line_burst_done <= 1;
 	  end
 	end
+	S_SHIFT_INITIAL:
+	begin
+      done_pixel <= 0;
+	 // lb_wr_addr0 <= 11'h000;
+	  lb_wr_e0 <= 0;
+	  lb_rd_e0 <= 0;
+	  lb_rd_e1 <= 0;
+	  lb_wr_e1 <= 0;
+      line_burst_done <= 1;
+
+	end
+	S_SHIFT_H_ADDR_GEN:
+	begin
+	// set first line buffer to read from 
+	  lb_wr_e0 <= 0;
+	  lb_rd_e0 <= 1;
+
+	// set second line buffer to write to
+	  lb_rd_e1 <= 0;
+	  lb_wr_e1 <= 1;
+      line_burst_done <= 1;
+
+	end
+	S_SHIFT_V_ADDR_GEN:
+	begin
+	  lb_wr_e0 <= 0;
+	  lb_rd_e0 <= 0;
+	  lb_rd_e1 <= 0;
+	  lb_wr_e1 <= 0;
+      line_burst_done <= 1;
+	// write to second line buffer from first line buffer
+	// read from the original unshifted x address
+	// write to the shifted x address
+	end
+    S_SHIFT_DONE:
+    begin
+      lb_wr_e0 <= 0;
+	  lb_rd_e0 <= 0;
+	  lb_rd_e1 <= 0;
+	  lb_wr_e1 <= 0;
+      line_burst_done <= 1;
+      if ((x_done || y_done) == 1)
+      begin
+        done_pixel <= 1;
+      end
+    end
 	S_WR_REQUEST:
 	begin
 	  lb_rd_e0 <= 0;
