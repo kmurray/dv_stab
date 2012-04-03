@@ -40,6 +40,9 @@ OBSERVE_PAR_OPTIONS = -error yes
 DV_STAB_OUTPUT_DIR = dv_stab
 DV_STAB_OUTPUT = $(DV_STAB_OUTPUT_DIR)/executable.elf
 
+SPLIT_CROP_TEST_OUTPUT_DIR = split_crop_test
+SPLIT_CROP_TEST_OUTPUT = $(SPLIT_CROP_TEST_OUTPUT_DIR)/executable.elf
+
 MICROBLAZE_BOOTLOOP = $(XILINX_EDK_DIR)/sw/lib/microblaze/mb_bootloop.elf
 PPC405_BOOTLOOP = $(XILINX_EDK_DIR)/sw/lib/ppc405/ppc_bootloop.elf
 PPC440_BOOTLOOP = $(XILINX_EDK_DIR)/sw/lib/ppc440/ppc440_bootloop.elf
@@ -48,10 +51,10 @@ BOOTLOOP_DIR = bootloops
 UB_BOOTLOOP = $(BOOTLOOP_DIR)/ub.elf
 UB_XMDSTUB = ub/code/xmdstub.elf
 
-BRAMINIT_ELF_FILES =  $(DV_STAB_OUTPUT) 
-BRAMINIT_ELF_FILE_ARGS =   -pe uB $(DV_STAB_OUTPUT) 
+BRAMINIT_ELF_FILES =  $(SPLIT_CROP_TEST_OUTPUT) 
+BRAMINIT_ELF_FILE_ARGS =   -pe uB $(SPLIT_CROP_TEST_OUTPUT) 
 
-ALL_USER_ELF_FILES = $(DV_STAB_OUTPUT) 
+ALL_USER_ELF_FILES = $(DV_STAB_OUTPUT) $(SPLIT_CROP_TEST_OUTPUT) 
 
 SIM_CMD = vsim
 
@@ -75,7 +78,7 @@ VPEXEC = virtualplatform/vpexec
 
 LIBSCLEAN_TARGETS = ub_libsclean 
 
-PROGRAMCLEAN_TARGETS = dv_stab_programclean 
+PROGRAMCLEAN_TARGETS = dv_stab_programclean split_crop_test_programclean 
 
 CORE_STATE_DEVELOPMENT_FILES = /home/kevin/ece532/dv_stab/proj/pcores/bram_array_v1_00_a/netlist/bram.ngc \
 /home/kevin/ece532/dv_stab/proj/pcores/gcbp_v1_00_a/hdl/verilog/gcbp_line_detect.v \
@@ -180,9 +183,9 @@ FPGA_IMP_DEPENDENCY = $(BMM_FILE) $(POSTSYN_NETLIST) $(UCF_FILE) $(XFLOW_DEPENDE
 # SOFTWARE APPLICATION DV_STAB
 #################################################################
 
-DV_STAB_SOURCES = /home/kevin/ece532/dv_stab/sw_src/init_hw.c /home/kevin/ece532/dv_stab/sw_src/main.c /home/kevin/ece532/dv_stab/sw_src/video_decoder_driver/video_dec_driver.c /home/kevin/ece532/dv_stab/sw_src/correlator_driver_xor/correlator_driver.c /home/kevin/ece532/dv_stab/sw_src/calcMotionVector.c /home/kevin/ece532/dv_stab/sw_src/video_out_driver/video_out.c 
+DV_STAB_SOURCES = /home/kevin/ece532/dv_stab/sw_src/init_hw.c /home/kevin/ece532/dv_stab/sw_src/main.c /home/kevin/ece532/dv_stab/sw_src/video_decoder_driver/video_dec_driver.c /home/kevin/ece532/dv_stab/sw_src/correlator_driver_xor/correlator_driver.c /home/kevin/ece532/dv_stab/sw_src/calcMotionVector.c /home/kevin/ece532/dv_stab/sw_src/video_out_driver/video_out.c /home/kevin/ece532/dv_stab/sw_src/calcCompensationVector.c 
 
-DV_STAB_HEADERS = /home/kevin/ece532/dv_stab/sw_src/video_decoder_driver/video_dec_driver.h /home/kevin/ece532/dv_stab/sw_src/init_hw.h /home/kevin/ece532/dv_stab/sw_src/main.h /home/kevin/ece532/dv_stab/sw_src/data_structs.h /home/kevin/ece532/dv_stab/sw_src/correlator_driver_xor/correlator_driver.h /home/kevin/ece532/dv_stab/sw_src/calcMotionVector.h /home/kevin/ece532/dv_stab/sw_src/video_out_driver/video_out.h 
+DV_STAB_HEADERS = /home/kevin/ece532/dv_stab/sw_src/video_decoder_driver/video_dec_driver.h /home/kevin/ece532/dv_stab/sw_src/init_hw.h /home/kevin/ece532/dv_stab/sw_src/main.h /home/kevin/ece532/dv_stab/sw_src/data_structs.h /home/kevin/ece532/dv_stab/sw_src/correlator_driver_xor/correlator_driver.h /home/kevin/ece532/dv_stab/sw_src/calcMotionVector.h /home/kevin/ece532/dv_stab/sw_src/video_out_driver/video_out.h /home/kevin/ece532/dv_stab/sw_src/calcCompensationVector.h 
 
 DV_STAB_CC = mb-gcc
 DV_STAB_CC_SIZE = mb-size
@@ -207,3 +210,35 @@ DV_STAB_OTHER_CC_FLAGS= $(DV_STAB_CC_GLOBPTR_FLAG)  \
                   $(DV_STAB_CC_START_ADDR_FLAG) $(DV_STAB_CC_STACK_SIZE_FLAG) $(DV_STAB_CC_HEAP_SIZE_FLAG)  \
                   $(DV_STAB_CC_INFERRED_FLAGS)  \
                   $(DV_STAB_LINKER_SCRIPT_FLAG) $(DV_STAB_CC_DEBUG_FLAG) $(DV_STAB_CC_PROFILE_FLAG) 
+
+#################################################################
+# SOFTWARE APPLICATION SPLIT_CROP_TEST
+#################################################################
+
+SPLIT_CROP_TEST_SOURCES = /home/kevin/ece532/dv_stab/sw_src/split_crop_test.c 
+
+SPLIT_CROP_TEST_HEADERS = 
+
+SPLIT_CROP_TEST_CC = mb-gcc
+SPLIT_CROP_TEST_CC_SIZE = mb-size
+SPLIT_CROP_TEST_CC_OPT = -O0
+SPLIT_CROP_TEST_CFLAGS = 
+SPLIT_CROP_TEST_CC_SEARCH = # -B
+SPLIT_CROP_TEST_LIBPATH = -L./ub/lib/ # -L
+SPLIT_CROP_TEST_INCLUDES = -I./ub/include/ # -I
+SPLIT_CROP_TEST_LFLAGS = # -l
+SPLIT_CROP_TEST_LINKER_SCRIPT = 
+SPLIT_CROP_TEST_LINKER_SCRIPT_FLAG = #-Wl,-T -Wl,$(SPLIT_CROP_TEST_LINKER_SCRIPT) 
+SPLIT_CROP_TEST_CC_DEBUG_FLAG =  -g 
+SPLIT_CROP_TEST_CC_PROFILE_FLAG = # -pg
+SPLIT_CROP_TEST_CC_GLOBPTR_FLAG= # -mxl-gp-opt
+SPLIT_CROP_TEST_MODE = executable
+SPLIT_CROP_TEST_LIBG_OPT = -$(SPLIT_CROP_TEST_MODE) ub
+SPLIT_CROP_TEST_CC_INFERRED_FLAGS= -mxl-soft-mul -mxl-pattern-compare -mcpu=v7.10.d 
+SPLIT_CROP_TEST_CC_START_ADDR_FLAG=  # -Wl,-defsym -Wl,_TEXT_START_ADDR=
+SPLIT_CROP_TEST_CC_STACK_SIZE_FLAG=  # -Wl,-defsym -Wl,_STACK_SIZE=
+SPLIT_CROP_TEST_CC_HEAP_SIZE_FLAG=  # -Wl,-defsym -Wl,_HEAP_SIZE=
+SPLIT_CROP_TEST_OTHER_CC_FLAGS= $(SPLIT_CROP_TEST_CC_GLOBPTR_FLAG)  \
+                  $(SPLIT_CROP_TEST_CC_START_ADDR_FLAG) $(SPLIT_CROP_TEST_CC_STACK_SIZE_FLAG) $(SPLIT_CROP_TEST_CC_HEAP_SIZE_FLAG)  \
+                  $(SPLIT_CROP_TEST_CC_INFERRED_FLAGS)  \
+                  $(SPLIT_CROP_TEST_LINKER_SCRIPT_FLAG) $(SPLIT_CROP_TEST_CC_DEBUG_FLAG) $(SPLIT_CROP_TEST_CC_PROFILE_FLAG) 

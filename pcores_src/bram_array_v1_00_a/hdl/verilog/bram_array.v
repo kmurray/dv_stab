@@ -219,6 +219,7 @@ module bram_array(
 		.wea  	(bram_write_enable[12])
 	);
 
+/*
 	bram bram_13(
 		.addra	(bram_write_addr),
 		.addrb	(bram_read_addr),
@@ -248,5 +249,5 @@ module bram_array(
 		.doutb	(bram_read_data_15),
 		.wea  	(bram_write_enable[15])
 	);
-
+*/
 endmodule

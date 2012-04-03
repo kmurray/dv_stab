@@ -47,5 +47,9 @@ force sim:/system_tb/dut/correlator_xor_0/prev_frame_bram_offset 1
 # $1 should be time time to run
 run $2
 
-echo "Grabbing processed image"
+echo "Grabbing video2ram processed image"
 do ../imagesim/saveimagedata.do
+
+echo "Grabbing split_crop processed image"
+# 32'd16777216 corresponds to 32'h01000000, corresponding to 32'h41000000 dram address
+do ../imagesim/saveimagedata.do 16777216 shifted.png

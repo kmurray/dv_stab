@@ -166,6 +166,24 @@ dv_stab_programclean:
 	rm -f $(DV_STAB_OUTPUT) 
 
 #################################################################
+# SOFTWARE APPLICATION SPLIT_CROP_TEST
+#################################################################
+
+split_crop_test_program: $(SPLIT_CROP_TEST_OUTPUT) 
+
+$(SPLIT_CROP_TEST_OUTPUT) : $(SPLIT_CROP_TEST_SOURCES) $(SPLIT_CROP_TEST_HEADERS) $(SPLIT_CROP_TEST_LINKER_SCRIPT) \
+                    $(LIBRARIES) __xps/split_crop_test_compiler.opt
+	@mkdir -p $(SPLIT_CROP_TEST_OUTPUT_DIR) 
+	$(SPLIT_CROP_TEST_CC) $(SPLIT_CROP_TEST_CC_OPT) $(SPLIT_CROP_TEST_SOURCES) -o $(SPLIT_CROP_TEST_OUTPUT) \
+	$(SPLIT_CROP_TEST_OTHER_CC_FLAGS) $(SPLIT_CROP_TEST_INCLUDES) $(SPLIT_CROP_TEST_LIBPATH) \
+	$(SPLIT_CROP_TEST_CFLAGS) $(SPLIT_CROP_TEST_LFLAGS) 
+	$(SPLIT_CROP_TEST_CC_SIZE) $(SPLIT_CROP_TEST_OUTPUT) 
+	@echo ""
+
+split_crop_test_programclean:
+	rm -f $(SPLIT_CROP_TEST_OUTPUT) 
+
+#################################################################
 # BOOTLOOP ELF FILES
 #################################################################
 

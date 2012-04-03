@@ -39,6 +39,7 @@ Source: /home/kevin/ece532/dv_stab/sw_src/video_decoder_driver/video_dec_driver.
 Source: /home/kevin/ece532/dv_stab/sw_src/correlator_driver_xor/correlator_driver.c
 Source: /home/kevin/ece532/dv_stab/sw_src/calcMotionVector.c
 Source: /home/kevin/ece532/dv_stab/sw_src/video_out_driver/video_out.c
+Source: /home/kevin/ece532/dv_stab/sw_src/calcCompensationVector.c
 Header: /home/kevin/ece532/dv_stab/sw_src/video_decoder_driver/video_dec_driver.h
 Header: /home/kevin/ece532/dv_stab/sw_src/init_hw.h
 Header: /home/kevin/ece532/dv_stab/sw_src/main.h
@@ -46,8 +47,9 @@ Header: /home/kevin/ece532/dv_stab/sw_src/data_structs.h
 Header: /home/kevin/ece532/dv_stab/sw_src/correlator_driver_xor/correlator_driver.h
 Header: /home/kevin/ece532/dv_stab/sw_src/calcMotionVector.h
 Header: /home/kevin/ece532/dv_stab/sw_src/video_out_driver/video_out.h
+Header: /home/kevin/ece532/dv_stab/sw_src/calcCompensationVector.h
 DefaultInit: XMDSTUB
-InitBram: 1
+InitBram: 0
 Active: 1
 CompilerOptLevel: 2
 GlobPtrOpt: 0
@@ -58,5 +60,23 @@ StackSize:
 HeapSize: 
 LinkerScript: 
 ProgCCFlags: -std=c99 -pedantic -Wall -Wshadow -Wpointer-arith -Wcast-qual -Wstrict-prototypes -Wmissing-prototypes
+CompileInXps: 1
+NonXpsApp: 0
+SwProj: split_crop_test
+Processor: uB
+Executable: split_crop_test/executable.elf
+Source: /home/kevin/ece532/dv_stab/sw_src/split_crop_test.c
+DefaultInit: EXECUTABLE
+InitBram: 1
+Active: 1
+CompilerOptLevel: 0
+GlobPtrOpt: 0
+DebugSym: 1
+ProfileFlag: 0
+ProgStart: 
+StackSize: 
+HeapSize: 
+LinkerScript: 
+ProgCCFlags: 
 CompileInXps: 1
 NonXpsApp: 0

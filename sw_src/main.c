@@ -18,6 +18,13 @@ int main() {
     //Initialize hardware blocks
     init_hw();
 
+    volatile int* split_ptr = XPAR_SPLIT_COMPENSATE_1_BASEADDR;
+
+    //Set read frame base addr
+    *(split_ptr +3 ) = 0x40000000;
+
+    //set write frame base addr
+    *(split_ptr +4 ) = 0x41000000;
 
     CorrelatorModule* correlator_ptr = correlator_get_ptr();
 
