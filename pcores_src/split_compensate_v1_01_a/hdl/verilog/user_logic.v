@@ -868,14 +868,24 @@ end
 	  lb_rd_e1 <= 0;
 
 	  line_burst_done <= 0;
+	    done_pixel <= 0;
 	end
 	S_BURST_LINE_RD_COMPLETE:
 	begin
+	  lb_wr_e0 <= 0;
+	  lb_rd_e0 <= 0;
+	  lb_rd_e1 <= 0;
+	  lb_wr_e1 <= 0;
 	  // wr/rd enables are set explicitly in FM0, which runs in this state
 	  if (line_burst_rd_cnt == 6'd40)
 	  begin
 	    line_burst_done <= 1;
 	  end
+      else
+      begin
+        line_burst_done <= 0;
+      end
+	    done_pixel <= 0;
 	end
 	S_SHIFT_INITIAL:
 	begin
@@ -898,6 +908,7 @@ end
 	  lb_rd_e1 <= 0;
 	  lb_wr_e1 <= 1;
       line_burst_done <= 1;
+	    done_pixel <= 0;
 
 	end
 	S_SHIFT_V_ADDR_GEN:
@@ -907,6 +918,7 @@ end
 	  lb_rd_e1 <= 0;
 	  lb_wr_e1 <= 0;
 	  line_burst_done <= 1;
+	    done_pixel <= 0;
 	// write to second line buffer from first line buffer
 	// read from the original unshifted x address
 	// write to the shifted x address
@@ -920,12 +932,14 @@ end
       line_burst_done <= 1;
       if (line_burst_rd_cnt == 0 && done_line == 1)
       begin
-	done_pixel <= 0;
+	    done_pixel <= 0;
       end
       else if ((x_done || y_done) == 1)
       begin
         done_pixel <= 1;
       end
+      else
+        done_pixel <= 0;
       end
 	S_WR_REQUEST:
 	begin
@@ -936,6 +950,7 @@ end
 	  lb_rd_e1 <= 0;
 
 	  line_burst_done <= 0;
+        done_pixel <= 0;
     
 	  //Explict reset of done_line
 	  //done_line <= 0;
@@ -949,6 +964,7 @@ end
 	  lb_rd_e1 <= 1;
 
 	  line_burst_done <= 0;
+        done_pixel <= 0;
 	end
 	S_BURST_FRAME_COMPLETE:
 	begin
@@ -959,6 +975,7 @@ end
 	  lb_rd_e1 <= 0;
 
 	  line_burst_done <= 0;
+        done_pixel <= 0;
 	end
 	default:
 	begin
@@ -968,6 +985,7 @@ end
 	  lb_wr_e1 <= 0;
 	  lb_rd_e1 <= 0;
 	  line_burst_done <= 0;
+        done_pixel <= 0;
 	end
       endcase
     end
@@ -1129,7 +1147,7 @@ end
     slv_reg_read_sel  = Bus2IP_RdCE[0:9],
     slv_write_ack     = Bus2IP_WrCE[0] || Bus2IP_WrCE[1] || Bus2IP_WrCE[2] || Bus2IP_WrCE[3] || 
 			Bus2IP_WrCE[4] || Bus2IP_WrCE[5] || Bus2IP_WrCE[6] || Bus2IP_WrCE[7] || 
-			Bus2IP_WrCE[8] || Bus2IP_WrCE[9],
+			Bus2IP_WrCE[8], // || Bus2IP_WrCE[9],
     slv_read_ack      = Bus2IP_RdCE[0] || Bus2IP_RdCE[1] || Bus2IP_RdCE[2] || Bus2IP_RdCE[3] || 
 			Bus2IP_RdCE[4] || Bus2IP_RdCE[5] || Bus2IP_RdCE[6] || Bus2IP_RdCE[7] || 
 			Bus2IP_RdCE[8] || Bus2IP_RdCE[9];
@@ -1150,7 +1168,7 @@ end
           yoff_reg <= 2'b10;
           x_dir_reg <= 1'b1;
           y_dir_reg <= 1'b0;
-          slv_reg9 <= 0;
+          //slv_reg9 <= 0;
         end
       else
         case ( slv_reg_write_sel )
@@ -1199,11 +1217,13 @@ end
               if ( Bus2IP_BE[byte_index] == 1 )
                 for ( bit_index = byte_index*8; bit_index <= byte_index*8+7; bit_index = bit_index+1 )
                   y_dir_reg[bit_index] <= Bus2IP_Data[bit_index];
+/*                  
           10'b0000000001 :
             for ( byte_index = 0; byte_index <= (C_SLV_DWIDTH/8)-1; byte_index = byte_index+1 )
               if ( Bus2IP_BE[byte_index] == 1 )
                 for ( bit_index = byte_index*8; bit_index <= byte_index*8+7; bit_index = bit_index+1 )
                   slv_reg9[bit_index] <= Bus2IP_Data[bit_index];
+*/
           default : ;
         endcase
 
@@ -1229,6 +1249,12 @@ fr_addr_dest_reg or xoff_reg or yoff_reg or x_dir_reg or y_dir_reg or slv_reg9 )
       endcase
 
     end // SLAVE_REG_READ_PROC
+
+
+always@(posedge Bus2IP_Clk)
+begin
+    slv_reg9 <= {28'd0,curr_state_1};
+end
 
 // ------------------------------------------------------------
 // Example code to drive IP to Bus signals

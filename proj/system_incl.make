@@ -68,7 +68,7 @@ DEFAULT_SIM_SCRIPT = $(BEHAVIORAL_SIM_SCRIPT)
 
 MIX_LANG_SIM_OPT = -mixed yes
 
-SIMGEN_OPTIONS = -p $(DEVICE) -lang $(LANGUAGE) $(SEARCHPATHOPT) $(BRAMINIT_ELF_FILE_ARGS) $(MIX_LANG_SIM_OPT)  -s mti -tb
+SIMGEN_OPTIONS = -p $(DEVICE) -lang $(LANGUAGE) $(SEARCHPATHOPT) $(BRAMINIT_ELF_FILE_ARGS) $(MIX_LANG_SIM_OPT)  -s mti -tb -X /home/kevin/CAD/Xilinx/10.1/simlibs/ISE_Lib/ -E /home/kevin/CAD/Xilinx/10.1/simlibs/EDK_Lib/
 
 UB_XMDSTUB = ub/code/xmdstub.elf
 
@@ -183,9 +183,9 @@ FPGA_IMP_DEPENDENCY = $(BMM_FILE) $(POSTSYN_NETLIST) $(UCF_FILE) $(XFLOW_DEPENDE
 # SOFTWARE APPLICATION DV_STAB
 #################################################################
 
-DV_STAB_SOURCES = /home/kevin/ece532/dv_stab/sw_src/init_hw.c /home/kevin/ece532/dv_stab/sw_src/main.c /home/kevin/ece532/dv_stab/sw_src/video_decoder_driver/video_dec_driver.c /home/kevin/ece532/dv_stab/sw_src/correlator_driver_xor/correlator_driver.c /home/kevin/ece532/dv_stab/sw_src/calcMotionVector.c /home/kevin/ece532/dv_stab/sw_src/video_out_driver/video_out.c /home/kevin/ece532/dv_stab/sw_src/calcCompensationVector.c 
+DV_STAB_SOURCES = /home/kevin/ece532/dv_stab/sw_src/init_hw.c /home/kevin/ece532/dv_stab/sw_src/main.c /home/kevin/ece532/dv_stab/sw_src/video_decoder_driver/video_dec_driver.c /home/kevin/ece532/dv_stab/sw_src/correlator_driver_xor/correlator_driver.c /home/kevin/ece532/dv_stab/sw_src/calcMotionVector.c /home/kevin/ece532/dv_stab/sw_src/video_out_driver/video_out.c /home/kevin/ece532/dv_stab/sw_src/calcCompensationVector.c /home/kevin/ece532/dv_stab/sw_src/split_comp_driver/split_comp_driver.c 
 
-DV_STAB_HEADERS = /home/kevin/ece532/dv_stab/sw_src/video_decoder_driver/video_dec_driver.h /home/kevin/ece532/dv_stab/sw_src/init_hw.h /home/kevin/ece532/dv_stab/sw_src/main.h /home/kevin/ece532/dv_stab/sw_src/data_structs.h /home/kevin/ece532/dv_stab/sw_src/correlator_driver_xor/correlator_driver.h /home/kevin/ece532/dv_stab/sw_src/calcMotionVector.h /home/kevin/ece532/dv_stab/sw_src/video_out_driver/video_out.h /home/kevin/ece532/dv_stab/sw_src/calcCompensationVector.h 
+DV_STAB_HEADERS = /home/kevin/ece532/dv_stab/sw_src/video_decoder_driver/video_dec_driver.h /home/kevin/ece532/dv_stab/sw_src/init_hw.h /home/kevin/ece532/dv_stab/sw_src/main.h /home/kevin/ece532/dv_stab/sw_src/data_structs.h /home/kevin/ece532/dv_stab/sw_src/correlator_driver_xor/correlator_driver.h /home/kevin/ece532/dv_stab/sw_src/calcMotionVector.h /home/kevin/ece532/dv_stab/sw_src/video_out_driver/video_out.h /home/kevin/ece532/dv_stab/sw_src/calcCompensationVector.h /home/kevin/ece532/dv_stab/sw_src/split_comp_driver/split_comp_driver.h 
 
 DV_STAB_CC = mb-gcc
 DV_STAB_CC_SIZE = mb-size
@@ -193,7 +193,7 @@ DV_STAB_CC_OPT = -O2
 DV_STAB_CFLAGS = -std=c99 -pedantic -Wall -Wshadow -Wpointer-arith -Wcast-qual -Wstrict-prototypes -Wmissing-prototypes
 DV_STAB_CC_SEARCH = # -B
 DV_STAB_LIBPATH = -L./ub/lib/ # -L
-DV_STAB_INCLUDES = -I./ub/include/  -I/home/kevin/ece532/dv_stab/sw_src/video_decoder_driver/ -I/home/kevin/ece532/dv_stab/sw_src/ -I/home/kevin/ece532/dv_stab/sw_src/correlator_driver_xor/ -I/home/kevin/ece532/dv_stab/sw_src/video_out_driver/ # -I
+DV_STAB_INCLUDES = -I./ub/include/  -I/home/kevin/ece532/dv_stab/sw_src/video_decoder_driver/ -I/home/kevin/ece532/dv_stab/sw_src/ -I/home/kevin/ece532/dv_stab/sw_src/correlator_driver_xor/ -I/home/kevin/ece532/dv_stab/sw_src/video_out_driver/ -I/home/kevin/ece532/dv_stab/sw_src/split_comp_driver/ # -I
 DV_STAB_LFLAGS = # -l
 DV_STAB_LINKER_SCRIPT = 
 DV_STAB_LINKER_SCRIPT_FLAG = #-Wl,-T -Wl,$(DV_STAB_LINKER_SCRIPT) 

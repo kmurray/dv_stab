@@ -40,6 +40,7 @@ Source: /home/kevin/ece532/dv_stab/sw_src/correlator_driver_xor/correlator_drive
 Source: /home/kevin/ece532/dv_stab/sw_src/calcMotionVector.c
 Source: /home/kevin/ece532/dv_stab/sw_src/video_out_driver/video_out.c
 Source: /home/kevin/ece532/dv_stab/sw_src/calcCompensationVector.c
+Source: /home/kevin/ece532/dv_stab/sw_src/split_comp_driver/split_comp_driver.c
 Header: /home/kevin/ece532/dv_stab/sw_src/video_decoder_driver/video_dec_driver.h
 Header: /home/kevin/ece532/dv_stab/sw_src/init_hw.h
 Header: /home/kevin/ece532/dv_stab/sw_src/main.h
@@ -48,6 +49,7 @@ Header: /home/kevin/ece532/dv_stab/sw_src/correlator_driver_xor/correlator_drive
 Header: /home/kevin/ece532/dv_stab/sw_src/calcMotionVector.h
 Header: /home/kevin/ece532/dv_stab/sw_src/video_out_driver/video_out.h
 Header: /home/kevin/ece532/dv_stab/sw_src/calcCompensationVector.h
+Header: /home/kevin/ece532/dv_stab/sw_src/split_comp_driver/split_comp_driver.h
 DefaultInit: XMDSTUB
 InitBram: 0
 Active: 1
