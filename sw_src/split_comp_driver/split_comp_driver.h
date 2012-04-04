@@ -5,14 +5,15 @@
 
 typedef struct SplitCompModule {
     volatile Xuint32 start_go_reg; //unused
-    volatile Xuint32 cntrl_reg;
     volatile Xuint32 status_reg;
+    volatile Xuint32 cntrl_reg;
     volatile Xuint32 fr_src_addr;
     volatile Xuint32 fr_dest_addr;
     volatile Xuint32 x_offset;
-    volatile Xuint32 x_offset_dir;
     volatile Xuint32 y_offset;
+    volatile Xuint32 x_offset_dir;
     volatile Xuint32 y_offset_dir;
+    volatile Xuint32 unused_reg;
 
 } SplitCompModule;
 

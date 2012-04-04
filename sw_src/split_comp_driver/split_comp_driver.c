@@ -6,7 +6,7 @@
 #include <split_comp_driver.h>
 
 SplitCompModule* split_comp_get_ptr() {
-    return (SplitCompModule *) XPAR_SPLIT_COMP_0_BASEADDR; //TODO: check name
+    return (SplitCompModule *) XPAR_SPLIT_COMPENSATE_1_BASEADDR; //TODO: check name
 }
 
 Xboolean split_comp_finished(SplitCompModule* split_comp) {
