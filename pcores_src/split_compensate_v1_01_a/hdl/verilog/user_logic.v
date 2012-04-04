@@ -108,11 +108,11 @@ localparam [C_STATE_BITS_FSM_1-1:0]	S_IDLE = 0,		    //
 					S_RD_TRANSFER               = 3,	// Wait for MstCmplt
 					S_BURST_LINE_RD_COMPLETE    = 4,
 
-                    //Old FSM0
-                    S_SHIFT_INITIAL             = 5,
-                    S_SHIFT_H_ADDR_GEN          = 6,
-                    S_SHIFT_V_ADDR_GEN          = 7,
-                    S_SHIFT_DONE                = 8,
+					//Old FSM0
+					S_SHIFT_INITIAL             = 5,
+					S_SHIFT_H_ADDR_GEN          = 6,
+					S_SHIFT_V_ADDR_GEN          = 7,
+					S_SHIFT_DONE                = 8,
 
 					S_WR_REQUEST                = 9,	// Set MstAddr, Wr_Req; Wait for CmdAck
 					S_WR_TRANSFER               = 10,	// Wait for MstCmplt
@@ -562,6 +562,7 @@ end
       begin
     	bypass <= 0;
       end
+      /*
       else if (curr_state_1 == S_START_FRAME && bypass < 10'd100)
       begin
 	    bypass <= bypass + 1;
@@ -570,11 +571,13 @@ end
       begin
     	bypass <= bypass + 1;
       end
+      
       else if (bypass == 10'd100)
       begin
 	    bypass <= fr_addr_src_reg;
       end
-      else if ((curr_state_1 == S_BURST_LINE_RD_COMPLETE) && (line_burst_rd_cnt == 0))
+      */
+      else if ((curr_state_1 == S_BURST_LINE_RD_COMPLETE) && (line_burst_rd_cnt == 21'd40))
       begin
         bypass <= burst_addr + 21'd64 + 21'd1536;
       end
@@ -631,7 +634,7 @@ end
 	done_frame <= 1;
       end
       //else if (done_line == 1 && curr_state_1 != S_WR_REQUEST)
-      else if (x_pixel_cnt == 640 && next_state_1 == S_BURST_LINE_RD_COMPLETE)
+      else if (x_pixel_cnt == 640 && next_state_1 == S_SHIFT_DONE)
       begin
 	y_line_cnt <= y_line_cnt + 1;
       end
@@ -726,8 +729,18 @@ end
     begin
       burst_addr <= bypass;
     end
+    else if (curr_state_1 == S_SHIFT_DONE)
+    begin
+      if (line_burst_wr_cnt == 0 && next_state_1 == S_WR_REQUEST)
+      begin
+	//1536 bytes = 384 pixels
+	// 64 bytes = 16 pixels
+	burst_addr <= new_y_addr + 20'd4096;
+      end
+    end
     else if (curr_state_1 == S_BURST_LINE_RD_COMPLETE)
     begin
+      /*
       if (line_burst_wr_cnt == 0 && next_state_1 == S_WR_REQUEST)
       // this is new
       begin
@@ -735,7 +748,8 @@ end
         // 64 bytes = 16 pixels
 	burst_addr <= new_y_addr + 20'd4096;
       end
-      else if (line_burst_rd_cnt != 0 && line_burst_rd_cnt < 11'd40)
+      */
+      if (line_burst_rd_cnt != 0 && line_burst_rd_cnt < 11'd40)
       begin
         // 64 bytes = 16 pixels
         burst_addr <= burst_addr + 21'd64;
@@ -865,7 +879,7 @@ end
 	end
 	S_SHIFT_INITIAL:
 	begin
-      done_pixel <= 0;
+	  done_pixel <= 0;
 	 // lb_wr_addr0 <= 11'h000;
 	  lb_wr_e0 <= 0;
 	  lb_rd_e0 <= 0;
@@ -892,7 +906,7 @@ end
 	  lb_rd_e0 <= 0;
 	  lb_rd_e1 <= 0;
 	  lb_wr_e1 <= 0;
-      line_burst_done <= 1;
+	  line_burst_done <= 1;
 	// write to second line buffer from first line buffer
 	// read from the original unshifted x address
 	// write to the shifted x address
@@ -904,11 +918,15 @@ end
 	  lb_rd_e1 <= 0;
 	  lb_wr_e1 <= 0;
       line_burst_done <= 1;
-      if ((x_done || y_done) == 1)
+      if (line_burst_rd_cnt == 0 && done_line == 1)
+      begin
+	done_pixel <= 0;
+      end
+      else if ((x_done || y_done) == 1)
       begin
         done_pixel <= 1;
       end
-    end
+      end
 	S_WR_REQUEST:
 	begin
 	  lb_rd_e0 <= 0;
@@ -974,7 +992,7 @@ end
   assign IP2Bus_Mst_Reset = 1'b0;
 
   assign IP2Bus_MstWr_Req = (curr_state_1 == S_WR_REQUEST) ? 1'b1 : 1'b0;
-  assign IP2Bus_MstRd_Req = (curr_state_1 == S_RD_REQUEST && (bypass > 2'b10)) ? 1'b1 : 1'b0;
+  assign IP2Bus_MstRd_Req = (curr_state_1 == S_RD_REQUEST /*&& (bypass > 2'b10)*/) ? 1'b1 : 1'b0;
 
   assign IP2Bus_Mst_Addr = burst_addr;
 
