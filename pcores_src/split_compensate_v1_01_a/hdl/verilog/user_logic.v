@@ -286,6 +286,9 @@ input                                     Bus2IP_MstWr_dst_dsc_n;
 
   reg	  [31:0]		    bypass;
 
+// reset the counters
+  wire counter_rst;
+
 // Nets for user logic slave model s/w accessible register example for function portion of block
   reg        [0 : C_SLV_DWIDTH-1]           on_off_reg;		//toggle split on/off
   reg        [0 : C_SLV_DWIDTH-1]           status_reg;		//status reg
@@ -544,7 +547,14 @@ input                                     Bus2IP_MstWr_dst_dsc_n;
     end
     S_DONE:
     begin
+      if (on_off_reg == 0)
+      begin
         next_state_1 <= S_IDLE;
+      end
+      else
+      begin
+	next_state_1 <= S_DONE;
+      end
     end
     default:
     begin
@@ -558,7 +568,7 @@ end
 
     always @ (posedge Bus2IP_Clk)
     begin
-      if (Bus2IP_Reset)
+      if (Bus2IP_Reset || counter_rst )
       begin
     	bypass <= 0;
       end
@@ -589,7 +599,7 @@ end
     always @ (posedge Bus2IP_Clk)
     begin
       //Reset on reset or a new line
-      if(Bus2IP_Reset)
+      if(Bus2IP_Reset || counter_rst )
       begin
 	    x_pixel_cnt <= 0;
 	    done_line <= 0;
@@ -622,7 +632,7 @@ end
     always @ (posedge Bus2IP_Clk) 
     begin
       //Reset on reset or new line
-      if(Bus2IP_Reset || done_frame)
+      if(Bus2IP_Reset || counter_rst  || done_frame)
       begin
 	y_line_cnt <= 0;
 	done_frame <= 0;
@@ -648,7 +658,7 @@ end
 
     always @ (posedge Bus2IP_Clk)
     begin
-      if(Bus2IP_Reset)
+      if(Bus2IP_Reset || counter_rst )
       begin
 	line_burst_rd_cnt <= 0;
 	line_burst_wr_cnt <= 0;
@@ -692,7 +702,7 @@ end
 
     always @ (posedge Bus2IP_Clk)
     begin
-      if (Bus2IP_Reset)
+      if (Bus2IP_Reset || counter_rst )
       begin
 	frame_burst_cnt <= 0;
       end
@@ -715,7 +725,7 @@ end
 
   always @ (posedge Bus2IP_Clk)
   begin
-    if (Bus2IP_Reset)
+    if (Bus2IP_Reset || counter_rst )
     begin
       burst_addr <= fr_addr_src_reg;
       //lb_wr_addr0 <= 0;
@@ -735,7 +745,10 @@ end
       begin
 	//1536 bytes = 384 pixels
 	// 64 bytes = 16 pixels
+	/*
 	burst_addr <= new_y_addr + 20'd4096;
+	*/
+	burst_addr <= new_y_addr;
       end
     end
     else if (curr_state_1 == S_BURST_LINE_RD_COMPLETE)
@@ -848,6 +861,7 @@ end
     end
 
 // -------------------- COMBINATIONAL OUTPUTS BASED ON FSM STATE
+assign counter_rst = (curr_state_1 == S_IDLE);
 
 // FSM0
     always @ (*)
@@ -857,7 +871,6 @@ end
 	S_RD_TRANSFER:
 	begin
 	  lb_rd_e0 <= 0;
-
 	  //Only write if data is valid
 	  if (Bus2IP_MstRd_src_rdy_n == 1'b0)
 	    lb_wr_e0 <= 1;
@@ -868,7 +881,7 @@ end
 	  lb_rd_e1 <= 0;
 
 	  line_burst_done <= 0;
-	    done_pixel <= 0;
+	  done_pixel <= 0;
 	end
 	S_BURST_LINE_RD_COMPLETE:
 	begin
@@ -881,11 +894,11 @@ end
 	  begin
 	    line_burst_done <= 1;
 	  end
-      else
-      begin
-        line_burst_done <= 0;
-      end
-	    done_pixel <= 0;
+	  else
+	  begin
+	    line_burst_done <= 0;
+	  end
+	  done_pixel <= 0;
 	end
 	S_SHIFT_INITIAL:
 	begin
@@ -895,7 +908,7 @@ end
 	  lb_rd_e0 <= 0;
 	  lb_rd_e1 <= 0;
 	  lb_wr_e1 <= 0;
-      line_burst_done <= 1;
+	  line_burst_done <= 1;
 
 	end
 	S_SHIFT_H_ADDR_GEN:
@@ -907,8 +920,8 @@ end
 	// set second line buffer to write to
 	  lb_rd_e1 <= 0;
 	  lb_wr_e1 <= 1;
-      line_burst_done <= 1;
-	    done_pixel <= 0;
+	  line_burst_done <= 1;
+	  done_pixel <= 0;
 
 	end
 	S_SHIFT_V_ADDR_GEN:
@@ -929,18 +942,9 @@ end
 	  lb_rd_e0 <= 0;
 	  lb_rd_e1 <= 0;
 	  lb_wr_e1 <= 0;
-      line_burst_done <= 1;
-      if (line_burst_rd_cnt == 0 && done_line == 1)
-      begin
-	    done_pixel <= 0;
-      end
-      else if ((x_done || y_done) == 1)
-      begin
+	  line_burst_done <= 1;
         done_pixel <= 1;
-      end
-      else
-        done_pixel <= 0;
-      end
+    end
 	S_WR_REQUEST:
 	begin
 	  lb_rd_e0 <= 0;
@@ -950,7 +954,7 @@ end
 	  lb_rd_e1 <= 0;
 
 	  line_burst_done <= 0;
-        done_pixel <= 0;
+	  done_pixel <= 0;
     
 	  //Explict reset of done_line
 	  //done_line <= 0;
